@@ -23,13 +23,13 @@ public class User implements Serializable {
      * 
      */
     @TableField(value = "user_name")
-    private Integer userName;
+    private String userName;
 
     /**
      * 
      */
     @TableField(value = "nick_name")
-    private Integer nickName;
+    private String nickName;
 
     /**
      * 
@@ -44,10 +44,21 @@ public class User implements Serializable {
     private String avatar;
 
     /**
+     *
+     */
+    @TableField(value = "description")
+    private String description;
+    /**
      * 
      */
     @TableField(value = "is_delete")
     private Integer isDelete;
+
+    /*
+    password
+     */
+    @TableField(value = "password")
+    private String password;
 
     /**
      * 

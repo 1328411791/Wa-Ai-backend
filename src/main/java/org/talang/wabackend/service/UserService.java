@@ -1,5 +1,8 @@
 package org.talang.wabackend.service;
 
+import org.springframework.data.relational.core.sql.In;
+import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
+import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +13,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UserService extends IService<User> {
 
+    Integer loginByUserName(String userName, String password);
+
+    Integer loginByEmail(String email, String password);
+
+    User getByUserName(String userName);
+
+    boolean register(RegisterDto registerDto);
+
+    User forgetPassword(ForgetPasswordDto forgetPasswordDto);
 }

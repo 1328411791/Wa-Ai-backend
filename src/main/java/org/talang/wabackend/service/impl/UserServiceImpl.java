@@ -1,6 +1,10 @@
 package org.talang.wabackend.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
+import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.service.UserService;
 import org.talang.wabackend.mapper.UserMapper;
@@ -15,6 +19,56 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
+    @Override
+    public Integer loginByUserName(String userName, String password) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserName, userName);
+        wrapper.eq(User::getPassword, password);
+        User user = this.getOne(wrapper);
+        if (user == null) {
+            return null;
+        }
+        return user.getId();
+    }
+
+    @Override
+    public Integer loginByEmail(String email, String password) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getEmail, email);
+        wrapper.eq(User::getPassword, password);
+        User user = this.getOne(wrapper);
+        if (user == null) {
+            return null;
+        }
+        return user.getId();
+    }
+
+    @Override
+    public User getByUserName(String userName) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserName, userName);
+        return this.getOne(wrapper);
+    }
+
+    @Override
+    public boolean register(RegisterDto registerDto) {
+        User user = new User();
+        user.setUserName(registerDto.getUserName());
+        user.setPassword(registerDto.getPassword());
+        user.setEmail(registerDto.getEmail());
+        return this.save(user);
+    }
+
+    @Override
+    public User forgetPassword(ForgetPasswordDto forgetPasswordDto) {
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getEmail, forgetPasswordDto.getEmail());
+        wrapper.eq(User::getUserName, forgetPasswordDto.getUserName());
+        User user = this.getOne(wrapper);
+
+        return user;
+    }
 }
 
 
