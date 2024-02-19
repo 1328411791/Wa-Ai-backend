@@ -1,5 +1,6 @@
 package org.talang.wabackend.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.talang.wabackend.model.generator.Image;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2024-02-20 03:50:01
 * @Entity org.talang.wabackend.model.generator.Image
 */
+@Mapper
 public interface ImageMapper extends BaseMapper<Image> {
 
 }
