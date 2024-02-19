@@ -25,6 +25,9 @@ knife4j:
     setting:
         language: zh_cn
 
+sdwebui:
+    url: http://localhost:8080
+
 sa-token:
     # token 名称（同时也是 cookie 名称）
     token-name: token

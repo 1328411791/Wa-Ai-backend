@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.talang.wabackend.mapper.ModelMapper">
+
+    <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.Model">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="body" column="body" jdbcType="VARCHAR"/>
+            <result property="publish" column="publish" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="VARCHAR"/>
+            <result property="updated" column="updated" jdbcType="VARCHAR"/>
+            <result property="author_id" column="author_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="filename" column="filename" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,type,
+        body,publish,created,
+        updated,author_id,status,
+        filename
+    </sql>
+</mapper>

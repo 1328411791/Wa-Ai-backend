@@ -15,15 +15,15 @@ public class Result {
     private Object data;
     private Long total;
 
-    public static Result ok() {
+    public static Result success() {
         return new Result(true, null, null, null);
     }
 
-    public static Result ok(Object data) {
+    public static Result success(Object data) {
         return new Result(true, null, data, null);
     }
 
-    public static Result ok(List<?> data) {
+    public static Result success(List<?> data) {
         return new Result(true, null, data, (long) data.size());
     }
 

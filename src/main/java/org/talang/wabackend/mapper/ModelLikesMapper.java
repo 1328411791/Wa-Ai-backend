@@ -1,0 +1,18 @@
+package org.talang.wabackend.mapper;
+
+import org.talang.wabackend.model.generator.ModelLikes;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+* @author lihan
+* @description 针对表【sd_model_likes】的数据库操作Mapper
+* @createDate 2024-02-20 03:50:01
+* @Entity org.talang.wabackend.model.generator.ModelLikes
+*/
+public interface ModelLikesMapper extends BaseMapper<ModelLikes> {
+
+}
+
+
+
+

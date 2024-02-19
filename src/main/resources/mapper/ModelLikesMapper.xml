@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.talang.wabackend.mapper.ModelLikesMapper">
+
+    <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.ModelLikes">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="sdmodel_id" column="sdmodel_id" jdbcType="VARCHAR"/>
+            <result property="user_id" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sdmodel_id,user_id
+    </sql>
+</mapper>
