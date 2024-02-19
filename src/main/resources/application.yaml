@@ -4,9 +4,9 @@ spring:
     # 数据库配置
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://10.180.193.10:3306/xingrui
-        username: xingrui
-        password: jHzBYF8DffRth6fL
+        url: jdbc:mysql://47.113.179.249:3306/wa
+        username: wa
+        password: MxJNtPDGF43bzMiR
 
 springdoc:
     swagger-ui:
@@ -18,7 +18,7 @@ springdoc:
     group-configs:
         - group: 'default'
           paths-to-match: '/**'
-          packages-to-scan: org.talang.xingrui.controller
+          packages-to-scan: org.talang.wabackend.controller
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
     enable: true
@@ -43,7 +43,7 @@ sa-token:
 
 mybatis-plus:
     mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: org.talang.xingrui.model.domain
+    type-aliases-package: org.talang.wabackend.model.domain
     global-config:
         db-config:
             id-type: auto
