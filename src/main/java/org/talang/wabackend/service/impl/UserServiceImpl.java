@@ -56,6 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setUserName(registerDto.getUserName());
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
+        user.setNickName(registerDto.getNickName());
         return this.save(user);
     }
 

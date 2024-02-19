@@ -17,7 +17,7 @@ public class ImageFromSdmodels implements Serializable {
     /**
      * 
      */
-    @TableField(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**

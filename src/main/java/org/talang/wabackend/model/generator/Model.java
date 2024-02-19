@@ -17,7 +17,7 @@ public class Model implements Serializable {
     /**
      * 
      */
-    @TableField(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**

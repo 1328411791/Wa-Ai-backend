@@ -5,10 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.LoginDto;
@@ -26,7 +23,7 @@ public class UserController {
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
-    public Result login(LoginDto loginDto) {
+    public Result login(@RequestBody LoginDto loginDto) {
         if(StrUtil.isEmpty(loginDto.getUserName()) && StrUtil.isEmpty(loginDto.getEmail())) {
             return Result.fail("用户名或邮箱不能同时为空");
         }
@@ -70,7 +67,7 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "用户注册")
-    public Result register(RegisterDto registerDto) {
+    public Result register(@RequestBody RegisterDto registerDto) {
         if(StrUtil.isEmpty(registerDto.getUserName())) {
             return Result.fail("用户名不能为空");
         }
@@ -98,7 +95,7 @@ public class UserController {
 
     @PostMapping("/forgetPassword")
     @Operation(summary = "忘记密码")
-    public Result forgetPassword(ForgetPasswordDto forgetPasswordDto) {
+    public Result forgetPassword(@RequestBody ForgetPasswordDto forgetPasswordDto) {
         if(StrUtil.isEmpty(forgetPasswordDto.getUserName())) {
             return Result.fail("用户名不能为空");
         }
