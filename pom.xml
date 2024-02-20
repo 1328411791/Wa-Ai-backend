@@ -59,6 +59,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
@@ -75,6 +81,7 @@
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>4.3.0</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>io.github.robothy</groupId>
             <artifactId>sdwebui-java-sdk</artifactId>
@@ -85,6 +92,11 @@
                     <artifactId>jackson-modules-java8</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        -->
+        <dependency>
+            <groupId></groupId>
+            <artifactId>sdwebui-java-sdk</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
