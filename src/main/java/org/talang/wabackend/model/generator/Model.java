@@ -1,10 +1,10 @@
 package org.talang.wabackend.model.generator;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -41,20 +41,20 @@ public class Model implements Serializable {
     /**
      * 
      */
-    @TableField(value = "publish")
-    private String publish;
+    @TableField(value = "publish_time")
+    private Date publishTime;
 
     /**
      * 
      */
-    @TableField(value = "created")
-    private String created;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Date createTime;
 
     /**
      * 
      */
-    @TableField(value = "updated")
-    private String updated;
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 
     /**
      * 

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -35,20 +37,20 @@ public class Image implements Serializable {
     /**
      * 
      */
-    @TableField(value = "publish")
-    private String publish;
+    @TableField(value = "publish_time")
+    private Date publishTime;
 
     /**
      * 
      */
-    @TableField(value = "created")
-    private String created;
+    @TableField(value = "create_time")
+    private Date createTime;
 
     /**
      * 
      */
-    @TableField(value = "updated")
-    private String updated;
+    @TableField(value = "update_time")
+    private Date updateTime;
 
     /**
      * 

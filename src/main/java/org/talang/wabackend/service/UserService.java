@@ -5,6 +5,7 @@ import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.talang.wabackend.model.vo.UserVo;
 
 /**
 * @author lihan
@@ -22,4 +23,6 @@ public interface UserService extends IService<User> {
     boolean register(RegisterDto registerDto);
 
     User forgetPassword(ForgetPasswordDto forgetPasswordDto);
+
+    UserVo getMe(Integer userId);
 }

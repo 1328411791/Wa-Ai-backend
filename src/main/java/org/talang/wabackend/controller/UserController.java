@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("/me")
     public Result info() {
         Integer userId = StpUtil.getLoginIdAsInt();
-        return Result.success(userService.getById(userId));
+        return Result.success(userService.getMe(userId));
     }
 
     @PostMapping("/register")

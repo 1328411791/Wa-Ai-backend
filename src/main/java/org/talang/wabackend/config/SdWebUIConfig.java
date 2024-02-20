@@ -22,6 +22,5 @@ public class SdWebUIConfig {
         SdWebui sdWebui = SdWebui.create(url);
         log.info("SdWebui created");
         return sdWebui;
-
     }
 }
