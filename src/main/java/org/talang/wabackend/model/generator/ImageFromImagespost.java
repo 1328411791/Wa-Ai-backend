@@ -24,7 +24,7 @@ public class ImageFromImagespost implements Serializable {
      * 
      */
     @TableField(value = "sdimage_id")
-    private String sdimage_id;
+    private String sdimageId;
 
     /**
      * 

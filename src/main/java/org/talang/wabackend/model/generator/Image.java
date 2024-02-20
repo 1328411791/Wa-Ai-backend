@@ -62,13 +62,13 @@ public class Image implements Serializable {
      * 
      */
     @TableField(value = "author_id")
-    private Integer author_id;
+    private Integer authorId;
 
     /**
      * 
      */
     @TableField(value = "createdfrom")
-    private String createdfrom;
+    private String createdrom;
 
     /**
      * 
@@ -80,7 +80,7 @@ public class Image implements Serializable {
      * 
      */
     @TableField(value = "image_id")
-    private Integer image_id;
+    private Integer imageId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

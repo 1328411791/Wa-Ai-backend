@@ -24,13 +24,13 @@ public class ImageFromSdmodels implements Serializable {
      * 
      */
     @TableField(value = "sdimage_id")
-    private String sdimage_id;
+    private String sdimageId;
 
     /**
      * 
      */
     @TableField(value = "sdmodel_id")
-    private String sdmodel_id;
+    private String sdmodelId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

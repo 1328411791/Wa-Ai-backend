@@ -51,6 +51,7 @@ public class User implements Serializable {
     /**
      * 
      */
+    @TableLogic
     @TableField(value = "is_delete")
     private Integer isDelete;
 

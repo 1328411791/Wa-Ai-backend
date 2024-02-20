@@ -24,13 +24,13 @@ public class ImageLikes implements Serializable {
      * 
      */
     @TableField(value = "sdimage_id")
-    private String sdimage_id;
+    private String sdimageId;
 
     /**
      * 
      */
     @TableField(value = "user_id")
-    private Integer user_id;
+    private Integer userId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
