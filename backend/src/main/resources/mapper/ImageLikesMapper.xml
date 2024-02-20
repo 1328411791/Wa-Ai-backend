@@ -5,9 +5,9 @@
 <mapper namespace="org.talang.wabackend.mapper.ImageLikesMapper">
 
     <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.ImageLikes">
-            <result property="id" column="id" jdbcType="INTEGER"/>
-            <result property="sdimage_id" column="sdimage_id" jdbcType="VARCHAR"/>
-            <result property="user_id" column="user_id" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sdimage_id" column="sdimage_id" jdbcType="VARCHAR"/>
+        <result property="user_id" column="user_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

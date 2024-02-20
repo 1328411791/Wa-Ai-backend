@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class FaceRestorer {
 
-  @JsonProperty("name")
-  private String name;
+    @JsonProperty("name")
+    private String name;
 
-  @JsonProperty("cmd_dir")
-  private String cmdDir;
+    @JsonProperty("cmd_dir")
+    private String cmdDir;
 
 }

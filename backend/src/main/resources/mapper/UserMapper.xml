@@ -5,14 +5,14 @@
 <mapper namespace="org.talang.wabackend.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.User">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="user_name" column="user_name" jdbcType="INTEGER"/>
-            <result property="nick_name" column="nick_name" jdbcType="INTEGER"/>
-            <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
-            <result property="is_delete" column="is_delete" jdbcType="INTEGER"/>
-            <result property="create_time" column="create_time" jdbcType="DATE"/>
-            <result property="update_time" column="update_time" jdbcType="DATE"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="user_name" column="user_name" jdbcType="INTEGER"/>
+        <result property="nick_name" column="nick_name" jdbcType="INTEGER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="is_delete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="create_time" column="create_time" jdbcType="DATE"/>
+        <result property="update_time" column="update_time" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">

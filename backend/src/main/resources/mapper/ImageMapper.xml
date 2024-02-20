@@ -5,17 +5,17 @@
 <mapper namespace="org.talang.wabackend.mapper.ImageMapper">
 
     <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.Image">
-            <result property="id" column="id" jdbcType="INTEGER"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="params" column="params" jdbcType="VARCHAR"/>
-            <result property="publish" column="publish" jdbcType="VARCHAR"/>
-            <result property="created" column="created" jdbcType="VARCHAR"/>
-            <result property="updated" column="updated" jdbcType="VARCHAR"/>
-            <result property="status" column="status" jdbcType="VARCHAR"/>
-            <result property="author_id" column="author_id" jdbcType="INTEGER"/>
-            <result property="createdfrom" column="createdfrom" jdbcType="VARCHAR"/>
-            <result property="introduce" column="introduce" jdbcType="VARCHAR"/>
-            <result property="image_id" column="image_id" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="params" column="params" jdbcType="VARCHAR"/>
+        <result property="publish" column="publish" jdbcType="VARCHAR"/>
+        <result property="created" column="created" jdbcType="VARCHAR"/>
+        <result property="updated" column="updated" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="author_id" column="author_id" jdbcType="INTEGER"/>
+        <result property="createdfrom" column="createdfrom" jdbcType="VARCHAR"/>
+        <result property="introduce" column="introduce" jdbcType="VARCHAR"/>
+        <result property="image_id" column="image_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

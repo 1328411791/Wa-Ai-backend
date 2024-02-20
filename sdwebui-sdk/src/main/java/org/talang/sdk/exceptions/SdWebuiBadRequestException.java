@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SdWebuiBadRequestException extends SdWebuiServerException {
-  @JsonProperty("error")
-  private String error;
+    @JsonProperty("error")
+    private String error;
 
-  @JsonProperty("detail")
-  private String detail;
+    @JsonProperty("detail")
+    private String detail;
 
-  @JsonProperty("body")
-  private String body;
+    @JsonProperty("body")
+    private String body;
 
-  @JsonProperty("errors")
-  private String errors;
+    @JsonProperty("errors")
+    private String errors;
 
-  // getters and setters
+    // getters and setters
 }

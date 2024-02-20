@@ -2,18 +2,18 @@ package org.talang.sdk.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.talang.sdk.ExtraImage;
-import org.talang.sdk.SdWebuiBeanContainer;
-import org.talang.sdk.models.SdWebuiOptions;
-import org.talang.sdk.models.options.ExtraImageOptions;
-import org.talang.sdk.models.results.ExtraImageResult;
-import org.talang.sdk.utils.SdWebuiResponseUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.talang.sdk.ExtraImage;
+import org.talang.sdk.SdWebuiBeanContainer;
+import org.talang.sdk.models.SdWebuiOptions;
+import org.talang.sdk.models.options.ExtraImageOptions;
+import org.talang.sdk.models.results.ExtraImageResult;
+import org.talang.sdk.utils.SdWebuiResponseUtils;
 
 import java.io.IOException;
 

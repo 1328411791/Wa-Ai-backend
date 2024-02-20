@@ -24,11 +24,11 @@ public class UserController {
     @Operation(summary = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestBody LoginDto loginDto) {
-        if(StrUtil.isEmpty(loginDto.getUserName()) && StrUtil.isEmpty(loginDto.getEmail())) {
+        if (StrUtil.isEmpty(loginDto.getUserName()) && StrUtil.isEmpty(loginDto.getEmail())) {
             return Result.fail("用户名或邮箱不能同时为空");
         }
 
-        if(StrUtil.isEmpty(loginDto.getPassword())) {
+        if (StrUtil.isEmpty(loginDto.getPassword())) {
             return Result.fail("密码不能为空");
         }
 
@@ -46,7 +46,7 @@ public class UserController {
             return Result.fail("用户名或密码错误");
         }
 
-        StpUtil.login(userId,true);
+        StpUtil.login(userId, true);
 
         return Result.success("登录成功");
     }
@@ -68,23 +68,23 @@ public class UserController {
     @PostMapping("/register")
     @Operation(summary = "用户注册")
     public Result register(@RequestBody RegisterDto registerDto) {
-        if(StrUtil.isEmpty(registerDto.getUserName())) {
+        if (StrUtil.isEmpty(registerDto.getUserName())) {
             return Result.fail("用户名不能为空");
         }
 
-        if(StrUtil.isEmpty(registerDto.getEmail())) {
+        if (StrUtil.isEmpty(registerDto.getEmail())) {
             return Result.fail("邮箱不能为空");
         }
 
-        if(StrUtil.isEmpty(registerDto.getPassword())) {
+        if (StrUtil.isEmpty(registerDto.getPassword())) {
             return Result.fail("密码不能为空");
         }
 
-        if(!registerDto.getPassword().equals(registerDto.getRePassword())) {
+        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
             return Result.fail("两次密码不一致");
         }
 
-        if(userService.getByUserName(registerDto.getUserName()) != null) {
+        if (userService.getByUserName(registerDto.getUserName()) != null) {
             return Result.fail("用户名已存在");
         }
 
@@ -96,7 +96,7 @@ public class UserController {
     @PostMapping("/forgetPassword")
     @Operation(summary = "忘记密码")
     public Result forgetPassword(@RequestBody ForgetPasswordDto forgetPasswordDto) {
-        if(StrUtil.isEmpty(forgetPasswordDto.getUserName())) {
+        if (StrUtil.isEmpty(forgetPasswordDto.getUserName())) {
             return Result.fail("用户名不能为空");
         }
         if (StrUtil.isEmpty(forgetPasswordDto.getEmail())) {

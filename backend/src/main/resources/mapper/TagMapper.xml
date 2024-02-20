@@ -5,10 +5,10 @@
 <mapper namespace="org.talang.wabackend.mapper.TagMapper">
 
     <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.Tag">
-            <result property="id" column="id" jdbcType="INTEGER"/>
-            <result property="name_en" column="name_en" jdbcType="VARCHAR"/>
-            <result property="name_cn" column="name_cn" jdbcType="VARCHAR"/>
-            <result property="number_refe" column="number_refe" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name_en" column="name_en" jdbcType="VARCHAR"/>
+        <result property="name_cn" column="name_cn" jdbcType="VARCHAR"/>
+        <result property="number_refe" column="number_refe" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

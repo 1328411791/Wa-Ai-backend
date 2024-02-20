@@ -5,9 +5,9 @@
 <mapper namespace="org.talang.wabackend.mapper.ImageFromImagespostMapper">
 
     <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.ImageFromImagespost">
-            <result property="id" column="id" jdbcType="INTEGER"/>
-            <result property="sdimage_id" column="sdimage_id" jdbcType="VARCHAR"/>
-            <result property="imagespost_" column="imagespost_" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sdimage_id" column="sdimage_id" jdbcType="VARCHAR"/>
+        <result property="imagespost_" column="imagespost_" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

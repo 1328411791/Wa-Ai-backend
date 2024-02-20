@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SystemInfo {
 
-  @JsonProperty("Platform")
-  private String platform;
+    @JsonProperty("Platform")
+    private String platform;
 
-  @JsonProperty("Python")
-  private String pythonVersion;
+    @JsonProperty("Python")
+    private String pythonVersion;
 
-  @JsonProperty("Version")
-  private String sdwebuiVersion;
+    @JsonProperty("Version")
+    private String sdwebuiVersion;
 
 }

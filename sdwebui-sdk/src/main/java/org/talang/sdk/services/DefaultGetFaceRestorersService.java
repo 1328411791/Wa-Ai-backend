@@ -9,15 +9,15 @@ import java.util.List;
 
 public class DefaultGetFaceRestorersService implements GetFaceRestorers {
 
-  private final SdWebuiBeanContainer container;
+    private final SdWebuiBeanContainer container;
 
-  public DefaultGetFaceRestorersService(SdWebuiBeanContainer container) {
-    this.container = container;
-  }
+    public DefaultGetFaceRestorersService(SdWebuiBeanContainer container) {
+        this.container = container;
+    }
 
-  @Override
-  public List<FaceRestorer> getFaceRestorers() {
-    return Arrays.asList(container.getBean(CommonGetService.class).getData("/sdapi/v1/face-restorers", FaceRestorer[].class));
-  }
+    @Override
+    public List<FaceRestorer> getFaceRestorers() {
+        return Arrays.asList(container.getBean(CommonGetService.class).getData("/sdapi/v1/face-restorers", FaceRestorer[].class));
+    }
 
 }

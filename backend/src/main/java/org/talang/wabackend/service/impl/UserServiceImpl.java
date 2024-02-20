@@ -3,22 +3,22 @@ package org.talang.wabackend.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
+import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
 import org.talang.wabackend.service.UserService;
-import org.talang.wabackend.mapper.UserMapper;
-import org.springframework.stereotype.Service;
 
 /**
-* @author lihan
-* @description 针对表【sd_user(user)】的数据库操作Service实现
-* @createDate 2024-02-20 04:15:20
-*/
+ * @author lihan
+ * @description 针对表【sd_user(user)】的数据库操作Service实现
+ * @createDate 2024-02-20 04:15:20
+ */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-    implements UserService{
+        implements UserService {
 
     @Override
     public Integer loginByUserName(String userName, String password) {

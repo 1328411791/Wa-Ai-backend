@@ -12,51 +12,51 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SdWebuiServerValidationException extends SdWebuiServerException {
 
-  @JsonProperty("detail")
-  private Detail[] detail;
+    @JsonProperty("detail")
+    private Detail[] detail;
 
-  public Detail[] getDetail() {
-    return detail;
-  }
-
-  public void setDetail(Detail[] detail) {
-    this.detail = detail;
-  }
-
-  @Data
-  public static class Detail {
-
-    @JsonProperty("loc")
-    private String[] loc;
-
-    @JsonProperty("msg")
-    private String msg;
-
-    @JsonProperty("type")
-    private String type;
-
-    public String[] getLoc() {
-      return loc;
+    public Detail[] getDetail() {
+        return detail;
     }
 
-    public void setLoc(String[] loc) {
-      this.loc = loc;
+    public void setDetail(Detail[] detail) {
+        this.detail = detail;
     }
 
-    public String getMsg() {
-      return msg;
-    }
+    @Data
+    public static class Detail {
 
-    public void setMsg(String msg) {
-      this.msg = msg;
-    }
+        @JsonProperty("loc")
+        private String[] loc;
 
-    public String getType() {
-      return type;
-    }
+        @JsonProperty("msg")
+        private String msg;
 
-    public void setType(String type) {
-      this.type = type;
+        @JsonProperty("type")
+        private String type;
+
+        public String[] getLoc() {
+            return loc;
+        }
+
+        public void setLoc(String[] loc) {
+            this.loc = loc;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
     }
-  }
 }

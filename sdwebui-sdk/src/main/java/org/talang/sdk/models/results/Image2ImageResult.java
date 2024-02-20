@@ -1,9 +1,9 @@
 package org.talang.sdk.models.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.talang.sdk.models.options.Image2ImageOptions;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.talang.sdk.models.options.Image2ImageOptions;
 
 import java.util.List;
 

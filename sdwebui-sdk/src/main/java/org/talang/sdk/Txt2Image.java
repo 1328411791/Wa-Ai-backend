@@ -10,7 +10,6 @@ public interface Txt2Image {
    *
    * @param options The options to generate images.
    * @return The result of the generation.
-   *
    * @throws org.talang.sdk.exceptions.SdWebuiServerValidationException
    * @throws org.talang.sdk.exceptions.SdWebuiBadRequestException
    */

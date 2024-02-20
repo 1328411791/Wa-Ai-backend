@@ -6,22 +6,22 @@ import lombok.Getter;
 @Getter
 public class SdModel {
 
-  @JsonProperty("title")
-  private String title;
+    @JsonProperty("title")
+    private String title;
 
-  @JsonProperty("model_name")
-  private String modelName;
+    @JsonProperty("model_name")
+    private String modelName;
 
-  @JsonProperty("hash")
-  private String hash;
+    @JsonProperty("hash")
+    private String hash;
 
-  @JsonProperty("sha256")
-  private String sha256;
+    @JsonProperty("sha256")
+    private String sha256;
 
-  @JsonProperty("filename")
-  private String filename;
+    @JsonProperty("filename")
+    private String filename;
 
-  @JsonProperty("config")
-  private String config;
+    @JsonProperty("config")
+    private String config;
 
 }
