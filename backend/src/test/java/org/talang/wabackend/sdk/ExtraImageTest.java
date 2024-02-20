@@ -1,7 +1,5 @@
 package org.talang.wabackend.sdk;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,17 +39,9 @@ public class ExtraImageTest {
 
         String image = txt2ImgResult.getImages().get(0);
 
-        System.out.println(
-                JSONUtil.parse(ExtraImageOptions.builder()
-                        .image(image)
-                        .build())
-
-        );
-
         // 超分辨率
         ExtraImageResult extraImageResult = sdWebui.extraImage(ExtraImageOptions.builder()
                 .image(image)
-
                 .build());
 
         // 获取当前工作目录路径

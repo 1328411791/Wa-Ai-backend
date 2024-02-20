@@ -8,7 +8,6 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.talang.sdk.ExtraImage;
 import org.talang.sdk.SdWebuiBeanContainer;
@@ -35,10 +34,7 @@ public class DefaultExtraImageService implements ExtraImage {
         HttpClient httpClient = this.beanContainer.getBean(HttpClient.class);
         ClassicHttpRequest extraImageRequest = buildTxt2ImageRequest(options);
         try {
-            HttpResponse httpResponse = httpClient.execute(extraImageRequest);
-            log.info("Response: {}", httpResponse);
-            return parseExtraImageResult((ClassicHttpResponse) httpResponse);
-            //return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
+            return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
