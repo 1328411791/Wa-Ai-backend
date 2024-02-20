@@ -22,7 +22,7 @@ public class ExtraImageTest {
     private SdWebui sdWebui;
 
     @Test
-    public void text2ImageTest() throws IOException {
+    public void extraImageTest() throws IOException {
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(Txt2ImageOptions.builder()
                 .prompt("1dog")
                 .samplerName("DPM++ 2M Karras")
