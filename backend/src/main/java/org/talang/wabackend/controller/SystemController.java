@@ -1,7 +1,7 @@
 package org.talang.wabackend.controller;
 
-import io.github.robothy.sdwebui.sdk.SdWebui;
-import io.github.robothy.sdwebui.sdk.models.options.Txt2ImageOptions;
+import org.talang.sdk.SdWebui;
+import org.talang.sdk.models.options.Txt2ImageOptions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
