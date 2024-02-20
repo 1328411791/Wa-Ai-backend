@@ -2,11 +2,13 @@ package org.talang.sdk.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.talang.sdk.ExtraImage;
 import org.talang.sdk.SdWebuiBeanContainer;
@@ -17,6 +19,7 @@ import org.talang.sdk.utils.SdWebuiResponseUtils;
 
 import java.io.IOException;
 
+@Slf4j
 public class DefaultExtraImageService implements ExtraImage {
 
     private static final String ExtraImage_PATH = "/sdapi/v1/extra-single-image";
@@ -32,7 +35,10 @@ public class DefaultExtraImageService implements ExtraImage {
         HttpClient httpClient = this.beanContainer.getBean(HttpClient.class);
         ClassicHttpRequest extraImageRequest = buildTxt2ImageRequest(options);
         try {
-            return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
+            HttpResponse httpResponse = httpClient.execute(extraImageRequest);
+            log.info("Response: {}", httpResponse);
+            return parseExtraImageResult((ClassicHttpResponse) httpResponse);
+            //return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
