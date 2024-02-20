@@ -46,7 +46,7 @@ public class UserController {
             return Result.fail("用户名或密码错误");
         }
 
-        StpUtil.login(userId, true);
+        StpUtil.login(userId, loginDto.isRememberMe());
 
         return Result.success("登录成功");
     }
