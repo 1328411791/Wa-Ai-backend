@@ -34,9 +34,10 @@ public class ExtraImageTest {
         Path step1Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step1.png");
         Files.write(step1Path, Base64.getDecoder().decode(txt2ImgResult.getImages().get(0)));
 
+        String image = txt2ImgResult.getImages().get(0);
         // 超分辨率
         ExtraImageResult extraImageResult = sdWebui.extraImage(ExtraImageOptions.builder()
-                .image(txt2ImgResult.getImages().get(0))
+                .image(image)
                 .build());
         Path step2Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step2.png");
         Files.write(step2Path, Base64.getDecoder().decode(extraImageResult.getImage()));

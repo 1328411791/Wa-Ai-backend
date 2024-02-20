@@ -1,9 +1,13 @@
 package org.talang.sdk.models.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExtraImageResult {
     /**
      * HTML info，A series of HTML tags containing the process info.
