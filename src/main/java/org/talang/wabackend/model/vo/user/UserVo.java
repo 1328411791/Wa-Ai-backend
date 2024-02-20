@@ -1,4 +1,4 @@
-package org.talang.wabackend.model.vo;
+package org.talang.wabackend.model.vo.user;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;

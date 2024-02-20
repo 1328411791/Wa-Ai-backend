@@ -1,11 +1,10 @@
 package org.talang.wabackend.service;
 
-import org.springframework.data.relational.core.sql.In;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.talang.wabackend.model.vo.UserVo;
+import org.talang.wabackend.model.vo.user.UserVo;
 
 /**
 * @author lihan
