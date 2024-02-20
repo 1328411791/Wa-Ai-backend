@@ -1,5 +1,7 @@
 package org.talang.wabackend.sdk;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +25,9 @@ public class ExtraImageTest {
 
     @Test
     public void extraImageTest() throws IOException {
+
+
+
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(Txt2ImageOptions.builder()
                 .prompt("1dog")
                 .samplerName("DPM++ 2M Karras")
@@ -31,16 +36,30 @@ public class ExtraImageTest {
                 .seed(32749528)
                 .build());
 
-        Path step1Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step1.png");
-        Files.write(step1Path, Base64.getDecoder().decode(txt2ImgResult.getImages().get(0)));
+//        Path step1Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step1.png");
+//        Files.write(step1Path, Base64.getDecoder().decode(txt2ImgResult.getImages().get(0)));
 
         String image = txt2ImgResult.getImages().get(0);
+
+        System.out.println(
+                JSONUtil.parse(ExtraImageOptions.builder()
+                        .image(image)
+                        .build())
+
+        );
+
         // 超分辨率
         ExtraImageResult extraImageResult = sdWebui.extraImage(ExtraImageOptions.builder()
                 .image(image)
+
                 .build());
-        Path step2Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step2.png");
-        Files.write(step2Path, Base64.getDecoder().decode(extraImageResult.getImage()));
+
+        // 获取当前工作目录路径
+        String currentDirectory = System.getProperty("user.dir");
+        // 构建新文件的路径
+        Path filePath = Paths.get(currentDirectory, "2.png");
+
+        Files.write(filePath, Base64.getDecoder().decode(extraImageResult.getImage()));
 
     }
 }

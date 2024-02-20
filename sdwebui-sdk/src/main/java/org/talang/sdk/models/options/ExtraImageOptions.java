@@ -76,7 +76,7 @@ public class ExtraImageOptions {
      */
     @Builder.Default
     @JsonProperty("show_results")
-    private Boolean showExtrasResults = false;
+    private Boolean showExtrasResults = true;
     /**
      * Upscale first，Should the upscaler run before restoring faces?
      */
@@ -88,26 +88,26 @@ public class ExtraImageOptions {
      */
     @Builder.Default
     @JsonProperty("upscaler_1")
-    private String upscaler1 = "";
+    private String upscaler1 = "R-ESRGAN 4x+ Anime6B";
     /**
      * Secondary upscaler，The name of the secondary upscaler to use, it has to be one of this
      * list:
      */
     @Builder.Default
     @JsonProperty("upscaler_2")
-    private String upscaler2 = "";
+    private String upscaler2 = "None";
     /**
      * Crop to fit，Should the upscaler crop the image to fit in the chosen size?
      */
     @Builder.Default
     @JsonProperty("upscaling_crop")
-    private Boolean upscalingCrop = false;
+    private Boolean upscalingCrop = true;
     /**
      * Upscaling Factor，By how much to upscale the image, only used when resize_mode=0.
      */
     @Builder.Default
     @JsonProperty("upscaling_resize")
-    private Double upscalingResize = 0.0;
+    private Double upscalingResize = 2.0;
     /**
      * Target Height，Target height for the upscaler to hit. Only used when resize_mode=1.
      */

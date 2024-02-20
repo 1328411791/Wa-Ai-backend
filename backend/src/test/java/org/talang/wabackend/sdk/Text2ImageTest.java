@@ -19,7 +19,6 @@ public class Text2ImageTest {
     @Autowired
     private SdWebui sdWebui;
 
-    // 测试时候跳过
     @Test
     public void text2ImageTest() throws IOException {
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(Txt2ImageOptions.builder()
@@ -30,7 +29,11 @@ public class Text2ImageTest {
                 .seed(32749528)
                 .build());
 
-        Path step1Path = Paths.get("C:\\Users\\Administrator\\Desktop\\step1.png");
-        Files.write(step1Path, Base64.getDecoder().decode(txt2ImgResult.getImages().get(0)));
+        // 获取当前工作目录路径
+        String currentDirectory = System.getProperty("user.dir");
+        // 构建新文件的路径
+        Path filePath = Paths.get(currentDirectory, "txt2img-dog.png");
+
+        Files.write(filePath, Base64.getDecoder().decode(txt2ImgResult.getImages().get(0)));
     }
 }
