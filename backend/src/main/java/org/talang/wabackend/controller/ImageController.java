@@ -22,6 +22,7 @@ public class ImageController {
     private ImageComponent imageComponent;
 
     // 图片返回接口
+    @Tag(name = "Image", description = "获取图片")
     @GetMapping(value = "/id/{imagePath}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<?> getImageById(@PathVariable String imagePath) {
         log.info("获取图片id:{}", imagePath);
@@ -39,6 +40,7 @@ public class ImageController {
         return ResponseEntity.ok(imageComponent.getImageById(imagePath));
     }
 
+    @Tag(name = "Image", description = "保存图片")
     @PostMapping(value = "/save", produces = MediaType.TEXT_PLAIN_VALUE)
     public Result saveImage(@RequestParam MultipartFile image) throws IOException {
         log.info("保存图片");

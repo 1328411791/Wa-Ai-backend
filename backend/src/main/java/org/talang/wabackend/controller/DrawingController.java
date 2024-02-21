@@ -18,6 +18,7 @@ public class DrawingController {
     @Resource
     private DrawImageComponent drawImageComponent;
 
+    @Tag(name = "Printing", description = "文字转图片")
     @PostMapping("/txt2Image")
     public Result txt2Image(@RequestBody Txt2ImageOptions options) {
         String path = drawImageComponent.text2Image(options);
