@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.sd.ImageComponent;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/save", produces = MediaType.TEXT_PLAIN_VALUE)
-    public String saveImage(@RequestParam MultipartFile image) throws IOException {
+    public Result saveImage(@RequestParam MultipartFile image) throws IOException {
         log.info("保存图片");
         if (image.isEmpty()) {
             throw new RuntimeException("图片为空");
@@ -37,7 +38,8 @@ public class ImageController {
             throw new RuntimeException("图片格式不正确");
         }
 
-        return imageComponent.saveImage(image.getBytes());
+        return Result.success(imageComponent.saveImage(image.getBytes(),
+                image.getOriginalFilename()));
     }
 
 }
