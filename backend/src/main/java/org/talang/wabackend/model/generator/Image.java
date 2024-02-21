@@ -71,5 +71,5 @@ public class Image implements Serializable {
      *
      */
     @TableField(value = "image_id")
-    private Integer imageId;
+    private String imageId;
 }
