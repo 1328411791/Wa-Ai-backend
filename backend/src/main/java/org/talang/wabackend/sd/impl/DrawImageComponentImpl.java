@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
+import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
+import org.talang.sdk.models.results.ExtraImageResult;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.ImageComponent;
@@ -43,6 +45,27 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
             default -> throw new RuntimeException("不支持的保存方式");
         };
+    }
 
+    @Override
+    public String extraImage(Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
+        Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
+
+        extraImageOptions.setImage(txt2ImgResult.getImages().get(0));
+
+        ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
+
+        byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
+
+        String imagePath = imageComponent.saveImage(decode);
+
+        return switch (saveWay) {
+
+            case "local" -> "file://" + imagePath;
+
+            case "qiniu" -> "http://qiniu.com/" + imagePath;
+
+            default -> throw new RuntimeException("不支持的保存方式");
+        };
     }
 }
