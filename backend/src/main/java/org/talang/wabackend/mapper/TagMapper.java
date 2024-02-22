@@ -2,7 +2,7 @@ package org.talang.wabackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.talang.wabackend.model.generator.Tag;
+import org.talang.wabackend.model.generator.SdTag;
 
 /**
  * @author lihan
@@ -11,7 +11,7 @@ import org.talang.wabackend.model.generator.Tag;
  * @Entity org.talang.wabackend.model.generator.Tag
  */
 @Mapper
-public interface TagMapper extends BaseMapper<Tag> {
+public interface TagMapper extends BaseMapper<SdTag> {
 
 }
 

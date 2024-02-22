@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @TableName(value = "sd_tag")
 @Data
-public class Tag implements Serializable {
+public class SdTag implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
     /**
