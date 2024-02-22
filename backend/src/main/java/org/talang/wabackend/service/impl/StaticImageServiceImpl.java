@@ -15,6 +15,13 @@ import org.talang.wabackend.service.StaticImageService;
 public class StaticImageServiceImpl extends ServiceImpl<StaticImageMapper, StaticImage>
         implements StaticImageService {
 
+    @Override
+    public void saveImage(String fileName, String readPath) {
+        StaticImage staticImage = new StaticImage();
+        staticImage.setImageName(fileName);
+        staticImage.setFilePath(readPath);
+        save(staticImage);
+    }
 }
 
 

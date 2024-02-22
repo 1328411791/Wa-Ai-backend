@@ -1,10 +1,12 @@
 package org.talang.wabackend.sd.impl;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.talang.wabackend.sd.ImageComponent;
+import org.talang.wabackend.service.StaticImageService;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +21,12 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
 
     @Value("${sdwebui.image.save-path}")
     private String IMAGE_SAVE_PATH = null;
+
+    // 协议前缀
+    private static final String FILE_PROTOCOL = "file://";
+
+    @Resource
+    private StaticImageService staticImageService;
 
     @Override
     public String saveImage(byte[] image) {
@@ -38,6 +46,9 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
             log.error("保存图片失败", e);
             throw new RuntimeException("保存图片失败");
         }
+
+        staticImageService.saveImage(fileName, FILE_PROTOCOL + fileName);
+
         return fileName;
     }
 

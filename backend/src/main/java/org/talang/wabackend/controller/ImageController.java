@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class ImageController {
     private ImageComponent imageComponent;
 
     // 图片返回接口
-    @Tag(name = "Image", description = "获取图片")
+    @Operation(summary = "获取图片", description = "根据图片路径获取图片")
     @GetMapping(value = "/id/{imagePath}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<?> getImageById(@PathVariable String imagePath) {
         log.info("获取图片id:{}", imagePath);
@@ -40,8 +41,8 @@ public class ImageController {
         return ResponseEntity.ok(imageComponent.getImageById(imagePath));
     }
 
-    @Tag(name = "Image", description = "保存图片")
-    @PostMapping(value = "/save", produces = MediaType.TEXT_PLAIN_VALUE)
+    @Operation(summary = "保存图片", description = "保存图片")
+    @PostMapping(value = "/save")
     public Result saveImage(@RequestParam MultipartFile image) throws IOException {
         log.info("保存图片");
         if (image.isEmpty()) {

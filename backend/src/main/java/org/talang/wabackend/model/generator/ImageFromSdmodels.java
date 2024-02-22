@@ -30,5 +30,5 @@ public class ImageFromSdmodels implements Serializable {
      *
      */
     @TableField(value = "sdmodel_id")
-    private String sdmodelId;
+    private Integer sdmodelId;
 }

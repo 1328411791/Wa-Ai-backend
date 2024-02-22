@@ -1,14 +1,12 @@
 package org.talang.wabackend.model.generator;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@TableName(value = "sd_static_image")
 public class StaticImage {
 
     @TableId(type = IdType.ASSIGN_UUID)
