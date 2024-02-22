@@ -15,6 +15,7 @@ import org.talang.wabackend.service.ImageFromImagespostService;
 public class ImageFromImagespostServiceImpl extends ServiceImpl<ImageFromImagespostMapper, ImageFromImagespost>
         implements ImageFromImagespostService {
 
+
 }
 
 

@@ -10,4 +10,5 @@ import org.talang.wabackend.model.generator.ModelLikes;
  */
 public interface ModelLikesService extends IService<ModelLikes> {
 
+    Integer countByModelId(Integer id);
 }

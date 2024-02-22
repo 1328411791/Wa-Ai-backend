@@ -3,6 +3,8 @@ package org.talang.wabackend.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.talang.wabackend.model.generator.ImageFromSdmodels;
 
+import java.util.List;
+
 /**
  * @author lihan
  * @description 针对表【sd_image_from_sdmodels】的数据库操作Service
@@ -10,4 +12,5 @@ import org.talang.wabackend.model.generator.ImageFromSdmodels;
  */
 public interface ImageFromSdmodelsService extends IService<ImageFromSdmodels> {
 
+    List<String> selectImage(Integer id);
 }

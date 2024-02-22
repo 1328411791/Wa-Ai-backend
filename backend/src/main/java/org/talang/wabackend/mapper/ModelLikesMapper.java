@@ -2,6 +2,7 @@ package org.talang.wabackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.talang.wabackend.model.generator.ModelLikes;
 
 /**
@@ -12,6 +13,9 @@ import org.talang.wabackend.model.generator.ModelLikes;
  */
 @Mapper
 public interface ModelLikesMapper extends BaseMapper<ModelLikes> {
+
+    @Select("select count(*) from sd_model_likes where sdmodel_id = #{id}")
+    Integer countByModelId(Integer id);
 
 }
 

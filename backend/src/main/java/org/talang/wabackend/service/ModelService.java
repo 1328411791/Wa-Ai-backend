@@ -2,6 +2,9 @@ package org.talang.wabackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.talang.wabackend.model.generator.Model;
+import org.talang.wabackend.model.vo.model.HomePageModelVo;
+
+import java.util.List;
 
 /**
  * @author lihan
@@ -10,4 +13,5 @@ import org.talang.wabackend.model.generator.Model;
  */
 public interface ModelService extends IService<Model> {
 
+    List<HomePageModelVo> getByCategory(String category, Integer page, Integer pageSize);
 }

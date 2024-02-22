@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +20,14 @@ public class DrawingController {
     @Resource
     private DrawImageComponent drawImageComponent;
 
-    @Tag(name = "Printing", description = "文字转图片")
+    @Operation(description = "文字转图片")
     @PostMapping("/txt2Image")
     public Result txt2Image(@RequestBody Txt2ImageOptions options) {
         String path = drawImageComponent.text2Image(options);
         return Result.success(path);
     }
 
-    @Tag(name = "Printing", description = "超分图片接口")
+    @Operation(description = "超分图片接口")
     @PostMapping("/extraImage")
     public Result extraImage(@RequestBody Txt2ImageOptions txt2ImageOptions,
                              @RequestBody ExtraImageOptions extraImageOptions) {
