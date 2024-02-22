@@ -24,15 +24,15 @@ public class ImageTag implements Serializable {
      *
      */
     @TableField(value = "name_en")
-    private String name_en;
+    private String nameEn;
     /**
      *
      */
     @TableField(value = "name_cn")
-    private String name_cn;
+    private String nameCn;
     /**
      *
      */
     @TableField(value = "number_refe")
-    private Integer number_refe;
+    private Integer numberRefe;
 }
