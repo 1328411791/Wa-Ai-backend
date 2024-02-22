@@ -26,7 +26,7 @@ knife4j:
         language: zh_cn
 
 sdwebui:
-    url: http://localhost:7860
+    url: http://localhost:7860,http://localhost:7860
     image:
       save-way: local
       save-path: D://
