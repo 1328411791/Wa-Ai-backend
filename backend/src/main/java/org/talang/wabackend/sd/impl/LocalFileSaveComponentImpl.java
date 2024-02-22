@@ -47,9 +47,9 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
             throw new RuntimeException("保存图片失败");
         }
 
-        staticImageService.saveImage(fileName, FILE_PROTOCOL + fileName);
+        String imageId = staticImageService.saveImage(fileName, FILE_PROTOCOL + fileName);
 
-        return fileName;
+        return imageId;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.talang.wabackend.sd;
 
-import org.talang.sdk.SdWebui;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 
@@ -12,11 +11,13 @@ public interface DrawImageComponent {
      * @param options 画图参数
      * @return 画图地址
      */
-    String text2Image(Txt2ImageOptions options, SdWebui sdWebui);
+    void text2Image(String taskId, Txt2ImageOptions options) throws InterruptedException;
 
 
-    String extraImage(Txt2ImageOptions txt2ImageOptions,
-                      ExtraImageOptions extraImageOptions, SdWebui sdWebui);
+    void extraImage(String taskId, Txt2ImageOptions txt2ImageOptions,
+                    ExtraImageOptions extraImageOptions);
 
-    boolean threadDraw(SdWebui sdWebui, String task);
+    String startTxt2ImageRequest(int userId, Txt2ImageOptions options);
+
+    String startExtraImageRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions);
 }

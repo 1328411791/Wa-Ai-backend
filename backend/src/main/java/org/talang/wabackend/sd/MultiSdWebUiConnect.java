@@ -1,6 +1,8 @@
 package org.talang.wabackend.sd;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
 
 import java.util.ArrayList;
@@ -8,29 +10,27 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@Slf4j
+@Data
+@Component
 public class MultiSdWebUiConnect {
 
-    @Getter
     List<SdWebui> sdWebuiList = new ArrayList<>();
 
     BlockingQueue<SdWebui> availableSdWebui = new LinkedBlockingQueue<>();
-
-    public MultiSdWebUiConnect() {
-
-    }
-
-    public MultiSdWebUiConnect(List<SdWebui> sdWebuiList) {
-        this.sdWebuiList = sdWebuiList;
-        availableSdWebui.addAll(sdWebuiList);
-    }
 
     public void addSdWebui(SdWebui sdWebui) {
         sdWebuiList.add(sdWebui);
         availableSdWebui.add(sdWebui);
     }
 
-    public SdWebui getAvailableSdWebui() throws InterruptedException {
-        return availableSdWebui.take();
+    public SdWebui getAvailableSdWebui() {
+        try {
+            return availableSdWebui.take();
+        } catch (Exception e) {
+            log.error("获取sdwebui失败", e);
+        }
+        return null;
     }
 
     public void returnSdWebui(SdWebui sdWebui) {

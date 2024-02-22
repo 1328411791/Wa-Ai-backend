@@ -6,6 +6,8 @@ import org.talang.wabackend.mapper.StaticImageMapper;
 import org.talang.wabackend.model.generator.StaticImage;
 import org.talang.wabackend.service.StaticImageService;
 
+import java.util.UUID;
+
 /**
  * @author lihan
  * @description 针对表【sd_static_image(静态文件储存)】的数据库操作Service实现
@@ -16,11 +18,14 @@ public class StaticImageServiceImpl extends ServiceImpl<StaticImageMapper, Stati
         implements StaticImageService {
 
     @Override
-    public void saveImage(String fileName, String readPath) {
+    public String saveImage(String fileName, String readPath) {
         StaticImage staticImage = new StaticImage();
+        String uuid = UUID.randomUUID().toString();
+        staticImage.setId(uuid);
         staticImage.setImageName(fileName);
         staticImage.setFilePath(readPath);
         save(staticImage);
+        return uuid;
     }
 }
 

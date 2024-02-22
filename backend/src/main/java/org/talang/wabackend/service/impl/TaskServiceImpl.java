@@ -2,13 +2,11 @@ package org.talang.wabackend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.mapper.TaskMapper;
 import org.talang.wabackend.model.generator.Task;
-import org.talang.wabackend.sd.SdThreadPool;
 import org.talang.wabackend.service.TaskService;
 
 import java.util.UUID;
@@ -21,9 +19,6 @@ import java.util.UUID;
 @Service
 public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         implements TaskService {
-
-    @Resource
-    private SdThreadPool sdThreadPool;
 
 
     @Override
@@ -77,7 +72,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     @Override
     public String startDrawRequest(int userId, Txt2ImageOptions options) {
         String taskId = this.setCreateStatus(userId, options);
-        sdThreadPool.addTask(taskId);
         return taskId;
     }
 
