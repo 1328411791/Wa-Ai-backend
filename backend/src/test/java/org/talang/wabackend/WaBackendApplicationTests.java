@@ -4,18 +4,18 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.talang.wabackend.service.TagService;
+import org.talang.wabackend.service.ImageTagService;
 
 @Slf4j
 @SpringBootTest
 class WaBackendApplicationTests {
 
     @Resource
-    private TagService tagService;
+    private ImageTagService tagService;
 
     @Test
     void contextLoads() {
-        log.info(String.valueOf(tagService.getById(1)));
+        log.info(String.valueOf(tagService.getById(2)));
     }
 
 }

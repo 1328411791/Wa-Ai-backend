@@ -1,25 +1,24 @@
 package org.talang.wabackend.model.generator;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * @TableName sd_tag
+ *
+ * @TableName sd_image_tag
  */
-@TableName(value = "sd_tag")
+@TableName(value = "sd_image_tag")
 @Data
-public class SdTag implements Serializable {
+public class ImageTag implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
     /**
      *
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableField(value = "id")
     private Integer id;
     /**
      *

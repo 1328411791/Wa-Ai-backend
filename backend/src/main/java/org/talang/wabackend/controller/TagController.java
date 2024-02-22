@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.wabackend.common.Result;
-import org.talang.wabackend.model.generator.SdTag;
-import org.talang.wabackend.service.TagService;
+import org.talang.wabackend.model.generator.ImageTag;
+import org.talang.wabackend.service.ImageTagService;
 
 import java.util.List;
 
@@ -19,13 +19,13 @@ import java.util.List;
 public class TagController {
 
     @Resource
-    private TagService tagService;
+    private ImageTagService tagService;
 
     @Operation(description = "获取标签")
     @GetMapping("/getTag")
     public Result getTag(@RequestParam Integer page,
                          @RequestParam Integer pageSize) {
-        List<SdTag> sdTag = tagService.getTagOrderByAsce(page, pageSize);
+        List<ImageTag> sdTag = tagService.getTagOrderByAsce(page, pageSize);
         return Result.success(sdTag);
     }
 

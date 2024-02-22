@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.talang.wabackend.mapper.TagMapper">
+<mapper namespace="org.talang.wabackend.mapper.ImageTagMapper">
 
-    <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.SdTag">
+    <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.ImageTag">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name_en" column="name_en" jdbcType="VARCHAR"/>
         <result property="name_cn" column="name_cn" jdbcType="VARCHAR"/>
