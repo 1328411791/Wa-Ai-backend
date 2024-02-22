@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.talang.wabackend.mapper.TaskMapper">
+
+    <resultMap id="BaseResultMap" type="org.talang.wabackend.model.generator.Task">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="user_id" column="user_id" jdbcType="INTEGER"/>
+        <result property="txt2image_options" column="txt2image_options" jdbcType="VARCHAR"/>
+        <result property="extraimage_options" column="extraimage_options" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,txt2image_options,
+        extraimage_options,type,priority,
+        create_time,update_time
+    </sql>
+</mapper>
