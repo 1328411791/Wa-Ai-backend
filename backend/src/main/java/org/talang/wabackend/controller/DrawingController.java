@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.common.Result;
-import org.talang.wabackend.sd.DrawImageComponent;
+import org.talang.wabackend.sd.StartDrawComponent;
 
 @Tag(name = "Printing", description = "画图API")
 @RestController
@@ -19,13 +19,13 @@ import org.talang.wabackend.sd.DrawImageComponent;
 public class DrawingController {
 
     @Resource
-    private DrawImageComponent drawImageComponent;
+    private StartDrawComponent startDrawComponent;
 
     @Operation(description = "文字转图片")
     @PostMapping("/txt2Image")
     public Result txt2Image(@RequestBody Txt2ImageOptions options) {
         int userId = StpUtil.getLoginIdAsInt();
-        String taskId = drawImageComponent.startTxt2ImageRequest(userId, options);
+        String taskId = startDrawComponent.startTxt2ImageRequest(userId, options);
         return Result.success(taskId);
     }
 
@@ -34,7 +34,7 @@ public class DrawingController {
     public Result extraImage(@RequestBody Txt2ImageOptions txt2ImageOptions,
                              @RequestBody ExtraImageOptions extraImageOptions) {
         int userId = StpUtil.getLoginIdAsInt();
-        String taskId = drawImageComponent.startExtraImageRequest(userId, txt2ImageOptions, extraImageOptions);
+        String taskId = startDrawComponent.startExtraImageRequest(userId, txt2ImageOptions, extraImageOptions);
         return Result.success(taskId);
     }
 }

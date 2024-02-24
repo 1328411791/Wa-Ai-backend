@@ -28,12 +28,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         String id = UUID.randomUUID().toString();
         task.setId(id);
         task.setStatus(0);
-        task.setTxt2image_options(JSONUtil.toJsonStr(txt2ImageOptions));
+        task.setUserId(userId);
+        task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setPriority(0);
-        task.setAuthor_id(userId);
+        task.setAuthorId(userId);
         task.setType("txt2image");
         this.save(task);
-
         return id;
     }
 
@@ -43,11 +43,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         Task task = new Task();
         String id = UUID.randomUUID().toString();
         task.setId(id);
+        task.setUserId(userId);
         task.setStatus(0);
-        task.setTxt2image_options(JSONUtil.toJsonStr(txt2ImageOptions));
-        task.setExtraimage_options(JSONUtil.toJsonStr(extraImageOptions));
+        task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
+        task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
         task.setPriority(0);
-        task.setAuthor_id(userId);
+        task.setAuthorId(userId);
         task.setType("extraimage");
         this.save(task);
 
@@ -65,7 +66,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     public void setFinishDrawStatus(String taskId, String imageId) {
         Task task = getById(taskId);
         task.setStatus(2);
-        task.setImage_id(imageId);
+        task.setImageId(imageId);
         updateById(task);
     }
 

@@ -26,17 +26,17 @@ public class Task implements Serializable {
      *
      */
     @TableField(value = "user_id")
-    private Integer user_id;
+    private Integer userId;
     /**
      *
      */
     @TableField(value = "txt2image_options")
-    private String txt2image_options;
+    private String txt2imageOptions;
     /**
      *
      */
     @TableField(value = "extraimage_options")
-    private String extraimage_options;
+    private String extraimageOptions;
     /**
      * 类型
      */
@@ -56,20 +56,20 @@ public class Task implements Serializable {
      *
      */
     @TableField(value = "author_id")
-    private Integer author_id;
+    private Integer authorId;
     /**
      *
      */
     @TableField(value = "image_id")
-    private String image_id;
+    private String imageId;
     /**
      *
      */
     @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date create_time;
+    private Date createTime;
     /**
      *
      */
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date update_time;
+    private Date updateTime;
 }

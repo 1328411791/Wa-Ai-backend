@@ -54,6 +54,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
         } catch (Exception e) {
             log.error("extraImage error", e);
         } finally {
+            // 释放资源
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
 
@@ -82,26 +83,10 @@ public class DrawImageComponentImpl implements DrawImageComponent {
         } catch (Exception e) {
             log.error("extraImage error", e);
         } finally {
+            // 释放资源
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
     }
 
-    public String startTxt2ImageRequest(int userId, Txt2ImageOptions options) {
-        String taskId = taskService.setCreateStatus(userId, options);
 
-        // 异步执行
-        this.text2Image(taskId, options);
-
-        return taskId;
-    }
-
-    @Override
-    public String startExtraImageRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
-        String taskId = taskService.setCreateStatus(userId, txt2ImageOptions, extraImageOptions);
-
-        // 异步执行
-        this.extraImage(taskId, txt2ImageOptions, extraImageOptions);
-
-        return taskId;
-    }
 }
