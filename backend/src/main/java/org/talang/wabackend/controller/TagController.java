@@ -23,9 +23,12 @@ public class TagController {
 
     @Operation(description = "获取标签")
     @GetMapping("/getTag")
-    public Result getTag(@RequestParam Integer page,
+    public Result getTag(@RequestParam String search,
+                         @RequestParam Integer page,
                          @RequestParam Integer pageSize) {
-        List<ImageTag> sdTag = tagService.getTagOrderByAsce(page, pageSize);
+//        List<ImageTag> sdTag = tagService.getTagOrderByAsce(page, pageSize);
+        List<ImageTag> sdTag = tagService.getTagOrderBySearch(search, page, pageSize);
+
         return Result.success(sdTag);
     }
 

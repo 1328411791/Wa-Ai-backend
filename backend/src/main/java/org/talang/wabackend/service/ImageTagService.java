@@ -12,5 +12,7 @@ import java.util.List;
  */
 public interface ImageTagService extends IService<ImageTag> {
 
+    List<ImageTag> getTagOrderBySearch(String search, Integer page, Integer pageSize);
+
     List<ImageTag> getTagOrderByAsce(Integer page, Integer pageSize);
 }

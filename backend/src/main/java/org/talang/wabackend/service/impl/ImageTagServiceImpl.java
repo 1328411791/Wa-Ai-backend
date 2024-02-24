@@ -1,12 +1,14 @@
 package org.talang.wabackend.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.ImageTagMapper;
 import org.talang.wabackend.model.generator.ImageTag;
 import org.talang.wabackend.service.ImageTagService;
+
 
 import java.util.List;
 
@@ -18,6 +20,21 @@ import java.util.List;
 @Service
 public class ImageTagServiceImpl extends ServiceImpl<ImageTagMapper, ImageTag>
         implements ImageTagService {
+
+    @Override
+    public List<ImageTag> getTagOrderBySearch(String search, Integer page, Integer pageSize) {
+        Page<ImageTag> sdTagPage = new Page<>(page, pageSize);
+
+        QueryWrapper<ImageTag> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name_cn", search)
+                    .or()
+                    .like("name_en", search);
+
+        List<ImageTag> result = this.page(sdTagPage, queryWrapper).addOrder(
+                OrderItem.asc("number_refe")).getRecords();
+
+        return result;
+    }
 
     @Override
     public List<ImageTag> getTagOrderByAsce(Integer page, Integer pageSize) {
