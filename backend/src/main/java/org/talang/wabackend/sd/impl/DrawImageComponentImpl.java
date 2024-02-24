@@ -38,6 +38,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     @Async("threadPoolTaskExecutor")
     @Override
     public void text2Image(String taskId, Txt2ImageOptions options) {
+        log.info("text2Image taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {
@@ -65,6 +66,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     @Override
     public void extraImage(String taskId, Txt2ImageOptions txt2ImageOptions
             , ExtraImageOptions extraImageOptions) {
+        log.info("extraImage taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {
