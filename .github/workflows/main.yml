@@ -36,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         name: upload to artifact
         with:
-          name: wa-backend
+          name: backend
           path: |
             ./backend/target/backend-0.0.1-SNAPSHOT.jar
             ./run.sh
@@ -49,13 +49,13 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         name: download artifact
         with:
-          name: takeout_backend
+          name: backend
 
       - name: delete older package and script
         run: sshpass -p ${{secrets.REMOTE_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}} "cd /home/Action && rm -rf ./*"
 
       - name: upload jar package to server
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./target/takeout-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
+        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./target/backend-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
 
   run:
     runs-on: ubuntu-latest
