@@ -51,9 +51,11 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
     }
 
     @Override
-    public SelectSdModelVo selcetModelOrder(String searchQuery, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize) {
+    public SelectSdModelVo selectModelOrder(String searchQuery, String type, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize) {
         Page<Model> modelPage = new Page<>(page, pageSize);
+
         LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Model::getType, type);
 
         // 时间戳搜索查询功能
         if (startTimestamp != 0 && endTimestamp != 0) {

@@ -24,4 +24,6 @@ public interface UserService extends IService<User> {
     User forgetPassword(ForgetPasswordDto forgetPasswordDto);
 
     UserVo getMe(Integer userId);
+
+    String getUsernameById(Integer userId);
 }

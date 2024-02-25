@@ -22,7 +22,7 @@ public class ModelController {
     @Resource
     private ModelService modelService;
 
-    @Operation(summary = "类别查询", description = "根据模型类别查询")
+    @Operation(summary = "类别查询（弃用）", description = "根据模型类别查询")
     @GetMapping("/getByCategory")
     public Result getByCategory(@RequestParam String category
             , @RequestParam Integer page, @RequestParam Integer pageSize) {
@@ -31,15 +31,23 @@ public class ModelController {
         return Result.success(models);
     }
 
-    @Operation(summary = "标签搜索功能", description = "搜索标签")
-    @GetMapping("/getSdModel4Text")
-    public Result getSdModel4Text(@RequestParam String searchQuery,
+    @Operation(summary = "获取模型列表", description = "获取模型列表")
+    @GetMapping("/getSdModelsList")
+    public Result getSdModel4Text(@RequestParam(defaultValue = "") String searchQuery,
+                                  @RequestParam String type,
                                   @RequestParam(defaultValue = "0") Long startTimestamp,
                                   @RequestParam(defaultValue = "0") Long endTimestamp,
                                   @RequestParam Integer page,
                                   @RequestParam Integer pageSize) {
-        SelectSdModelVo sdModel = modelService.selcetModelOrder(searchQuery,
-                startTimestamp, endTimestamp, page, pageSize);
+
+        SelectSdModelVo sdModel = modelService.selectModelOrder(
+                searchQuery,
+                type,
+                startTimestamp,
+                endTimestamp,
+                page,
+                pageSize);
+
         return Result.success(sdModel);
     }
 

@@ -17,5 +17,5 @@ public interface ModelService extends IService<Model> {
     List<HomePageModelVo> getByCategory(String category, Integer page, Integer pageSize);
 
 
-    SelectSdModelVo selcetModelOrder(String searchQuery, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize);
+    SelectSdModelVo selectModelOrder(String searchQuery, String type, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize);
 }

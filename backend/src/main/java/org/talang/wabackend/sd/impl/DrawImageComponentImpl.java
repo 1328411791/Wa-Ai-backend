@@ -46,7 +46,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     public void text2Image(String taskId, Txt2ImageOptions options) {
         log.info("text2Image taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
-        SdWebui sdWebui = null;
+//        SdWebui sdWebui = null;
         try {
             //sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
 

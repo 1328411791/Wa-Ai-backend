@@ -14,7 +14,7 @@ import org.talang.wabackend.service.ImageTagService;
 
 import java.util.List;
 
-@Tag(description = "sdk", name = "sd标签管理")
+@Tag(description = "sdk", name = "标签")
 @RestController
 @RequestMapping("/tag")
 public class TagController {
@@ -22,7 +22,7 @@ public class TagController {
     @Resource
     private ImageTagService tagService;
 
-    @Operation(summary = "按排序标签查询", description = "获取标签")
+    @Operation(summary = "按排序标签查询（弃用）", description = "获取标签")
     @GetMapping("/getTag")
     public Result getTag(@RequestParam String search,
                          @RequestParam Integer page,
@@ -33,9 +33,9 @@ public class TagController {
         return Result.success(sdTag);
     }
 
-    @Operation(summary = "标签搜索", description = "搜索标签")
-    @GetMapping("/getSdTagsByText")
-    public Result getSdTags4Text(@RequestParam String searchQuery,
+    @Operation(summary = "获取标签列表", description = "获取标签列表")
+    @GetMapping("/getSdTagsList")
+    public Result getSdTags4Text(@RequestParam(defaultValue = "") String searchQuery,
                                  @RequestParam Integer page,
                                  @RequestParam Integer pageSize) {
         SelectTagVo sdTag = tagService.selcetTagOrder(searchQuery, page, pageSize);

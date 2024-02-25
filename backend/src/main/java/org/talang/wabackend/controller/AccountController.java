@@ -16,7 +16,7 @@ import org.talang.wabackend.service.UserService;
 @RestController
 @RequestMapping("/account")
 @Tag(name = "账户管理", description = "账户管理相关接口")
-public class UserController {
+public class AccountController {
 
     @Autowired
     private UserService userService;
@@ -63,6 +63,14 @@ public class UserController {
     public Result info() {
         Integer userId = StpUtil.getLoginIdAsInt();
         return Result.success(userService.getMe(userId));
+    }
+
+    @Operation(summary = "id反查username")
+    @GetMapping("/getUsernameById")
+    public Result username(
+            @RequestParam Integer userId
+    ) {
+        return Result.success(userService.getUsernameById(userId));
     }
 
     @PostMapping("/register")

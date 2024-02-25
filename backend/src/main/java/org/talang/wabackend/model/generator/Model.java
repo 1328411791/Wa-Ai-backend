@@ -53,7 +53,7 @@ public class Model implements Serializable {
      *
      */
     @TableField(value = "author_id")
-    private Integer author_id;
+    private Integer authorId;
     /**
      *
      */
