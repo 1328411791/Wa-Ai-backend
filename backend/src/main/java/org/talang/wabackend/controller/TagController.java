@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.generator.ImageTag;
+import org.talang.wabackend.model.vo.tag.SelectTagVo;
 import org.talang.wabackend.service.ImageTagService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class TagController {
     @Resource
     private ImageTagService tagService;
 
-    @Operation(description = "获取标签")
+    @Operation(summary = "按排序标签查询", description = "获取标签")
     @GetMapping("/getTag")
     public Result getTag(@RequestParam String search,
                          @RequestParam Integer page,
@@ -29,6 +30,15 @@ public class TagController {
 //        List<ImageTag> sdTag = tagService.getTagOrderByAsce(page, pageSize);
         List<ImageTag> sdTag = tagService.getTagOrderBySearch(search, page, pageSize);
 
+        return Result.success(sdTag);
+    }
+
+    @Operation(summary = "标签搜索", description = "搜索标签")
+    @GetMapping("/getSdTagsByText")
+    public Result getSdTags4Text(@RequestParam String searchQuery,
+                                 @RequestParam Integer page,
+                                 @RequestParam Integer pageSize) {
+        SelectTagVo sdTag = tagService.selcetTagOrder(searchQuery, page, pageSize);
         return Result.success(sdTag);
     }
 

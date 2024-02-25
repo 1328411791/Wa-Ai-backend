@@ -1,14 +1,15 @@
 package org.talang.wabackend.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.ImageTagMapper;
 import org.talang.wabackend.model.generator.ImageTag;
+import org.talang.wabackend.model.vo.tag.SelectTagVo;
 import org.talang.wabackend.service.ImageTagService;
-
 
 import java.util.List;
 
@@ -47,6 +48,22 @@ public class ImageTagServiceImpl extends ServiceImpl<ImageTagMapper, ImageTag>
         return numberRefe;
     }
 
+    @Override
+    public SelectTagVo selcetTagOrder(String searchQuery, Integer page, Integer pageSize) {
+        LambdaQueryWrapper<ImageTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(ImageTag::getNameCn, searchQuery)
+                .or()
+                .like(ImageTag::getNameEn, searchQuery);
+        Page<ImageTag> sdTagPage = new Page<>(page, pageSize);
+        List<ImageTag> sdTag = this.page(sdTagPage, queryWrapper)
+                .addOrder(OrderItem.asc("number_refe")).getRecords();
+        Long selectCount = this.count(queryWrapper);
+        SelectTagVo selectTagVo = new SelectTagVo();
+        selectTagVo.setImageTags(sdTag);
+        selectTagVo.setSelectCount(selectCount);
+
+        return selectTagVo;
+    }
 }
 
 
