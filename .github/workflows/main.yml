@@ -55,7 +55,7 @@ jobs:
         run: sshpass -p ${{secrets.REMOTE_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}} "cd /home/Action && rm -rf ./*"
 
       - name: upload jar package to server
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./target/backend-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
+        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./backend/target/backend-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
 
   run:
     runs-on: ubuntu-latest
