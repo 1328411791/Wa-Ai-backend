@@ -36,29 +36,11 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         name: upload to artifact
         with:
-          name: wa-backend
+          name: backend
           path: |
-            ./target/wa-backend-0.0.1-SNAPSHOT.jar
+            ./backend/target/backend-0.0.1-SNAPSHOT.jar
             ./run.sh
-            ./Dockerfile
-          retention-days: 3
-
-  package:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: download artifact
-        uses: actions/download-artifact@v3.0.2
-        with:
-          name: wa_backend
-      - name: login the Registry
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} registry.cn-heyuan.aliyuncs.com
-      - name: build docker image
-        run: docker build -t wa_backend:${{ env.TAG }} .
-      - name: docker tag
-        run: docker tag wa_backend:${{ env.TAG }} registry.cn-heyuan.aliyuncs.com/1328411791/wa_backend:${{ env.TAG }}
-      - name: docker push
-        run: docker push registry.cn-heyuan.aliyuncs.com/1328411791/wa_backend:${{ env.TAG }}
+          retention-days: 1
 
   upload:
     runs-on: ubuntu-latest
@@ -67,13 +49,13 @@ jobs:
       - uses: actions/download-artifact@v3.0.2
         name: download artifact
         with:
-          name: takeout_backend
+          name: backend
 
       - name: delete older package and script
         run: sshpass -p ${{secrets.REMOTE_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}} "cd /home/Action && rm -rf ./*"
 
       - name: upload jar package to server
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./target/takeout-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
+        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./backend/target/backend-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
 
   run:
     runs-on: ubuntu-latest
