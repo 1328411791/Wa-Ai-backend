@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.talang.sdk.SdWebui;
-import org.talang.wabackend.sd.MultiSdWebUiConnect;
 
 import java.util.List;
 
@@ -18,6 +17,7 @@ public class SdWebUIConfig {
     @Value("${sdwebui.url}")
     private List<String> urls;
 
+    /*
     @Bean
     public MultiSdWebUiConnect createSdWebui() {
         MultiSdWebUiConnect multiSdWebUiConnect = new MultiSdWebUiConnect();
@@ -27,5 +27,13 @@ public class SdWebUIConfig {
             log.info("SdWebui created url:{}", url);
         }
         return multiSdWebUiConnect;
+    }
+     */
+
+    @Bean
+    public SdWebui createSdWebui() {
+        SdWebui sdWebui = SdWebui.create(urls.get(0));
+        log.info("SdWebui created url:{}", urls.get(0));
+        return sdWebui;
     }
 }
