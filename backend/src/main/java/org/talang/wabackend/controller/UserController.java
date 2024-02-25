@@ -14,8 +14,8 @@ import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.service.UserService;
 
 @RestController
-@RequestMapping("/user")
-@Tag(name = "用户管理", description = "用户管理相关接口")
+@RequestMapping("/account")
+@Tag(name = "账户管理", description = "账户管理相关接口")
 public class UserController {
 
     @Autowired
@@ -106,5 +106,11 @@ public class UserController {
         User user = userService.forgetPassword(forgetPasswordDto);
 
         return Result.success(user.getPassword());
+    }
+
+    @GetMapping("/isLogin")
+    @Operation(summary = "是否登录")
+    public Result isLogin() {
+        return Result.success(StpUtil.isLogin());
     }
 }

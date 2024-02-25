@@ -49,6 +49,11 @@ public class User implements Serializable {
     /**
      *
      */
+    @TableField(value = "gender")
+    private String gender;
+    /**
+     *
+     */
     @TableLogic
     @TableField(value = "is_delete")
     private Integer isDelete;

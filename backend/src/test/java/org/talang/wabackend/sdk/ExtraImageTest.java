@@ -23,9 +23,6 @@ public class ExtraImageTest {
 
     @Test
     public void extraImageTest() throws IOException {
-
-
-
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(Txt2ImageOptions.builder()
                 .prompt("1dog")
                 .samplerName("DPM++ 2M Karras")
@@ -52,4 +49,6 @@ public class ExtraImageTest {
         Files.write(filePath, Base64.getDecoder().decode(extraImageResult.getImage()));
 
     }
+
+
 }
