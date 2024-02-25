@@ -2,6 +2,7 @@ package org.talang.wabackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.talang.wabackend.model.generator.ImageTag;
+import org.talang.wabackend.model.vo.tag.SelectTagVo;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ImageTagService extends IService<ImageTag> {
     List<ImageTag> getTagOrderBySearch(String search, Integer page, Integer pageSize);
 
     List<ImageTag> getTagOrderByAsce(Integer page, Integer pageSize);
+
+    SelectTagVo selcetTagOrder(String searchQuery, Integer page, Integer pageSize);
 }
