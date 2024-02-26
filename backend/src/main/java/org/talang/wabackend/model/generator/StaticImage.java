@@ -18,6 +18,9 @@ public class StaticImage {
     @TableField(value = "file_path")
     private String filePath;
 
+    @TableField(value = "user_id")
+    private Integer userId;
+
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 

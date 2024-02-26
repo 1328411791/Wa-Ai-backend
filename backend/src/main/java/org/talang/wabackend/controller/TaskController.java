@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.wabackend.common.Result;
@@ -13,7 +14,8 @@ import org.talang.wabackend.service.TaskService;
 import java.util.List;
 
 @Tag(name = "Task", description = "任务相关接口")
-@RestController("/task")
+@RestController()
+@RequestMapping("/task")
 public class TaskController {
 
     @Autowired

@@ -21,7 +21,7 @@ public class StartDrawComponent {
         String taskId = taskService.setCreateStatus(userId, options);
         log.info("startTxt2ImageRequest taskId:{}", taskId);
         // 异步执行
-        drawImageComponent.text2Image(taskId, options);
+        drawImageComponent.text2Image(taskId, userId, options);
 
         return taskId;
     }
@@ -31,7 +31,7 @@ public class StartDrawComponent {
         String taskId = taskService.setCreateStatus(userId, txt2ImageOptions, extraImageOptions);
         log.info("startExtraImageRequest taskId:{}", taskId);
         // 异步执行
-        drawImageComponent.extraImage(taskId, txt2ImageOptions, extraImageOptions);
+        drawImageComponent.extraImage(taskId, userId, txt2ImageOptions, extraImageOptions);
 
         return taskId;
     }

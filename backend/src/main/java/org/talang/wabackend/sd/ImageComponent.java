@@ -8,9 +8,9 @@ public interface ImageComponent {
      * @return 保存图片地址
      */
     // 传入图片文件
-    String saveImage(byte[] image);
+    String saveImage(byte[] image, Integer userId);
 
-    String saveImage(byte[] image, String fileName);
+    String saveImage(byte[] image, Integer userId, String fileName);
 
     byte[] getImageById(String id);
 }
