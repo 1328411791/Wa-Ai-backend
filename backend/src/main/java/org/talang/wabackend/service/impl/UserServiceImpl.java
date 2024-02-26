@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
+import org.talang.wabackend.model.dto.user.PutUserInformationDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
@@ -85,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public boolean putUserInformation(int userId, String putUserInformationDto) {
+    public boolean putUserInformation(int userId, PutUserInformationDto putUserInformationDto) {
         User user = BeanUtil.toBean(putUserInformationDto, User.class);
         user.setId(userId);
         return this.updateById(user);

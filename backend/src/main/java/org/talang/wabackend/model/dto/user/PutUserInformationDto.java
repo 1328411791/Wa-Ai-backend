@@ -3,7 +3,7 @@ package org.talang.wabackend.model.dto.user;
 import lombok.Data;
 
 @Data
-public class putUserInformationDto {
+public class PutUserInformationDto {
 
     private String nickName;
 
