@@ -41,4 +41,6 @@ jobs:
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
       - name: docker test
-        run: mvn dockerfile:push
+        run: |
+          docker login --username=lihanyu2003 --password=Yu20030405 registry.cn-beijing.aliyuncs.com
+          docker push registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
