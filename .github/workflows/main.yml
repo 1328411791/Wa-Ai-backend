@@ -30,21 +30,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
       - name: Build the Docker image
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
       - name: docker build
         run: |
           docker login -u lihanyu2003 -p Yu20030405 registry.cn-beijing.aliyuncs.com
-          docker build -t backend ./backend
-          docker tag gateway registry.cn-beijing.aliyuncs.com/1328411791/umbrella:latest
+          docker build -t wa-backend ./backend
+          docker tag wa-backend registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
           docker push registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
 
   deploy:
