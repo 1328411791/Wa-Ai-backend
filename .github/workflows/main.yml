@@ -54,7 +54,7 @@ jobs:
         with:
           host: ${{ secrets.REMOTE_IP }}
           username: ${{ secrets.REMOTE_USERNAME }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
+          key: ${{ secrets.REMOTE_KEY }}
           script: |
             docker pull registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
             docker stop wa-backend
