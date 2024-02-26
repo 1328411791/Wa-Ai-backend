@@ -40,9 +40,11 @@ jobs:
       - name: Build the Docker image
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
-      - name: docker test
+      - name: docker build
         run: |
           docker login -u lihanyu2003 -p Yu20030405 registry.cn-beijing.aliyuncs.com
+          docker build -t backend ./backend
+          docker tag gateway registry.cn-beijing.aliyuncs.com/1328411791/umbrella:latest
           docker push registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
 
   deploy:
