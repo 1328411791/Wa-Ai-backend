@@ -19,6 +19,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @Tag(name = "Task", description = "任务相关接口")
     @GetMapping("/getTaskByUser")
     public Result getTaskByUser(@RequestParam Integer page,
                                 @RequestParam Integer pageSize) {
