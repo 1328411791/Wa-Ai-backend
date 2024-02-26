@@ -39,7 +39,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void text2Image(String taskId, Txt2ImageOptions options) {
+    public void text2Image(String taskId, Integer userId, Txt2ImageOptions options) {
         log.info("text2Image taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
@@ -50,7 +50,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
         byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
-            String imageId = imageComponent.saveImage(decode);
+            String imageId = imageComponent.saveImage(decode, userId);
 
             taskService.setFinishDrawStatus(taskId, imageId);
 
@@ -66,7 +66,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Txt2ImageOptions txt2ImageOptions
+    public void extraImage(String taskId, Integer userId, Txt2ImageOptions txt2ImageOptions
             , ExtraImageOptions extraImageOptions) {
         log.info("extraImage taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
@@ -81,7 +81,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
             byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
 
-            String imageId = imageComponent.saveImage(decode);
+            String imageId = imageComponent.saveImage(decode, userId);
 
             taskService.setFinishDrawStatus(taskId, imageId);
         } catch (Exception e) {

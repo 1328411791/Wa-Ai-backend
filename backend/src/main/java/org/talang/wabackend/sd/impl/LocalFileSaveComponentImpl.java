@@ -29,15 +29,15 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
     private StaticImageService staticImageService;
 
     @Override
-    public String saveImage(byte[] image) {
+    public String saveImage(byte[] image, Integer userId) {
 
         String fileName = System.currentTimeMillis() + ".png";
 
-        return saveImage(image, fileName);
+        return saveImage(image, userId, fileName);
     }
 
     @Override
-    public String saveImage(byte[] image, String fileName) {
+    public String saveImage(byte[] image, Integer userId, String fileName) {
         Path filePath = Paths.get(IMAGE_SAVE_PATH, fileName);
 
         try {
@@ -47,7 +47,8 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
             throw new RuntimeException("保存图片失败");
         }
 
-        String imageId = staticImageService.saveImage(fileName, FILE_PROTOCOL + fileName);
+        String imageId = staticImageService.saveImage(fileName,
+                FILE_PROTOCOL + fileName, userId);
 
         return imageId;
     }

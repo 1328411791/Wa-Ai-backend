@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -45,6 +46,7 @@ public class ImageController {
     @PostMapping(value = "/save")
     public Result saveImage(@RequestParam MultipartFile image) throws IOException {
         log.info("保存图片");
+        int userId = StpUtil.getLoginIdAsInt();
         if (image.isEmpty()) {
             throw new RuntimeException("图片为空");
         }
@@ -53,7 +55,7 @@ public class ImageController {
             throw new RuntimeException("图片格式不正确");
         }
 
-        return Result.success(imageComponent.saveImage(image.getBytes(),
+        return Result.success(imageComponent.saveImage(image.getBytes(), userId,
                 image.getOriginalFilename()));
     }
 

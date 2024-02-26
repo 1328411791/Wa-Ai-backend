@@ -11,9 +11,9 @@ public interface DrawImageComponent {
      * @param options 画图参数
      * @return 画图地址
      */
-    void text2Image(String taskId, Txt2ImageOptions options);
+    void text2Image(String taskId, Integer user_Id, Txt2ImageOptions options);
 
 
-    void extraImage(String taskId, Txt2ImageOptions txt2ImageOptions,
+    void extraImage(String taskId, Integer user_Id, Txt2ImageOptions txt2ImageOptions,
                     ExtraImageOptions extraImageOptions);
 }
