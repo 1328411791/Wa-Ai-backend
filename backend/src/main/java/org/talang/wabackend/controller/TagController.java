@@ -22,6 +22,7 @@ public class TagController {
     @Resource
     private ImageTagService tagService;
 
+    @Deprecated
     @Operation(summary = "按排序标签查询（弃用）", description = "获取标签")
     @GetMapping("/getTag")
     public Result getTag(@RequestParam String search,
