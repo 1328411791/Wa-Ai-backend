@@ -2,6 +2,7 @@ package org.talang.wabackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
+import org.talang.wabackend.model.dto.user.PutUserInformationDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
@@ -27,5 +28,5 @@ public interface UserService extends IService<User> {
 
     String getUsernameById(Integer userId);
 
-    boolean putUserInformation(int userId, String putUserInformationDto);
+    boolean putUserInformation(int userId, PutUserInformationDto putUserInformationDto);
 }
