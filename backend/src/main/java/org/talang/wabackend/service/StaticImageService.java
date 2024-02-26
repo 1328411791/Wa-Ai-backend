@@ -11,4 +11,6 @@ import org.talang.wabackend.model.generator.StaticImage;
 public interface StaticImageService extends IService<StaticImage> {
 
     String saveImage(String fileName, String readPath);
+
+    String getSaticImagePathById(String imageId);
 }

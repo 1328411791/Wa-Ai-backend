@@ -27,6 +27,15 @@ public class StaticImageServiceImpl extends ServiceImpl<StaticImageMapper, Stati
         save(staticImage);
         return uuid;
     }
+
+    @Override
+    public String getSaticImagePathById(String imageId) {
+        StaticImage staticImage = getById(imageId);
+        if (staticImage == null) {
+            return null;
+        }
+        return staticImage.getFilePath();
+    }
 }
 
 
