@@ -1,14 +1,22 @@
 package org.talang.wabackend.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.mapper.TaskMapper;
 import org.talang.wabackend.model.generator.Task;
+import org.talang.wabackend.model.vo.task.ShowTaskVo;
+import org.talang.wabackend.service.StaticImageService;
 import org.talang.wabackend.service.TaskService;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,6 +27,9 @@ import java.util.UUID;
 @Service
 public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         implements TaskService {
+
+    @Autowired
+    private StaticImageService staticImageService;
 
 
     @Override
@@ -79,6 +90,26 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     @Override
     public String startDrawRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
         return null;
+    }
+
+    @Override
+    public List<ShowTaskVo> getTaskByUser(int userID, Integer page, Integer pageSize) {
+        Page<Task> taskPage = new Page<>(page, pageSize);
+
+        LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Task::getUserId, userID);
+        taskPage = page(taskPage, lambdaQueryWrapper);
+
+        List<Task> tasks = taskPage.addOrder(new OrderItem().setColumn("update_time")).getRecords();
+
+        List<ShowTaskVo> taskVos = tasks.stream().map(task -> {
+            ShowTaskVo showTaskVo = BeanUtil.toBean(task, ShowTaskVo.class);
+            String saticImagePath = staticImageService.getSaticImagePathById(task.getImageId());
+            showTaskVo.setImageURL(saticImagePath);
+            return showTaskVo;
+        }).toList();
+
+        return taskVos;
     }
 }
 
