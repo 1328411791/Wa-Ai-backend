@@ -40,5 +40,8 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
+      - name: Build the Docker image
+        run: mvn deploy
+
       - name: docker test
         run: docker image ls
