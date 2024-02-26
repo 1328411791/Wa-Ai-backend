@@ -55,6 +55,7 @@ public class DefaultSdWebuiBeanContainer implements SdWebuiBeanContainer {
         register(GetSdModels.class, new DefaultGetSdModelService(this));
         register(GetFaceRestorers.class, new DefaultGetFaceRestorersService(this));
         register(ExtraImage.class, new DefaultExtraImageService(this));
+        register(SystemInfoFetcher.class, new CacheableSystemInfoFetcher(sdWebuiOptions.getEndpoint(), this));
     }
 
 }

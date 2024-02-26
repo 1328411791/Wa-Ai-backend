@@ -31,10 +31,12 @@ public class SdWebUIConfig {
     }
 
 
+    /*
     @Bean
     public SdWebui createSdWebui() {
         SdWebui sdWebui = SdWebui.create(urls.get(0));
         log.info("SdWebui created url:{}", urls.get(0));
         return sdWebui;
     }
+     */
 }
