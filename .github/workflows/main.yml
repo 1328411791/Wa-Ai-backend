@@ -59,4 +59,4 @@ jobs:
             docker pull registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
             docker stop wa-backend
             docker rm wa-backend
-            docker run -d --name wa-backend -p 8080:8080 registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
+            docker run -d --name wa-backend -p 5050:5050 registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
