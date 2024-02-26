@@ -38,7 +38,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: Build the Docker image
-        run: mvn deploy -Dmaven.test.skip=true
+        run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
       - name: docker test
         run: docker image ls
