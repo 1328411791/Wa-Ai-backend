@@ -41,4 +41,4 @@ jobs:
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
       - name: docker test
-        run: docker image ls
+        run: mvn dockerfile:push
