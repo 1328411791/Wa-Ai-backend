@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.sdk.SdWebui;
-import org.talang.sdk.models.SystemInfo;
+import org.talang.sdk.models.results.SdModel;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,14 +28,14 @@ public class SystemController {
         return Result.success("System Test");
     }
 
-    @Operation(summary = "WebUI信息")
-    @GetMapping("/webuiInfo")
-    public Result WebUIInfo() throws InterruptedException {
+    @Operation(summary = "WebUI Model信息")
+    @GetMapping("/SdModelInfo")
+    public Result WebUIInfo() {
         List<SdWebui> webuiInfo = multiSdWebUiConnect.getSdWebuiList();
-        List<SystemInfo> sdSystemInfo = null;
+        List<List<SdModel>> sdModels = new ArrayList<>();
         for (SdWebui sdWebui : webuiInfo) {
-            sdSystemInfo.add(sdWebui.systemInfo());
+            sdModels.add(sdWebui.getSdModels());
         }
-        return Result.success(sdSystemInfo);
+        return Result.success(sdModels);
     }
 }
