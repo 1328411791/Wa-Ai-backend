@@ -83,6 +83,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = this.getById(userId);
         return user.getUserName();
     }
+
+    @Override
+    public boolean putUserInformation(int userId, String putUserInformationDto) {
+        User user = BeanUtil.toBean(putUserInformationDto, User.class);
+        user.setId(userId);
+        return this.updateById(user);
+    }
 }
 
 
