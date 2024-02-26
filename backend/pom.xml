@@ -15,6 +15,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docker.repository.registry>registry.cn-beijing.aliyuncs.com</docker.repository.registry>
+        <docker.repository.namespace>1328411791</docker.repository.namespace>
+        <docker.repository.username>lihanyu2003</docker.repository.username>
     </properties>
     <dependencies>
         <dependency>
