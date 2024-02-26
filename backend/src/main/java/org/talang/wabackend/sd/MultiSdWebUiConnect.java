@@ -2,7 +2,6 @@ package org.talang.wabackend.sd;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 @Slf4j
 @Data
-@Component
 public class MultiSdWebUiConnect {
 
     List<SdWebui> sdWebuiList = new ArrayList<>();
@@ -25,12 +23,15 @@ public class MultiSdWebUiConnect {
     }
 
     public SdWebui getAvailableSdWebui() {
+        SdWebui take = null;
         try {
-            return availableSdWebui.take();
+            log.info("waiting for get Available sdwebui...");
+            take = availableSdWebui.take();
+            log.info("get Available sdwebui success");
         } catch (Exception e) {
             log.error("获取sdwebui失败", e);
         }
-        return null;
+        return take;
     }
 
     public void returnSdWebui(SdWebui sdWebui) {
