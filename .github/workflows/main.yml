@@ -30,38 +30,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml -Dmaven.test.skip=true
 
-      - uses: actions/upload-artifact@v3.1.2
-        name: upload to artifact
-        with:
-          name: backend
-          path: |
-            ./backend/target/backend-0.0.1-SNAPSHOT.jar
-            ./run.sh
-          retention-days: 1
-
-  upload:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/download-artifact@v3.0.2
-        name: download artifact
-        with:
-          name: backend
-
-      - name: delete older package and script
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}} "cd /home/Action && rm -rf ./*"
-
-      - name: upload jar package to server
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} scp -r -o StrictHostKeyChecking=no ./backend/target/backend-0.0.1-SNAPSHOT.jar ./run.sh ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}}:/home/Action
-
-  run:
-    runs-on: ubuntu-latest
-    needs: upload
-    steps:
-      - name: 启动项目
-        run: sshpass -p ${{secrets.REMOTE_PASSWORD}} ssh -o StrictHostKeyChecking=no ${{secrets.REMOTE_USERNAME}}@${{secrets.REMOTE_IP}} "cd /home/Action && chmod +x run.sh && ./run.sh"
-
-
+      - name: docker test
+        run: docker image ls
