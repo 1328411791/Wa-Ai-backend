@@ -42,5 +42,5 @@ jobs:
 
       - name: docker test
         run: |
-          docker login --username=lihanyu2003 --password-stdin=Yu20030405 registry.cn-beijing.aliyuncs.com
+          docker login -u lihanyu2003 -p Yu20030405 registry.cn-beijing.aliyuncs.com
           docker push registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
