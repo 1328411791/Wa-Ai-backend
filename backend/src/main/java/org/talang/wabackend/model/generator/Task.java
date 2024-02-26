@@ -55,11 +55,6 @@ public class Task implements Serializable {
     /**
      *
      */
-    @TableField(value = "author_id")
-    private Integer authorId;
-    /**
-     *
-     */
     @TableField(value = "image_id")
     private String imageId;
     /**
