@@ -44,3 +44,19 @@ jobs:
         run: |
           docker login -u lihanyu2003 -p Yu20030405 registry.cn-beijing.aliyuncs.com
           docker push registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_USERNAME }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          script: |
+            docker pull registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
+            docker stop wa-backend
+            docker rm wa-backend
+            docker run -d --name wa-backend -p 8080:8080 registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
