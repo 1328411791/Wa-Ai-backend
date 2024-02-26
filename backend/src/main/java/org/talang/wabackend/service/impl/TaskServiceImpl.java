@@ -42,7 +42,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         task.setUserId(userId);
         task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setPriority(0);
-        task.setAuthorId(userId);
         task.setType("txt2image");
         this.save(task);
         return id;
@@ -59,7 +58,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
         task.setPriority(0);
-        task.setAuthorId(userId);
         task.setType("extraimage");
         this.save(task);
 
