@@ -120,7 +120,7 @@
                     <password>Yu20030405</password>
                     <repository>${docker.repository.registry}/${docker.repository.namespace}/wa-backend</repository>
                     <goal>push</goal>
-                    <tag>last</tag>
+                    <tag>latest</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
