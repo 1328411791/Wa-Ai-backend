@@ -76,10 +76,11 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     }
 
     @Override
-    public void setFinishDrawStatus(String taskId, String imageId) {
+    public void setFinishDrawStatus(String taskId, String imageId, String imageParams) {
         Task task = getById(taskId);
         task.setStatus(2);
         task.setImageId(imageId);
+        task.setTxt2imageOptions(imageParams);
         updateById(task);
     }
 

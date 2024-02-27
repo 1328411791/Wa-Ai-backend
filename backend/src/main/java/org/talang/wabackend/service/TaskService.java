@@ -22,7 +22,7 @@ public interface TaskService extends IService<Task> {
 
     void setStartDrawStatus(String taskId);
 
-    void setFinishDrawStatus(String taskId, String imageId);
+    void setFinishDrawStatus(String taskId, String imageId, String imageParams);
 
     String startDrawRequest(int userId, Txt2ImageOptions options);
 
