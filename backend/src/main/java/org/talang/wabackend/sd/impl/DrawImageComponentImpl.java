@@ -1,5 +1,6 @@
 package org.talang.wabackend.sd.impl;
 
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +47,17 @@ public class DrawImageComponentImpl implements DrawImageComponent {
         try {
             sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
 
-        Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(options);
+            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(options);
 
-        byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
+            byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
             String imageId = imageComponent.saveImage(decode, userId);
+            String imageParams = JSONUtil.toJsonStr(txt2ImgResult.getParameters());
 
-            taskService.setFinishDrawStatus(taskId, imageId);
+            taskService.setFinishDrawStatus(taskId, imageId, imageParams);
 
         } catch (Exception e) {
-            log.error("extraImage error", e);
+            log.error("text2Image error", e);
         } finally {
             // 释放资源
             multiSdWebUiConnect.returnSdWebui(sdWebui);
@@ -82,8 +84,9 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
 
             String imageId = imageComponent.saveImage(decode, userId);
+            String imageParams = extraImageResult.getHtmlInfo();
 
-            taskService.setFinishDrawStatus(taskId, imageId);
+            taskService.setFinishDrawStatus(taskId, imageId, imageParams);
         } catch (Exception e) {
             log.error("extraImage error", e);
         } finally {
