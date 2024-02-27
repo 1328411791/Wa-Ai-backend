@@ -1,6 +1,7 @@
 package org.talang.wabackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @Tag(name = "Task", description = "任务相关接口")
+    @Operation(summary = "获取个人任务", description = "任务相关接口")
     @GetMapping("/getTaskByUser")
     public Result getTaskByUser(@RequestParam Integer page,
                                 @RequestParam Integer pageSize) {
