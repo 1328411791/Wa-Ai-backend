@@ -17,6 +17,8 @@ public class ShowTaskVo {
      *
      */
     private Integer userId;
+
+    private String nickName;
     /**
      * 类型
      */
@@ -29,10 +31,6 @@ public class ShowTaskVo {
      * 0 待进行 1 正在运行 2已完成 3 错误
      */
     private Integer status;
-    /**
-     *
-     */
-    private Integer authorId;
     /**
      *
      */

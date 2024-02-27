@@ -1,5 +1,6 @@
 package org.talang.wabackend;
 
+import com.github.xiaoymin.knife4j.annotations.Ignore;
 import com.qiniu.common.QiniuException;
 import com.qiniu.storage.model.DefaultPutRet;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,9 @@ public class QiniuTest {
     @Autowired
     private QiniuStorageUtiliy qiniuStorageUtiliy;
 
+
     @Test
+    @Ignore
     public void UploadTest() throws QiniuException {
         DefaultPutRet s = qiniuStorageUtiliy.uploadImage(localFilePath, key);
         log.info(s.toString());
