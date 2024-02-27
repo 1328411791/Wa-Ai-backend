@@ -30,7 +30,7 @@ public class Result {
 
     public static Result success(List<?> data, Long selectTotal) {
         ListResult listResult = new ListResult();
-        listResult.setData(data);
+        listResult.setList(data);
         listResult.setSelectTotal(selectTotal);
         return new Result(true, null, listResult, (long) data.size());
     }
