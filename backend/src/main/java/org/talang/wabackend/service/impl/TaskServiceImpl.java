@@ -101,7 +101,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         Page<Task> taskPage = new Page<>(page, pageSize);
         LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Task::getUserId, userID);
-        taskPage.addOrder(OrderItem.desc("update_time"));
+        taskPage.addOrder(OrderItem.asc("update_time"));
         taskPage = page(taskPage, lambdaQueryWrapper);
 
         List<Task> tasks = taskPage.getRecords();
