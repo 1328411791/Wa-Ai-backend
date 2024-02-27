@@ -13,9 +13,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Data
 public class MultiSdWebUiConnect {
 
-    List<SdWebui> sdWebuiList = new ArrayList<>();
+    public static List<SdWebui> sdWebuiList = new ArrayList<>();
 
-    BlockingQueue<SdWebui> availableSdWebui = new LinkedBlockingQueue<>();
+    private static BlockingQueue<SdWebui> availableSdWebui = new LinkedBlockingQueue<>();
 
     public void addSdWebui(SdWebui sdWebui) {
         sdWebuiList.add(sdWebui);
@@ -26,6 +26,7 @@ public class MultiSdWebUiConnect {
         SdWebui take = null;
         try {
             log.info("waiting for get Available sdwebui...");
+            log.info("show availableSdWebui size:{}", availableSdWebui.size());
             take = availableSdWebui.take();
             log.info("get Available sdwebui success");
         } catch (Exception e) {
@@ -36,6 +37,10 @@ public class MultiSdWebUiConnect {
 
     public void returnSdWebui(SdWebui sdWebui) {
         availableSdWebui.add(sdWebui);
+    }
+
+    public List<SdWebui> getWebUIList() {
+        return sdWebuiList;
     }
 }
 
