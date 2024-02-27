@@ -28,8 +28,14 @@ knife4j:
 sdwebui:
     url: http://47.236.238.40:7860
     image:
-      save-way: local
-      save-path: D://
+        save-way: qiniu
+        save-path: wa-image
+        qiniu:
+            access-key: DJYVDA6lFv2Zej4KxT1FZSlZGt16nITevFKUggEO
+            secret-key: KGlTdVFh1QJnnEKtrXDAsYgoUTSXWi0BgQokrU4f
+            domain: http://obj.glcn.top
+            bucket: wa-oversea
+
 
 sa-token:
     # token 名称（同时也是 cookie 名称）

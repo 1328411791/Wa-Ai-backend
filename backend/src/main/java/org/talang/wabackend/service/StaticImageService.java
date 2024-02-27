@@ -14,5 +14,7 @@ public interface StaticImageService extends IService<StaticImage> {
 
     String saveImage(String fileName, String readPath, Integer userId);
 
+    String saveImage(String fileName, String readPath, String hash, Integer userId);
+
     String getSaticImagePathById(String imageId);
 }

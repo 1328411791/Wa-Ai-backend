@@ -21,6 +21,9 @@ public class StaticImage {
     @TableField(value = "user_id")
     private Integer userId;
 
+    @TableField(value = "hash")
+    private String hash;
+
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 

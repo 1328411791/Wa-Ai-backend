@@ -35,6 +35,19 @@ public class StaticImageServiceImpl extends ServiceImpl<StaticImageMapper, Stati
     }
 
     @Override
+    public String saveImage(String fileName, String readPath, String hash, Integer userId) {
+        StaticImage staticImage = new StaticImage();
+        String uuid = UUID.randomUUID().toString();
+        staticImage.setId(uuid);
+        staticImage.setImageName(fileName);
+        staticImage.setUserId(userId);
+        staticImage.setHash(hash);
+        staticImage.setFilePath(readPath);
+        save(staticImage);
+        return uuid;
+    }
+
+    @Override
     public String getSaticImagePathById(String imageId) {
         StaticImage staticImage = getById(imageId);
         if (staticImage == null) {
