@@ -3,10 +3,8 @@ package org.talang.wabackend.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.generator.Task;
-import org.talang.wabackend.model.vo.task.ShowTaskVo;
-
-import java.util.List;
 
 /**
  * @author lihan
@@ -28,5 +26,5 @@ public interface TaskService extends IService<Task> {
 
     String startDrawRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions);
 
-    List<ShowTaskVo> getTaskByUser(int userID, Integer page, Integer pageSize);
+    Result getTaskByUser(int userID, Integer page, Integer pageSize);
 }

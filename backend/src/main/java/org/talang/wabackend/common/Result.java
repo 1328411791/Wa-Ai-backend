@@ -24,7 +24,15 @@ public class Result {
     }
 
     public static Result success(List<?> data) {
+
         return new Result(true, null, data, (long) data.size());
+    }
+
+    public static Result success(List<?> data, Long selectTotal) {
+        ListResult listResult = new ListResult();
+        listResult.setData(data);
+        listResult.setSelectTotal(selectTotal);
+        return new Result(true, null, listResult, (long) data.size());
     }
 
     public static Result fail(String errorMsg) {
@@ -32,3 +40,4 @@ public class Result {
     }
 
 }
+
