@@ -91,6 +91,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setId(userId);
         return this.updateById(user);
     }
+
+    @Override
+    public String getUserNickNameById(Integer userId) {
+        User user = this.getById(userId);
+        return user.getNickName();
+    }
 }
 
 

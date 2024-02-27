@@ -29,4 +29,6 @@ public interface UserService extends IService<User> {
     String getUsernameById(Integer userId);
 
     boolean putUserInformation(int userId, PutUserInformationDto putUserInformationDto);
+
+    String getUserNickNameById(Integer userId);
 }
