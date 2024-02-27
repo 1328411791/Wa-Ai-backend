@@ -49,6 +49,7 @@ public class ExtraImageTest {
 
         Files.write(filePath, Base64.getDecoder().decode(extraImageResult.getImage()));
 
+
     }
 
 

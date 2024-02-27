@@ -31,7 +31,7 @@ public class SystemController {
     @Operation(summary = "WebUI Model信息")
     @GetMapping("/SdModelInfo")
     public Result WebUIInfo() {
-        List<SdWebui> webuiInfo = multiSdWebUiConnect.getSdWebuiList();
+        List<SdWebui> webuiInfo = multiSdWebUiConnect.getWebUIList();
         List<List<SdModel>> sdModels = new ArrayList<>();
         for (SdWebui sdWebui : webuiInfo) {
             sdModels.add(sdWebui.getSdModels());
