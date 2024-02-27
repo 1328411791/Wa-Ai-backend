@@ -29,6 +29,7 @@ public class QiniuStorgeComponentImpl implements ImageComponent {
 
     @Override
     public String saveImage(byte[] image, Integer userId) {
+
         String fileName = System.currentTimeMillis() + ".png";
 
         return saveImage(image, userId, fileName);
@@ -41,7 +42,7 @@ public class QiniuStorgeComponentImpl implements ImageComponent {
         log.info("开始上传图片，图片名称：{} key:{}", fileName, key);
         DefaultPutRet uploadRet = qiniuStorageUtiliy.uploadImage(image, key);
 
-        String filePath = domain + uploadRet.key;
+        String filePath = domain + "/" + uploadRet.key;
 
         String imageId = staticImageService.saveImage(fileName, filePath, uploadRet.hash, userId);
 
