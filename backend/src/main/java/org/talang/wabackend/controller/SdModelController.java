@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.wabackend.common.Result;
-import org.talang.wabackend.model.generator.Model;
 import org.talang.wabackend.model.vo.model.HomePageModelVo;
+import org.talang.wabackend.model.vo.model.SdModelVo;
 import org.talang.wabackend.model.vo.model.SelectSdModelVo;
 import org.talang.wabackend.service.ModelService;
 
@@ -23,6 +23,7 @@ public class SdModelController {
     @Resource
     private ModelService modelService;
 
+    @Deprecated
     @Operation(summary = "类别查询（弃用）", description = "根据模型类别查询")
     @GetMapping("/getByCategory")
     public Result getByCategory(@RequestParam String category
@@ -55,7 +56,7 @@ public class SdModelController {
     @Operation(summary = "获取模型详情", description = "获取模型详情")
     @GetMapping("/getSdModelById")
     public Result getSdModelById(@RequestParam Integer id) {
-        Model model = modelService.getById(id);
+        SdModelVo model = modelService.getSdModelVo(id);
         return Result.success(model);
     }
 

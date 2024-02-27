@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.ModelMapper;
 import org.talang.wabackend.model.generator.Model;
 import org.talang.wabackend.model.vo.model.HomePageModelVo;
+import org.talang.wabackend.model.vo.model.SdModelVo;
 import org.talang.wabackend.model.vo.model.SelectSdModelVo;
-import org.talang.wabackend.service.ImageFromSdmodelsService;
-import org.talang.wabackend.service.ModelLikesService;
-import org.talang.wabackend.service.ModelService;
+import org.talang.wabackend.service.*;
 
 import java.util.List;
 
@@ -31,6 +30,12 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
 
     @Resource
     private ModelLikesService modelLikesService;
+
+    @Resource
+    private StaticImageService staticImageService;
+
+    @Resource
+    private UserService userService;
 
     @Override
     public List<HomePageModelVo> getByCategory(String category, Integer page, Integer pageSize) {
@@ -72,11 +77,25 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
                 .addOrder(OrderItem.asc("update_time")).getRecords();
         Long selectCount = this.count(queryWrapper);
 
+        List<SdModelVo> sdModelVos = models.stream().map(model -> {
+            SdModelVo sdModelVo = BeanUtil.toBean(model, SdModelVo.class);
+            sdModelVo.setNickName(userService.getUserNickNameById(model.getAuthorId()));
+            return sdModelVo;
+        }).toList();
+
         SelectSdModelVo selectSdModelVo = new SelectSdModelVo();
-        selectSdModelVo.setModels(models);
+        selectSdModelVo.setModels(sdModelVos);
         selectSdModelVo.setSelectCount(selectCount);
 
         return selectSdModelVo;
+    }
+
+    @Override
+    public SdModelVo getSdModelVo(Integer id) {
+        Model model = this.getById(id);
+        SdModelVo sdModelVo = BeanUtil.toBean(model, SdModelVo.class);
+        sdModelVo.setNickName(userService.getUserNickNameById(model.getAuthorId()));
+        return sdModelVo;
     }
 }
 
