@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.talang.wabackend.common.Result;
-import org.talang.wabackend.model.vo.task.ShowTaskVo;
 import org.talang.wabackend.service.TaskService;
-
-import java.util.List;
 
 @Tag(name = "Task", description = "任务相关接口")
 @RestController()
@@ -27,8 +24,7 @@ public class TaskController {
     public Result getTaskByUser(@RequestParam Integer page,
                                 @RequestParam Integer pageSize) {
         int userID = StpUtil.getLoginIdAsInt();
-        List<ShowTaskVo> tasks = taskService.getTaskByUser(userID, page, pageSize);
 
-        return Result.success(tasks);
+        return taskService.getTaskByUser(userID, page, pageSize);
     }
 }

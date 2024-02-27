@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.mapper.TaskMapper;
 import org.talang.wabackend.model.generator.Task;
 import org.talang.wabackend.model.vo.task.ShowTaskVo;
@@ -96,7 +97,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     }
 
     @Override
-    public List<ShowTaskVo> getTaskByUser(int userID, Integer page, Integer pageSize) {
+    public Result getTaskByUser(int userID, Integer page, Integer pageSize) {
         Page<Task> taskPage = new Page<>(page, pageSize);
 
         LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -114,7 +115,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
             return showTaskVo;
         }).toList();
 
-        return taskVos;
+        return Result.success(taskVos, taskPage.getTotal());
     }
 }
 
