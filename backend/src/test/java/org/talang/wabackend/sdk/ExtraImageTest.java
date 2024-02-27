@@ -38,7 +38,7 @@ public class ExtraImageTest {
         String image = txt2ImgResult.getImages().get(0);
 
         // 超分辨率
-        ExtraImageResult extraImageResult = sdWebui.extraImage(ExtraImageOptions.builder()
+        ExtraImageResult extraImageResult = sdWebui.getAvailableSdWebui().extraImage(ExtraImageOptions.builder()
                 .image(image)
                 .build());
 
