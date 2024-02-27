@@ -99,12 +99,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     @Override
     public Result getTaskByUser(int userID, Integer page, Integer pageSize) {
         Page<Task> taskPage = new Page<>(page, pageSize);
-
         LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Task::getUserId, userID);
+        taskPage.addOrder(OrderItem.desc("update_time"));
         taskPage = page(taskPage, lambdaQueryWrapper);
 
-        List<Task> tasks = taskPage.addOrder(OrderItem.asc("update_time")).getRecords();
+        List<Task> tasks = taskPage.getRecords();
 
         List<ShowTaskVo> taskVos = tasks.stream().map(task -> {
             ShowTaskVo showTaskVo = BeanUtil.toBean(task, ShowTaskVo.class);
