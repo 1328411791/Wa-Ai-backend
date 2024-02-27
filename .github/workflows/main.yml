@@ -11,8 +11,6 @@ name: Build up and install to server
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 env:
   TAG: latest
