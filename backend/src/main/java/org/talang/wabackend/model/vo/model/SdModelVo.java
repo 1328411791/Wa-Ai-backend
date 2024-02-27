@@ -37,6 +37,10 @@ public class SdModelVo {
     /**
      *
      */
+    private Integer userId;
+    /**
+     *
+     */
     private String nickName;
     /**
      *
