@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.talang.sdk.enums.HiResUpscaler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class Txt2ImageOptions {
 
     @Builder.Default
     @JsonProperty("hr_upscaler")
-    private HiResUpscaler hrUpscaler = HiResUpscaler.Latent;
+    private String hrUpscaler = "Latent";
 
     @Builder.Default
     @JsonProperty("hr_second_pass_steps")
