@@ -3,9 +3,9 @@ package org.talang.wabackend.sdk;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.talang.sdk.SdWebui;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.sdk.models.results.Txt2ImgResult;
+import org.talang.wabackend.sd.MultiSdWebUiConnect;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,11 +17,11 @@ import java.util.Base64;
 public class Text2ImageTest {
 
     @Autowired
-    private SdWebui sdWebui;
+    private MultiSdWebUiConnect sdWebui;
 
     @Test
     public void text2ImageTest() throws IOException {
-        Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(Txt2ImageOptions.builder()
+        Txt2ImgResult txt2ImgResult = sdWebui.getAvailableSdWebui().txt2Img(Txt2ImageOptions.builder()
                 .prompt("1dog")
                 .samplerName("DPM++ 2M Karras")
                 .steps(20)

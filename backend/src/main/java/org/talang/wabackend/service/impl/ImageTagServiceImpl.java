@@ -30,9 +30,9 @@ public class ImageTagServiceImpl extends ServiceImpl<ImageTagMapper, ImageTag>
         queryWrapper.like("name_cn", search)
                     .or()
                     .like("name_en", search);
+        sdTagPage.addOrder(OrderItem.asc("number_refe"));
 
-        List<ImageTag> result = this.page(sdTagPage, queryWrapper).addOrder(
-                OrderItem.asc("number_refe")).getRecords();
+        List<ImageTag> result = this.page(sdTagPage, queryWrapper).getRecords();
 
         return result;
     }

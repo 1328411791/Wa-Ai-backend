@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.mapper.TaskMapper;
 import org.talang.wabackend.model.generator.Task;
 import org.talang.wabackend.model.vo.task.ShowTaskVo;
 import org.talang.wabackend.service.StaticImageService;
 import org.talang.wabackend.service.TaskService;
+import org.talang.wabackend.service.UserService;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,9 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
 
     @Autowired
     private StaticImageService staticImageService;
+
+    @Autowired
+    private UserService userService;
 
 
     @Override
@@ -92,23 +97,25 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     }
 
     @Override
-    public List<ShowTaskVo> getTaskByUser(int userID, Integer page, Integer pageSize) {
+    public Result getTaskByUser(int userID, Integer page, Integer pageSize) {
         Page<Task> taskPage = new Page<>(page, pageSize);
-
         LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Task::getUserId, userID);
+        taskPage.addOrder(OrderItem.asc("update_time"));
         taskPage = page(taskPage, lambdaQueryWrapper);
 
-        List<Task> tasks = taskPage.addOrder(new OrderItem().setColumn("update_time")).getRecords();
+        List<Task> tasks = taskPage.getRecords();
 
         List<ShowTaskVo> taskVos = tasks.stream().map(task -> {
             ShowTaskVo showTaskVo = BeanUtil.toBean(task, ShowTaskVo.class);
             String saticImagePath = staticImageService.getSaticImagePathById(task.getImageId());
+            String nickName = userService.getUserNickNameById(task.getUserId());
             showTaskVo.setImageURL(saticImagePath);
+            showTaskVo.setNickName(nickName);
             return showTaskVo;
         }).toList();
 
-        return taskVos;
+        return Result.success(taskVos, taskPage.getTotal());
     }
 }
 

@@ -1,15 +1,15 @@
 package org.talang.wabackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.user.PutUserInformationDto;
+import org.talang.wabackend.model.generator.User;
+import org.talang.wabackend.model.vo.user.UserVo;
 import org.talang.wabackend.service.UserService;
 
 @Tag(name = "用户", description = "用户API")
@@ -26,5 +26,13 @@ public class UserController {
         int userId = StpUtil.getLoginIdAsInt();
         boolean flag = userService.putUserInformation(userId, putUserInformationDto);
         return flag ? Result.success("更新成功") : Result.fail("更新失败");
+    }
+
+    @Operation(description = "获取用户信息")
+    @PutMapping("/{id}")
+    public Result getUserInformation(@PathVariable Integer id) {
+        User user = userService.getById(id);
+        UserVo userVo = BeanUtil.toBean(user, UserVo.class);
+        return Result.success(userVo);
     }
 }

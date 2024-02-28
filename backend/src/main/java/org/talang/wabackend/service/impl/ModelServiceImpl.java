@@ -73,8 +73,8 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
 
         queryWrapper.like(Model::getTitle, searchQuery);
 
-        List<Model> models = this.page(modelPage, queryWrapper)
-                .addOrder(OrderItem.asc("update_time")).getRecords();
+        modelPage.setOrders(List.of(OrderItem.asc("create_time")));
+        List<Model> models = this.page(modelPage, queryWrapper).getRecords();
         Long selectCount = this.count(queryWrapper);
 
         List<SdModelVo> sdModelVos = models.stream().map(model -> {

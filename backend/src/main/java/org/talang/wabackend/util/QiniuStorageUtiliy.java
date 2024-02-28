@@ -85,4 +85,5 @@ public class QiniuStorageUtiliy {
 
         return putRet;
     }
+
 }
