@@ -1,5 +1,6 @@
 package org.talang.wabackend.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.talang.wabackend.model.generator.SdImage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2024-03-01 01:16:15
 * @Entity org.talang.wabackend.model.generator.SdImage
 */
+@Mapper
 public interface SdImageMapper extends BaseMapper<SdImage> {
 
 }

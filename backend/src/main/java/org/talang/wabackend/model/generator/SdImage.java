@@ -3,6 +3,8 @@ package org.talang.wabackend.model.generator;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -21,8 +23,14 @@ public class SdImage implements Serializable {
     /**
      * 
      */
-    @TableField(value = "sdmodel_id")
-    private Integer sdmodel_id;
+    @TableField(value = "checkpoint_model_id")
+    private Integer checkpointModelId;
+
+    /**
+     * 
+     */
+    @TableField(value = "vae_model_id")
+    private Integer vaeModelId;
 
     /**
      * 
@@ -34,21 +42,26 @@ public class SdImage implements Serializable {
      * 
      */
     @TableField(value = "static_image_id")
-    private String static_image_id;
+    private String staticImageId;
+
+    /**
+     * 
+     */
+    @TableField(value = "user_id")
+    private Integer userId;
 
     /**
      * 
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
-    private Integer update_time;
+    private Date updateTime;
 
     /**
      * 
      */
     @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private Integer create_time;
+    private Date createTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
 }
