@@ -43,7 +43,11 @@ public class SdImage implements Serializable {
      */
     @TableField(value = "static_image_id")
     private String staticImageId;
-
+    /*
+    *
+     */
+    @TableField(value = "liked")
+    private Long liked;
     /**
      * 
      */

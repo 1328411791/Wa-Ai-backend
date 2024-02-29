@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.model.generator.SdImage;
 import org.talang.wabackend.model.vo.sdImage.SdImageVo;
@@ -13,6 +14,9 @@ import org.talang.wabackend.mapper.SdImageMapper;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.service.StaticImageService;
 import org.talang.wabackend.service.UserService;
+import org.talang.wabackend.util.SdImageLikeComponent;
+
+import static org.talang.wabackend.util.SdImageLikeComponent.SD_IMAGE_LIKE;
 
 /**
 * @author lihan
@@ -32,6 +36,9 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
     public void saveSdImage(String imageId, Txt2ImgResult txt2ImgResult, Integer userId) {
         SdImage sdImage = new SdImage();
@@ -50,7 +57,7 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
     }
 
     @Override
-    public SdImageVo getImageById(String id) {
+    public SdImageVo getImageById(Integer userId,String id) {
         SdImage sdImage = getById(id);
         if (sdImage == null) {
             throw new RuntimeException("不存在Sd图像");
@@ -59,6 +66,10 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
 
         vo.setImageUrl(staticImageService.getSaticImagePathById(id));
         vo.setUser(userService.getUserVo(sdImage.getUserId()));
+        String key = SD_IMAGE_LIKE + sdImage.getId();
+        Boolean isMember = stringRedisTemplate.opsForSet().isMember(key, String.valueOf(userId));
+        vo.setIsLiked(isMember);
+
 
         return vo;
     }

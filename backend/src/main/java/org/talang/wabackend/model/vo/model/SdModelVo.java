@@ -38,6 +38,14 @@ public class SdModelVo {
      *
      */
     private Integer userId;
+    /*
+    *
+    */
+    private Boolean isLiked;
+    /*
+    *
+     */
+    private Long liked;
     /**
      *
      */

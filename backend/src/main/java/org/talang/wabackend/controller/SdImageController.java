@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,11 @@ public class SdImageController {
     @Operation(summary = "获取Sd图片信息")
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) {
-        SdImageVo image = sdImageService.getImageById(id);
+        Integer userId = 0;
+        if (StpUtil.isLogin()){
+            userId = StpUtil.getLoginIdAsInt();
+        }
+        SdImageVo image = sdImageService.getImageById(userId,id);
         return Result.success(image);
     }
 }

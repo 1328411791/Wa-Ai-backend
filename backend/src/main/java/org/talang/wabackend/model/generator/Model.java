@@ -34,6 +34,11 @@ public class Model implements Serializable {
      */
     @TableField(value = "body")
     private String body;
+    /*
+    *
+     */
+    @TableField(value = "liked")
+    private Integer liked;
     /**
      *
      */

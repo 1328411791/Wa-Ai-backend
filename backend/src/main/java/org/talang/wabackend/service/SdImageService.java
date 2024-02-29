@@ -14,5 +14,5 @@ public interface SdImageService extends IService<SdImage> {
 
     void saveSdImage(String imageId, Txt2ImgResult txt2ImgResult, Integer userId);
 
-    SdImageVo getImageById(String id);
+    SdImageVo getImageById(Integer userId,String id);
 }
