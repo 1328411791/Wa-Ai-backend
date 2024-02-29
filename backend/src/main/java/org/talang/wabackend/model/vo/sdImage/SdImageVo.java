@@ -22,6 +22,10 @@ public class SdImageVo {
 
     private UserVo user;
 
+    private Boolean isLiked;
+
+    private Long liked;
+
     private Date updateTime;
 
     private Date createTime;
