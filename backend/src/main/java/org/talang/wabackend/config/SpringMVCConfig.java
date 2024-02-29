@@ -16,7 +16,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
-
     }
 
     // 跨域处理
@@ -28,4 +27,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(3600);
     }
+
+
 }
