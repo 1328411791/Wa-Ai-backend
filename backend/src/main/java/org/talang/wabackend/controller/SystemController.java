@@ -13,7 +13,7 @@ import org.talang.sdk.SdWebui;
 import org.talang.sdk.models.results.SdModel;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
-import org.talang.wabackend.sd.SdTaskWebSocket;
+import org.talang.wabackend.websocket.SdTaskWebSocket;
 
 import java.util.ArrayList;
 import java.util.List;

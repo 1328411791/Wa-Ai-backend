@@ -1,4 +1,4 @@
-package org.talang.wabackend.sd.model;
+package org.talang.wabackend.websocket.model;
 
 import lombok.Data;
 
