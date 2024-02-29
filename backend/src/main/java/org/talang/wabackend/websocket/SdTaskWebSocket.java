@@ -1,20 +1,19 @@
-package org.talang.wabackend.sd;
+package org.talang.wabackend.websocket;
 
+import cn.dev33.satoken.stp.StpUtil;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
 
-import java.net.http.WebSocket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
 @Slf4j
-@ServerEndpoint("/websocket/{userId}")  // 接口路径 ws://localhost:8087/webSocket/userId;
+@ServerEndpoint("/websocket/{token}")  // 接口路径 ws://localhost:8087/webSocket/userId;
 public class SdTaskWebSocket {
 
         //与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -35,10 +34,15 @@ public class SdTaskWebSocket {
          * 链接成功调用的方法
          */
         @OnOpen
-        public void onOpen(Session session, @PathParam(value="userId")Integer userId) {
+        public void onOpen(Session session, @PathParam(value="token")String token){
             try {
+                String loginId = (String) StpUtil.getLoginIdByToken(token);
+                if (loginId == null) {
+                    session.close();
+                    throw new RuntimeException("连接失败，无效Token：" + token);
+                }
                 this.session = session;
-                this.userId = userId;
+                this.userId =  Integer.valueOf(loginId);
                 webSockets.add(this);
                 sessionPool.put(userId, session);
                 log.info("[websocket] 有新的连接，总数为:{} id:{}",webSockets.size(),userId);

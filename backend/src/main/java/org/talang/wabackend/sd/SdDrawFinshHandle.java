@@ -5,8 +5,9 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.talang.wabackend.model.generator.Task;
-import org.talang.wabackend.sd.model.SdDrawFinishResult;
+import org.talang.wabackend.websocket.model.SdDrawFinishResult;
 import org.talang.wabackend.service.TaskService;
+import org.talang.wabackend.websocket.SdTaskWebSocket;
 
 @Slf4j
 @Component
