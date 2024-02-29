@@ -1,15 +1,18 @@
 package org.talang.wabackend.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.model.generator.SdImage;
+import org.talang.wabackend.model.vo.sdImage.SdImageVo;
 import org.talang.wabackend.service.ModelService;
 import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.mapper.SdImageMapper;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.service.StaticImageService;
+import org.talang.wabackend.service.UserService;
 
 /**
 * @author lihan
@@ -26,6 +29,9 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
     @Autowired
     private ModelService modelService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void saveSdImage(String imageId, Txt2ImgResult txt2ImgResult, Integer userId) {
         SdImage sdImage = new SdImage();
@@ -41,6 +47,20 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
         sdImage.setVaeModelId(modelService.getModelIdByModelName(vaeModelName));
 
         save(sdImage);
+    }
+
+    @Override
+    public SdImageVo getImageById(String id) {
+        SdImage sdImage = getById(id);
+        if (sdImage == null) {
+            throw new RuntimeException("不存在Sd图像");
+        }
+        SdImageVo vo = BeanUtil.toBean(sdImage, SdImageVo.class);
+
+        vo.setImageUrl(staticImageService.getSaticImagePathById(id));
+        vo.setUser(userService.getUserVo(sdImage.getUserId()));
+
+        return vo;
     }
 }
 
