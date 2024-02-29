@@ -108,9 +108,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
 
         List<ShowTaskVo> taskVos = tasks.stream().map(task -> {
             ShowTaskVo showTaskVo = BeanUtil.toBean(task, ShowTaskVo.class);
-            String saticImagePath = staticImageService.getSaticImagePathById(task.getImageId());
             String nickName = userService.getUserNickNameById(task.getUserId());
-            showTaskVo.setImageURL(saticImagePath);
             showTaskVo.setNickName(nickName);
             return showTaskVo;
         }).toList();

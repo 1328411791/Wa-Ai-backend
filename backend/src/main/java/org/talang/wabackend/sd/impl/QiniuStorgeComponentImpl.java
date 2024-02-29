@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.talang.wabackend.sd.ImageComponent;
+import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.StaticImageService;
 import org.talang.wabackend.util.QiniuStorageUtiliy;
 
@@ -26,6 +27,9 @@ public class QiniuStorgeComponentImpl implements ImageComponent {
 
     @Autowired
     private StaticImageService staticImageService;
+
+    @Autowired
+    private SdImageService sdImageService;
 
     @Override
     public String saveImage(byte[] image, Integer userId) {

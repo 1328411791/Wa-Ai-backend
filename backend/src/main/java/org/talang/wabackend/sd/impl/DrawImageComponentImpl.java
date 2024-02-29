@@ -14,6 +14,7 @@ import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
+import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.TaskService;
 
 import java.util.Base64;
@@ -32,6 +33,9 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Autowired
     private MultiSdWebUiConnect multiSdWebUiConnect;
+
+    @Autowired
+    private SdImageService sdImageService;
 
 
     //@Autowired
@@ -52,6 +56,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
             String imageId = imageComponent.saveImage(decode, userId);
+            sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
             String imageParams = JSONUtil.toJsonStr(txt2ImgResult.getParameters());
 
             taskService.setFinishDrawStatus(taskId, imageId, imageParams);
@@ -84,6 +89,8 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
 
             String imageId = imageComponent.saveImage(decode, userId);
+
+
             String imageParams = extraImageResult.getHtmlInfo();
 
             taskService.setFinishDrawStatus(taskId, imageId, imageParams);

@@ -21,4 +21,6 @@ public interface ModelService extends IService<Model> {
     SelectSdModelVo selectModelOrder(String searchQuery, String type, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize);
 
     SdModelVo getSdModelVo(Integer id);
+
+    Integer getModelIdByModelName(String modelName);
 }

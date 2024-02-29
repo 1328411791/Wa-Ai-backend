@@ -24,11 +24,12 @@ public interface UserService extends IService<User> {
 
     User forgetPassword(ForgetPasswordDto forgetPasswordDto);
 
-    UserVo getMe(Integer userId);
+    UserVo getUserVo(Integer userId);
 
     String getUsernameById(Integer userId);
 
     boolean putUserInformation(int userId, PutUserInformationDto putUserInformationDto);
 
     String getUserNickNameById(Integer userId);
+
 }

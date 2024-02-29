@@ -74,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public UserVo getMe(Integer userId) {
+    public UserVo getUserVo(Integer userId) {
         User user = this.getById(userId);
         return BeanUtil.toBean(user, UserVo.class);
     }

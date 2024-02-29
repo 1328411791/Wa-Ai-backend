@@ -97,6 +97,14 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
         sdModelVo.setNickName(userService.getUserNickNameById(model.getAuthorId()));
         return sdModelVo;
     }
+
+    @Override
+    public Integer getModelIdByModelName(String modelName) {
+        LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Model::getTitle, modelName);
+        Model model = this.getOne(queryWrapper);
+        return model.getId();
+    }
 }
 
 
