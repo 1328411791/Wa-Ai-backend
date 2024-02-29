@@ -62,7 +62,7 @@ public class AccountController {
     @GetMapping("/me")
     public Result info() {
         Integer userId = StpUtil.getLoginIdAsInt();
-        return Result.success(userService.getMe(userId));
+        return Result.success(userService.getUserVo(userId));
     }
 
     @Operation(summary = "id反查username")
