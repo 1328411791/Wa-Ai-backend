@@ -14,6 +14,7 @@ import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
+import org.talang.wabackend.sd.SdDrawFinshHandle;
 import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.TaskService;
 
@@ -36,6 +37,9 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Autowired
     private SdImageService sdImageService;
+
+    @Autowired
+    private SdDrawFinshHandle sdDrawFinshHandle;
 
 
     //@Autowired
@@ -61,14 +65,13 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
             taskService.setFinishDrawStatus(taskId, imageId, imageParams);
 
+            sdDrawFinshHandle.drawFinishHandle(taskId);
         } catch (Exception e) {
             log.error("text2Image error", e);
         } finally {
             // 释放资源
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
-
-
     }
 
     @Async("threadPoolTaskExecutor")
