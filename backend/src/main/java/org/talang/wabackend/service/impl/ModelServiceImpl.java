@@ -78,7 +78,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
 
         queryWrapper.like(Model::getTitle, searchQuery);
 
-        modelPage.setOrders(List.of(OrderItem.asc("create_time")));
+        modelPage.setOrders(List.of(OrderItem.desc("create_time")));
         List<Model> models = this.page(modelPage, queryWrapper).getRecords();
         Long selectCount = this.count(queryWrapper);
 
