@@ -115,6 +115,16 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
 
         return Result.success(taskVos, taskPage.getTotal());
     }
+
+    @Override
+    public Result deleteTask(int userId, String taskId) {
+        Task task = getById(taskId);
+        if (task.getUserId().equals(userId)) {
+            removeById(taskId);
+            return Result.success("删除成功");
+        }
+        return Result.fail("无权限删除任务");
+    }
 }
 
 
