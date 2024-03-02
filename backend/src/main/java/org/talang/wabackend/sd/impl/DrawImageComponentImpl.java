@@ -61,9 +61,8 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
             String imageId = imageComponent.saveImage(decode, userId);
             sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
-            String imageParams = JSONUtil.toJsonStr(txt2ImgResult.getParameters());
 
-            taskService.setFinishDrawStatus(taskId, imageId, imageParams);
+            taskService.setFinishDrawStatus(taskId, imageId, "");
 
             sdDrawFinshHandle.drawFinishHandle(taskId);
         } catch (Exception e) {
