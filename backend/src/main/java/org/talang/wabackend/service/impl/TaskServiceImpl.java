@@ -53,14 +53,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     }
 
     @Override
-    public String setCreateStatus(Integer userId
-            , Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
+    public String setCreateStatus(Integer userId, ExtraImageOptions extraImageOptions) {
         Task task = new Task();
         String id = UUID.randomUUID().toString();
         task.setId(id);
         task.setUserId(userId);
         task.setStatus(0);
-        task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
         task.setPriority(0);
         task.setType("extraimage");
@@ -101,21 +99,29 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         Page<Task> taskPage = new Page<>(page, pageSize);
         LambdaQueryWrapper<Task> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Task::getUserId, userID);
-        taskPage.addOrder(OrderItem.asc("update_time"));
+        taskPage.addOrder(OrderItem.desc("update_time"));
         taskPage = page(taskPage, lambdaQueryWrapper);
 
         List<Task> tasks = taskPage.getRecords();
 
         List<ShowTaskVo> taskVos = tasks.stream().map(task -> {
             ShowTaskVo showTaskVo = BeanUtil.toBean(task, ShowTaskVo.class);
-            String saticImagePath = staticImageService.getSaticImagePathById(task.getImageId());
             String nickName = userService.getUserNickNameById(task.getUserId());
-            showTaskVo.setImageURL(saticImagePath);
             showTaskVo.setNickName(nickName);
             return showTaskVo;
         }).toList();
 
         return Result.success(taskVos, taskPage.getTotal());
+    }
+
+    @Override
+    public Result deleteTask(int userId, String taskId) {
+        Task task = getById(taskId);
+        if (task.getUserId().equals(userId)) {
+            removeById(taskId);
+            return Result.success("删除成功");
+        }
+        return Result.fail("无权限删除任务");
     }
 }
 

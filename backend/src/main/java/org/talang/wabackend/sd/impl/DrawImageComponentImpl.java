@@ -14,6 +14,8 @@ import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
+import org.talang.wabackend.sd.SdDrawFinshHandle;
+import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.TaskService;
 
 import java.util.Base64;
@@ -32,6 +34,12 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Autowired
     private MultiSdWebUiConnect multiSdWebUiConnect;
+
+    @Autowired
+    private SdImageService sdImageService;
+
+    @Autowired
+    private SdDrawFinshHandle sdDrawFinshHandle;
 
 
     //@Autowired
@@ -52,38 +60,34 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
             String imageId = imageComponent.saveImage(decode, userId);
+            sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
             String imageParams = JSONUtil.toJsonStr(txt2ImgResult.getParameters());
 
             taskService.setFinishDrawStatus(taskId, imageId, imageParams);
 
+            sdDrawFinshHandle.drawFinishHandle(taskId);
         } catch (Exception e) {
             log.error("text2Image error", e);
         } finally {
             // 释放资源
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
-
-
     }
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Integer userId, Txt2ImageOptions txt2ImageOptions
-            , ExtraImageOptions extraImageOptions) {
+    public void extraImage(String taskId, Integer userId, ExtraImageOptions extraImageOptions) {
         log.info("extraImage taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {
-            sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
-            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
-
-            extraImageOptions.setImage(txt2ImgResult.getImages().get(0));
-
             ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
             byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
 
             String imageId = imageComponent.saveImage(decode, userId);
+
+
             String imageParams = extraImageResult.getHtmlInfo();
 
             taskService.setFinishDrawStatus(taskId, imageId, imageParams);

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.ModelMapper;
 import org.talang.wabackend.model.generator.Model;
@@ -13,8 +14,11 @@ import org.talang.wabackend.model.vo.model.HomePageModelVo;
 import org.talang.wabackend.model.vo.model.SdModelVo;
 import org.talang.wabackend.model.vo.model.SelectSdModelVo;
 import org.talang.wabackend.service.*;
+import org.talang.wabackend.util.SdModelLikeComponent;
 
 import java.util.List;
+
+import static org.talang.wabackend.util.SdModelLikeComponent.SD_MODEL_LIKE;
 
 /**
  * @author lihan
@@ -32,7 +36,7 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
     private ModelLikesService modelLikesService;
 
     @Resource
-    private StaticImageService staticImageService;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private UserService userService;
@@ -56,7 +60,8 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
     }
 
     @Override
-    public SelectSdModelVo selectModelOrder(String searchQuery, String type, Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize) {
+    public SelectSdModelVo selectModelOrder(Integer userId, String searchQuery, String type
+            , Long startTimestamp, Long endTimestamp, Integer page, Integer pageSize) {
         Page<Model> modelPage = new Page<>(page, pageSize);
 
         LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<>();
@@ -73,13 +78,14 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
 
         queryWrapper.like(Model::getTitle, searchQuery);
 
-        modelPage.setOrders(List.of(OrderItem.asc("create_time")));
+        modelPage.setOrders(List.of(OrderItem.desc("create_time")));
         List<Model> models = this.page(modelPage, queryWrapper).getRecords();
         Long selectCount = this.count(queryWrapper);
 
         List<SdModelVo> sdModelVos = models.stream().map(model -> {
             SdModelVo sdModelVo = BeanUtil.toBean(model, SdModelVo.class);
             sdModelVo.setNickName(userService.getUserNickNameById(model.getAuthorId()));
+            sdModelVo.setIsLiked(isMember(userId, model.getId()));
             return sdModelVo;
         }).toList();
 
@@ -90,12 +96,30 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model>
         return selectSdModelVo;
     }
 
+    private boolean isMember(Integer userId, Integer modelId) {
+        String key = SD_MODEL_LIKE + modelId;
+        return stringRedisTemplate.opsForSet().isMember(key, String.valueOf(userId));
+    }
+
     @Override
-    public SdModelVo getSdModelVo(Integer id) {
+    public SdModelVo getSdModelVo(Integer userId, Integer id) {
         Model model = this.getById(id);
+        if (model == null) {
+            throw new RuntimeException("不存在Sd模型");
+        }
         SdModelVo sdModelVo = BeanUtil.toBean(model, SdModelVo.class);
+        sdModelVo.setUserId(model.getAuthorId());
         sdModelVo.setNickName(userService.getUserNickNameById(model.getAuthorId()));
+        sdModelVo.setIsLiked(isMember(userId, model.getId()));
         return sdModelVo;
+    }
+
+    @Override
+    public Integer getModelIdByModelName(String modelName) {
+        LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Model::getTitle, modelName);
+        Model model = this.getOne(queryWrapper);
+        return model.getId();
     }
 }
 

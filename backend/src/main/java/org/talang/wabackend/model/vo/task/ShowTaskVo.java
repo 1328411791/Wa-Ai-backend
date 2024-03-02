@@ -34,7 +34,7 @@ public class ShowTaskVo {
     /**
      *
      */
-    private String imageURL;
+    private String imageId;
     /**
      *
      */

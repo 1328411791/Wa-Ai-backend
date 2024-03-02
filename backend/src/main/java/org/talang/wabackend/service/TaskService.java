@@ -16,7 +16,7 @@ public interface TaskService extends IService<Task> {
     String setCreateStatus(Integer userId, Txt2ImageOptions txt2ImageOptions);
 
     public String setCreateStatus(Integer userId
-            , Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions);
+            , ExtraImageOptions extraImageOptions);
 
     void setStartDrawStatus(String taskId);
 
@@ -27,4 +27,6 @@ public interface TaskService extends IService<Task> {
     String startDrawRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions);
 
     Result getTaskByUser(int userID, Integer page, Integer pageSize);
+
+    Result deleteTask(int userId, String taskId);
 }

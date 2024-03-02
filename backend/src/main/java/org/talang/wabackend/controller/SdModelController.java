@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -47,7 +48,12 @@ public class SdModelController {
                                   @RequestParam Integer page,
                                   @RequestParam Integer pageSize) {
 
-        SelectSdModelVo sdModel = modelService.selectModelOrder(
+        int userId = 0;
+        if (StpUtil.isLogin()){
+            userId = StpUtil.getLoginIdAsInt();
+        }
+
+        SelectSdModelVo sdModel = modelService.selectModelOrder(userId,
                 searchQuery,
                 type,
                 startTimestamp,
@@ -61,7 +67,11 @@ public class SdModelController {
     @Operation(summary = "获取模型详情", description = "获取模型详情")
     @GetMapping("/getSdModelById")
     public Result getSdModelById(@RequestParam Integer id) {
-        SdModelVo model = modelService.getSdModelVo(id);
+        int userId = 0;
+        if (StpUtil.isLogin()){
+            userId = StpUtil.getLoginIdAsInt();
+        }
+        SdModelVo model = modelService.getSdModelVo(userId,id);
         return Result.success(model);
     }
 
