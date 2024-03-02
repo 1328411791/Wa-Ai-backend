@@ -14,6 +14,5 @@ public interface DrawImageComponent {
     void text2Image(String taskId, Integer user_Id, Txt2ImageOptions options);
 
 
-    void extraImage(String taskId, Integer user_Id, Txt2ImageOptions txt2ImageOptions,
-                    ExtraImageOptions extraImageOptions);
+    void extraImage(String taskId, Integer user_Id, ExtraImageOptions extraImageOptions);
 }

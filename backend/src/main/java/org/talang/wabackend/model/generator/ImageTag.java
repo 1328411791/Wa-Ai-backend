@@ -1,6 +1,7 @@
 package org.talang.wabackend.model.generator;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class ImageTag implements Serializable {
     /**
      *
      */
-    @TableField(value = "id")
+    @TableId(value = "id")
     private Integer id;
     /**
      *

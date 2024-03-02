@@ -16,7 +16,7 @@ public interface TaskService extends IService<Task> {
     String setCreateStatus(Integer userId, Txt2ImageOptions txt2ImageOptions);
 
     public String setCreateStatus(Integer userId
-            , Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions);
+            , ExtraImageOptions extraImageOptions);
 
     void setStartDrawStatus(String taskId);
 
