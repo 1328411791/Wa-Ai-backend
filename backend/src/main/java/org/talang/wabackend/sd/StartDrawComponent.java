@@ -27,11 +27,11 @@ public class StartDrawComponent {
     }
 
 
-    public String startExtraImageRequest(int userId, Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
-        String taskId = taskService.setCreateStatus(userId, txt2ImageOptions, extraImageOptions);
+    public String startExtraImageRequest(int userId, ExtraImageOptions extraImageOptions) {
+        String taskId = taskService.setCreateStatus(userId, extraImageOptions);
         log.info("startExtraImageRequest taskId:{}", taskId);
         // 异步执行
-        drawImageComponent.extraImage(taskId, userId, txt2ImageOptions, extraImageOptions);
+        drawImageComponent.extraImage(taskId, userId, extraImageOptions);
 
         return taskId;
     }

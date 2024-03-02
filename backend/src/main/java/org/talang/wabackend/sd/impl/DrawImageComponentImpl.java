@@ -76,17 +76,11 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Integer userId, Txt2ImageOptions txt2ImageOptions
-            , ExtraImageOptions extraImageOptions) {
+    public void extraImage(String taskId, Integer userId, ExtraImageOptions extraImageOptions) {
         log.info("extraImage taskId:{}", taskId);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {
-            sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
-            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
-
-            extraImageOptions.setImage(txt2ImgResult.getImages().get(0));
-
             ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
             byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());

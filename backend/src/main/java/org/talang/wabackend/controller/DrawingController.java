@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.sd.ExtraImageDto;
@@ -31,10 +32,9 @@ public class DrawingController {
 
     @Operation(description = "超分图片接口")
     @PostMapping("/extraImage")
-    public Result extraImage(@RequestBody ExtraImageDto extraImageDto) {
+    public Result extraImage(@RequestBody ExtraImageOptions extraImageOptions) {
         int userId = StpUtil.getLoginIdAsInt();
-        String taskId = startDrawComponent.startExtraImageRequest(userId, extraImageDto.getTxt2ImageOptions()
-                , extraImageDto.getExtraImageOptions());
+        String taskId = startDrawComponent.startExtraImageRequest(userId,extraImageOptions);
         return Result.success(taskId);
     }
 }

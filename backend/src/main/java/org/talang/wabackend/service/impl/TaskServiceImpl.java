@@ -53,14 +53,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     }
 
     @Override
-    public String setCreateStatus(Integer userId
-            , Txt2ImageOptions txt2ImageOptions, ExtraImageOptions extraImageOptions) {
+    public String setCreateStatus(Integer userId, ExtraImageOptions extraImageOptions) {
         Task task = new Task();
         String id = UUID.randomUUID().toString();
         task.setId(id);
         task.setUserId(userId);
         task.setStatus(0);
-        task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
         task.setPriority(0);
         task.setType("extraimage");
