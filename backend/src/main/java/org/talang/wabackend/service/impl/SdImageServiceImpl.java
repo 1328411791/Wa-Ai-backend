@@ -3,6 +3,9 @@ package org.talang.wabackend.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.talang.sdk.models.results.Txt2ImgResult;
@@ -44,12 +47,48 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
         SdImage sdImage = new SdImage();
         sdImage.setId(imageId);
         sdImage.setUserId(userId);
-        sdImage.setParams(JSONUtil.toJsonStr(txt2ImgResult.getParameters()));
+
+        String imageInfo = txt2ImgResult.getInfo();
+        String imageParams = "";
+
+        // 处理 imageInfo
+        try {
+            // 将 imageInfo 字符串解析为对象
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(imageInfo);
+
+            // 创建一个新的 ObjectNode 用于存储过滤后的键值对
+            ObjectNode filteredNode = mapper.createObjectNode();
+
+            // 遍历原对象
+            jsonNode.fields().forEachRemaining(entry -> {
+                String key = entry.getKey();
+                if (!(
+                        key.startsWith("all_") ||
+                                key.equals("infotexts") ||
+                                key.equals("styles")    ||
+                                key.equals("is_using_inpainting_conditioning")    ||
+                                key.equals("index_of_first_image")
+                )) {
+                    filteredNode.set(key, entry.getValue());
+                }
+            });
+
+            imageParams = filteredNode.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        sdImage.setParams(imageParams);
+
         String modelName = txt2ImgResult.getParameters()
                 .getOverrideSettings().get("sd_model_checkpoint").toString();
         String vaeModelName = txt2ImgResult.getParameters()
                 .getOverrideSettings().get("sd_vae").toString();
+
         sdImage.setStaticImageId(imageId);
+
         sdImage.setCheckpointModelId(modelService.getModelIdByModelName(modelName));
         sdImage.setVaeModelId(modelService.getModelIdByModelName(vaeModelName));
 
