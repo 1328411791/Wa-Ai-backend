@@ -33,6 +33,23 @@ public interface PostingMapper {
             " update_time updateTime, sd_images images, body from sd_postings where id = #{id}")
     PostingVoFull getPostingById(Integer id);
 
+    //收藏帖子
+    @Insert("insert into sd_postings_favorite (user_id,postings)" +
+            "values (#{userId},#{postings})")
+    void addFavoritePosting(Integer userId, String postings);
+
+    //更新收藏帖子
+    @Update("update sd_postings_favorite set postings=#{postings} where user_id=#{userId}")
+    void updatePostingFavorite(Integer userId, String postings);
+
+    //搜索已收藏帖子
+    @Select("select postings from sd_postings_favorite where user_id=#{userId}")
+    String getFavoritePosting(Integer userId);
+
+    //收藏帖子时的数据同步
+    @Update("update sd_postings set favorite=favorite+1 where id=#{postingId}")
+    void updateFavoriteOfPosting(Integer postingId);
+
     //创建帖子和评论时的数据同步
     @Update("update sd_postings set comment_id=#{commentId} where id=#{postingId}")
     void updateCommentOfPosting(Integer postingId, Integer commentId);
@@ -42,4 +59,5 @@ public interface PostingMapper {
     @Insert("insert into sd_postings_comment (posting_id) values (#{postingId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createComment(Comment comment);
+
 }

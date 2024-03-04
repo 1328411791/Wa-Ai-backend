@@ -17,12 +17,12 @@ import org.talang.wabackend.service.PostingService;
 import java.util.*;
 
 @Service
+@Transactional
 public class PostingServiceimpl implements PostingService {
     @Autowired
     private PostingMapper postingMapper;
 
     @Override
-    @Transactional
     public void createPosting(CreatePostingDto createPostingDto) {
         Posting posting = new Posting();
         BeanUtils.copyProperties(createPostingDto, posting);
@@ -40,7 +40,6 @@ public class PostingServiceimpl implements PostingService {
     }
 
     @Override
-    @Transactional
     public void deletePosting(List<Integer> posting) {
         List<Integer> commentIdList = postingMapper.getDeletePostingCommentId(posting);
         postingMapper.deletePosting(posting);
@@ -63,5 +62,24 @@ public class PostingServiceimpl implements PostingService {
     @Override
     public PostingVoFull getPostingById(Integer postingId) {
         return postingMapper.getPostingById(postingId);
+    }
+
+    @Override
+    public void addFavoritePosting(Integer postingId) {
+        Integer userId = StpUtil.getLoginIdAsInt();
+        String pid = postingId.toString();
+        String postings = postingMapper.getFavoritePosting(userId);
+        if (postings == null) {
+            postingMapper.addFavoritePosting(userId, pid);
+        } else {
+            for (String s : postings.split(",")) {
+                if (s.equals(pid)) {
+                    return;
+                }
+            }
+            postings = postings + "," + postingId;
+            postingMapper.updatePostingFavorite(userId, postings);
+        }
+        postingMapper.updateFavoriteOfPosting(postingId);
     }
 }

@@ -48,4 +48,10 @@ public class PostingController {
         return Result.success(postingService.getPostingById(id));
     }
 
+    @Operation(summary = "收藏帖子", description = "任务相关接口")
+    @GetMapping("/post/addFavorite/{id}")
+    public Result addFavoritePosting(@PathVariable Integer id) {
+        postingService.addFavoritePosting(id);
+        return Result.success();
+    }
 }

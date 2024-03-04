@@ -18,4 +18,6 @@ public interface PostingService {
     List<PostingVoLite> getPostingByuser(Integer userId);
 
     PostingVoFull getPostingById(Integer postingId);
+
+    void addFavoritePosting(Integer postingId);
 }
