@@ -40,8 +40,11 @@ public class PostingServiceimpl implements PostingService {
     }
 
     @Override
+    @Transactional
     public void deletePosting(List<Integer> posting) {
+        List<Integer> commentIdList = postingMapper.getDeletePostingCommentId(posting);
         postingMapper.deletePosting(posting);
+        postingMapper.deletePostingComment(commentIdList);
     }
 
     @Override

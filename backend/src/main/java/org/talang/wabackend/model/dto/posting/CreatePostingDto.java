@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreatePostingDto {
     private String title;
     private String[] imagesArray;
+    private String body;
 }

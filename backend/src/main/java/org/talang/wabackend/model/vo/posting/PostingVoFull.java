@@ -1,6 +1,5 @@
 package org.talang.wabackend.model.vo.posting;
 
-import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,4 +15,5 @@ public class PostingVoFull {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private String images;
+    private String body;
 }

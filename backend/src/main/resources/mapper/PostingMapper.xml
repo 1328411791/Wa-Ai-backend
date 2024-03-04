@@ -10,6 +10,22 @@
         <foreach collection="posting" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
+    </delete>
 
+    <select id="getDeletePostingCommentId" resultType="java.lang.Integer">
+        select comment_id from sd_postings
+        where id in
+        <foreach collection="postingId" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="deletePostingComment">
+        delete
+        from sd_postings_comment
+        where id in
+        <foreach collection="commentId" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </delete>
 </mapper>

@@ -11,4 +11,5 @@ public class Posting {
     private int favorite;
     private int commentId;
     private int commentNumber;
+    private String body;
 }
