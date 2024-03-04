@@ -54,10 +54,8 @@ public interface PostingMapper {
     @Update("update sd_postings set comment_id=#{commentId} where id=#{postingId}")
     void updateCommentOfPosting(Integer postingId, Integer commentId);
 
-
     //创建评论
     @Insert("insert into sd_postings_comment (posting_id) values (#{postingId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createComment(Comment comment);
-
 }

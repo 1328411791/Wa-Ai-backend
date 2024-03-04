@@ -10,6 +10,7 @@
         <foreach collection="posting" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
+
     </delete>
 
     <select id="getDeletePostingCommentId" resultType="java.lang.Integer">
