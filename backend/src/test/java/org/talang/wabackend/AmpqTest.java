@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AmpqTest {
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private AmqpTemplate amqpTemplate;
 
     @Test
     public void ampqTest() {
         log.info("ampqTest");
-        rabbitTemplate.convertSendAndReceive("test", "test");
+        amqpTemplate.convertSendAndReceive("test", "test");
     }
 }

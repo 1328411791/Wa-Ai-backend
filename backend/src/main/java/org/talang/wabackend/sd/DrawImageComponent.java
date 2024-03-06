@@ -1,8 +1,5 @@
 package org.talang.wabackend.sd;
 
-import org.talang.sdk.models.options.ExtraImageOptions;
-import org.talang.sdk.models.options.Txt2ImageOptions;
-
 
 public interface DrawImageComponent {
 
@@ -11,8 +8,8 @@ public interface DrawImageComponent {
      * @param options 画图参数
      * @return 画图地址
      */
-    void text2Image(String taskId, Integer user_Id, Txt2ImageOptions options);
+    void text2Image(String taskId, Integer user_Id, String options);
 
 
-    void extraImage(String taskId, Integer user_Id, ExtraImageOptions extraImageOptions);
+    void extraImage(String taskId, Integer user_Id, String extraImageOptions);
 }

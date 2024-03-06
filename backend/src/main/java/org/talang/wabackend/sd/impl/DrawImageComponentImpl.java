@@ -45,17 +45,17 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     //@Autowired
     //private SdWebui sdWebui;
 
-
     @Async("threadPoolTaskExecutor")
     @Override
-    public void text2Image(String taskId, Integer userId, Txt2ImageOptions options) {
+    public void text2Image(String taskId, Integer userId, String options) {
         log.info("text2Image taskId:{}", taskId);
+        Txt2ImageOptions txt2ImageOptions = JSONUtil.toBean(options, Txt2ImageOptions.class);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {
             sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
 
-            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(options);
+            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
 
             byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
@@ -75,8 +75,9 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Integer userId, ExtraImageOptions extraImageOptions) {
+    public void extraImage(String taskId, Integer userId, String options) {
         log.info("extraImage taskId:{}", taskId);
+        ExtraImageOptions extraImageOptions = JSONUtil.toBean(options, ExtraImageOptions.class);
         taskService.setStartDrawStatus(taskId);
         SdWebui sdWebui = null;
         try {

@@ -29,8 +29,8 @@ spring:
         host: 47.113.179.249
         port: 5672
         username: admin
-        password: u8ltKw3NxF
-        virtual-host: bthost
+        password: admin
+        virtual-host: /
 
 springdoc:
     swagger-ui:
