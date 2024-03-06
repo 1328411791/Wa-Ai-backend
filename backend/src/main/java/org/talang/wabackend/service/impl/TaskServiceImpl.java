@@ -46,7 +46,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         task.setStatus(0);
         task.setUserId(userId);
         task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
-        task.setPriority(0);
+        task.setPriority(5);
         task.setType("txt2image");
         this.save(task);
         return id;
@@ -60,7 +60,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         task.setUserId(userId);
         task.setStatus(0);
         task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
-        task.setPriority(0);
+        task.setPriority(5);
         task.setType("extraimage");
         this.save(task);
 
@@ -121,6 +121,13 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
             return Result.success("删除成功");
         }
         return Result.fail("无权限删除任务");
+    }
+
+    @Override
+    public void setFailStatus(String taskId) {
+        Task task = getById(taskId);
+        task.setStatus(3);
+        updateById(task);
     }
 }
 
