@@ -122,6 +122,13 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         }
         return Result.fail("无权限删除任务");
     }
+
+    @Override
+    public void setFailStatus(String taskId) {
+        Task task = getById(taskId);
+        task.setStatus(3);
+        updateById(task);
+    }
 }
 
 

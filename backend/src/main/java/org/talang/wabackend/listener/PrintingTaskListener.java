@@ -32,9 +32,10 @@ public class PrintingTaskListener {
     @RabbitListener(queues = "PrintingTaskQueue",autoStartup = "true")
     public void onMessage(String message) {
         SdWebui sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
+        TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);
         try {
             log.info("PrintingTaskListener: " + message);
-            TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);
+
             Task task = taskService.getById(taskMessage.getTaskId());
 
             switch (taskMessage.getTaskType()) {
@@ -49,6 +50,7 @@ public class PrintingTaskListener {
             }
         }catch (Exception e){
             log.error("Error: ", e);
+            taskService.setFailStatus(taskMessage.getTaskId());
         }finally {
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }

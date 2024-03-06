@@ -77,9 +77,6 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
             String imageId = imageComponent.saveImage(decode, userId);
 
-
-            String imageParams = extraImageResult.getHtmlInfo();
-
             taskService.setFinishDrawStatus(taskId, imageId);
         } catch (Exception e) {
             log.error("extraImage error", e);

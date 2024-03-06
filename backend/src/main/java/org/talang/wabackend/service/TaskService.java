@@ -29,4 +29,6 @@ public interface TaskService extends IService<Task> {
     Result getTaskByUser(int userID, Integer page, Integer pageSize);
 
     Result deleteTask(int userId, String taskId);
+
+    void setFailStatus(String taskId);
 }
