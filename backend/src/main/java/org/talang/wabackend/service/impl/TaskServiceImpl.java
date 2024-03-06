@@ -46,7 +46,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         task.setStatus(0);
         task.setUserId(userId);
         task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
-        task.setPriority(0);
+        task.setPriority(5);
         task.setType("txt2image");
         this.save(task);
         return id;
