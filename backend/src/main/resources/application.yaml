@@ -25,6 +25,12 @@ spring:
                     max-idle: 10
                     # 连接池中的最小空闲连接
                     min-idle: 0
+    rabbitmq:
+        host: 47.113.179.249
+        port: 5672
+        username: admin
+        password: admin
+        virtual-host: /
 
 springdoc:
     swagger-ui:
