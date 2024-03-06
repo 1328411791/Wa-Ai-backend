@@ -31,10 +31,6 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     @Resource
     private TaskService taskService;
 
-
-    @Autowired
-    private MultiSdWebUiConnect multiSdWebUiConnect;
-
     @Autowired
     private SdImageService sdImageService;
 
@@ -47,13 +43,11 @@ public class DrawImageComponentImpl implements DrawImageComponent {
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void text2Image(String taskId, Integer userId, String options) {
+    public void text2Image(String taskId, Integer userId, String options ,SdWebui sdWebui) {
         log.info("text2Image taskId:{}", taskId);
         Txt2ImageOptions txt2ImageOptions = JSONUtil.toBean(options, Txt2ImageOptions.class);
         taskService.setStartDrawStatus(taskId);
-        SdWebui sdWebui = null;
         try {
-            sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
 
             Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
 
@@ -67,19 +61,15 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             sdDrawFinshHandle.drawFinishHandle(taskId);
         } catch (Exception e) {
             log.error("text2Image error", e);
-        } finally {
-            // 释放资源
-            multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
     }
 
     @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Integer userId, String options) {
+    public void extraImage(String taskId, Integer userId, String options,SdWebui sdWebui) {
         log.info("extraImage taskId:{}", taskId);
         ExtraImageOptions extraImageOptions = JSONUtil.toBean(options, ExtraImageOptions.class);
         taskService.setStartDrawStatus(taskId);
-        SdWebui sdWebui = null;
         try {
             ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
@@ -93,9 +83,6 @@ public class DrawImageComponentImpl implements DrawImageComponent {
             taskService.setFinishDrawStatus(taskId, imageId);
         } catch (Exception e) {
             log.error("extraImage error", e);
-        } finally {
-            // 释放资源
-            multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
     }
 }

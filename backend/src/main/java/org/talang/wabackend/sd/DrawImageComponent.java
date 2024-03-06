@@ -1,6 +1,8 @@
 package org.talang.wabackend.sd;
 
 
+import org.talang.sdk.SdWebui;
+
 public interface DrawImageComponent {
 
     /*
@@ -8,8 +10,8 @@ public interface DrawImageComponent {
      * @param options 画图参数
      * @return 画图地址
      */
-    void text2Image(String taskId, Integer user_Id, String options);
+    void text2Image(String taskId, Integer user_Id, String options, SdWebui sdWebui);
 
 
-    void extraImage(String taskId, Integer user_Id, String extraImageOptions);
+    void extraImage(String taskId, Integer user_Id, String extraImageOptions, SdWebui sdWebui);
 }
