@@ -92,12 +92,16 @@ public class AccountController {
             return Result.fail("密码不能为空");
         }
 
-        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
-            return Result.fail("两次密码不一致");
+        if (StrUtil.isEmpty(registerDto.getRePassword())) {
+            return Result.fail("确认密码不能为空");
         }
 
-        if (userService.getByUserName(registerDto.getUserName()) != null) {
-            return Result.fail("用户名已存在");
+        if (StrUtil.isEmpty(registerDto.getEmailCode())) {
+            return Result.fail("邮箱验证码不能为空");
+        }
+
+        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
+            return Result.fail("两次密码不一致");
         }
 
         userService.register(registerDto);
@@ -129,7 +133,7 @@ public class AccountController {
     @PostMapping("/sendRegisterMail")
     @Operation(summary = "发送注册验证码")
     public Result sendRegisterMail(@RequestParam String email) {
-        if (email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+        if (!email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
             return Result.fail("邮箱格式错误");
         }
         boolean b = mailComponent.sendRegisterMail(email);
