@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-jackson</artifactId>
+            <artifactId>sa-token-redisson-jackson2</artifactId>
             <version>1.37.0</version>
         </dependency>
         <dependency>
