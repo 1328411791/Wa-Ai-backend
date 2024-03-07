@@ -54,6 +54,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public boolean register(RegisterDto registerDto) {
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserName, registerDto.getUserName());
+        if (this.getOne(wrapper) != null) {
+            throw new RuntimeException("用户名已存在");
+        }
+        wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getEmail, registerDto.getEmail());
+        if (this.getOne(wrapper) != null) {
+            throw new RuntimeException("邮箱已存在");
+        }
         User user = new User();
         user.setUserName(registerDto.getUserName());
         user.setPassword(registerDto.getPassword());
