@@ -12,6 +12,7 @@ import org.talang.wabackend.model.dto.user.LoginDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.service.UserService;
+import org.talang.wabackend.util.MailComponent;
 
 @RestController
 @RequestMapping("/account")
@@ -20,6 +21,9 @@ public class AccountController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailComponent mailComponent;
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
@@ -88,12 +92,16 @@ public class AccountController {
             return Result.fail("密码不能为空");
         }
 
-        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
-            return Result.fail("两次密码不一致");
+        if (StrUtil.isEmpty(registerDto.getRePassword())) {
+            return Result.fail("确认密码不能为空");
         }
 
-        if (userService.getByUserName(registerDto.getUserName()) != null) {
-            return Result.fail("用户名已存在");
+        if (StrUtil.isEmpty(registerDto.getEmailCode())) {
+            return Result.fail("邮箱验证码不能为空");
+        }
+
+        if (!registerDto.getPassword().equals(registerDto.getRePassword())) {
+            return Result.fail("两次密码不一致");
         }
 
         userService.register(registerDto);
@@ -104,11 +112,16 @@ public class AccountController {
     @PostMapping("/forgetPassword")
     @Operation(summary = "忘记密码")
     public Result forgetPassword(@RequestBody ForgetPasswordDto forgetPasswordDto) {
-        if (StrUtil.isEmpty(forgetPasswordDto.getUserName())) {
-            return Result.fail("用户名不能为空");
-        }
         if (StrUtil.isEmpty(forgetPasswordDto.getEmail())) {
             return Result.fail("邮箱不能为空");
+        }
+
+        if (StrUtil.isEmpty(forgetPasswordDto.getEmailCode())) {
+            return Result.fail("验证码不能为空");
+        }
+
+        if (!forgetPasswordDto.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            return Result.fail("邮箱格式错误");
         }
 
         User user = userService.forgetPassword(forgetPasswordDto);
@@ -120,5 +133,30 @@ public class AccountController {
     @Operation(summary = "是否登录")
     public Result isLogin() {
         return Result.success(StpUtil.isLogin());
+    }
+
+    @PostMapping("/sendRegisterMail")
+    @Operation(summary = "发送邮箱验证码",description = "type: register, forgetPassword")
+    public Result sendRegisterMail(@RequestParam String email, @RequestParam String type) {
+        if (!email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            return Result.fail("邮箱格式错误");
+        }
+        boolean b = false;
+        switch (type) {
+            case "register":
+                b = mailComponent.sendRegisterMail(email);
+                break;
+            case "forgetPassword":
+                b = mailComponent.sendForgetMail(email);
+                break;
+            default:
+                return Result.fail("类型错误");
+        }
+
+        if (!b) {
+            return Result.fail("发送失败，1分钟后再试");
+        }else {
+            return Result.success("发送成功");
+        }
     }
 }
