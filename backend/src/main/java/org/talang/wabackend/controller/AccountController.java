@@ -12,6 +12,7 @@ import org.talang.wabackend.model.dto.user.LoginDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.service.UserService;
+import org.talang.wabackend.util.MailComponent;
 
 @RestController
 @RequestMapping("/account")
@@ -20,6 +21,9 @@ public class AccountController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailComponent mailComponent;
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
@@ -120,5 +124,19 @@ public class AccountController {
     @Operation(summary = "是否登录")
     public Result isLogin() {
         return Result.success(StpUtil.isLogin());
+    }
+
+    @PostMapping("/sendRegisterMail")
+    @Operation(summary = "发送注册验证码")
+    public Result sendRegisterMail(@RequestParam String email) {
+        if (email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            return Result.fail("邮箱格式错误");
+        }
+        boolean b = mailComponent.sendRegisterMail(email);
+        if (!b) {
+            return Result.fail("发送失败，1分钟后再试");
+        }else {
+            return Result.success("发送成功");
+        }
     }
 }
