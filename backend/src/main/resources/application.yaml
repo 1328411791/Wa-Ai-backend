@@ -7,6 +7,12 @@ spring:
         url: jdbc:mysql://47.113.179.249:3306/wa
         username: wa
         password: MxJNtPDGF43bzMiR
+    mail:
+        host: smtp.qq.com
+        username: 1328411791@qq.com
+        password: xavwevddtzsshjdf
+        port: 465
+        protocol: smtps
     data:
         redis:
             database: 2
