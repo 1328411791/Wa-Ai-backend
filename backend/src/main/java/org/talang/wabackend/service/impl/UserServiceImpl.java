@@ -91,9 +91,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getEmail, forgetPasswordDto.getEmail());
-        wrapper.eq(User::getUserName, forgetPasswordDto.getUserName());
         User user = this.getOne(wrapper);
-        // TODO: 待完善
+
+        if (user == null) {
+            throw new RuntimeException("邮箱不存在");
+        }
+
+        String key = MailComponent.FORGET_MAIL_PREFIX + forgetPasswordDto.getEmail();
+        String code = stringRedisTemplate.opsForValue().getAndDelete(key);
+        if (code == null || !code.equals(forgetPasswordDto.getEmailCode())) {
+            throw new RuntimeException("验证码错误, 请重新获取验证码");
+        }
+
         return user;
     }
 

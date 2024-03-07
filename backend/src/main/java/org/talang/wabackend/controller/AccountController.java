@@ -112,11 +112,16 @@ public class AccountController {
     @PostMapping("/forgetPassword")
     @Operation(summary = "忘记密码")
     public Result forgetPassword(@RequestBody ForgetPasswordDto forgetPasswordDto) {
-        if (StrUtil.isEmpty(forgetPasswordDto.getUserName())) {
-            return Result.fail("用户名不能为空");
-        }
         if (StrUtil.isEmpty(forgetPasswordDto.getEmail())) {
             return Result.fail("邮箱不能为空");
+        }
+
+        if (StrUtil.isEmpty(forgetPasswordDto.getEmailCode())) {
+            return Result.fail("验证码不能为空");
+        }
+
+        if (!forgetPasswordDto.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            return Result.fail("邮箱格式错误");
         }
 
         User user = userService.forgetPassword(forgetPasswordDto);
@@ -131,12 +136,23 @@ public class AccountController {
     }
 
     @PostMapping("/sendRegisterMail")
-    @Operation(summary = "发送注册验证码")
-    public Result sendRegisterMail(@RequestParam String email) {
+    @Operation(summary = "发送邮箱验证码",description = "type: register, forgetPassword")
+    public Result sendRegisterMail(@RequestParam String email, @RequestParam String type) {
         if (!email.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
             return Result.fail("邮箱格式错误");
         }
-        boolean b = mailComponent.sendRegisterMail(email);
+        boolean b = false;
+        switch (type) {
+            case "register":
+                b = mailComponent.sendRegisterMail(email);
+                break;
+            case "forgetPassword":
+                b = mailComponent.sendForgetMail(email);
+                break;
+            default:
+                return Result.fail("类型错误");
+        }
+
         if (!b) {
             return Result.fail("发送失败，1分钟后再试");
         }else {
