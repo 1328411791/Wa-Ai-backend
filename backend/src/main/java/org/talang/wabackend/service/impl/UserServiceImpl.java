@@ -103,6 +103,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new RuntimeException("验证码错误, 请重新获取验证码");
         }
 
+        user.setPassword(forgetPasswordDto.getPassword());
+        this.updateById(user);
+
         return user;
     }
 
