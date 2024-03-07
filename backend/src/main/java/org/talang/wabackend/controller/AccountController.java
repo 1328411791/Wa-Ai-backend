@@ -1,9 +1,13 @@
 package org.talang.wabackend.controller;
 
+import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.session.SaSessionCustomUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.catalina.manager.util.SessionUtils;
+import org.redisson.Redisson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
@@ -11,6 +15,7 @@ import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.LoginDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
+import org.talang.wabackend.model.vo.user.UserVo;
 import org.talang.wabackend.service.UserService;
 import org.talang.wabackend.util.MailComponent;
 
@@ -66,14 +71,15 @@ public class AccountController {
     @GetMapping("/me")
     public Result info() {
         Integer userId = StpUtil.getLoginIdAsInt();
-        return Result.success(userService.getUserVo(userId));
+        UserVo userVo = userService.getUserVo(userId);
+        SaSession sessionById = SaSessionCustomUtil.getSessionById("user:"+ userId);
+        sessionById.set("user:"+ userId, userVo);
+        return Result.success(userVo);
     }
 
     @Operation(summary = "id反查username")
     @GetMapping("/getUsernameById")
-    public Result username(
-            @RequestParam Integer userId
-    ) {
+    public Result username(@RequestParam Integer userId) {
         return Result.success(userService.getUsernameById(userId));
     }
 
