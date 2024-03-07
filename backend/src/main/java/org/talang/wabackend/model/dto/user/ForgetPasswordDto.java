@@ -8,4 +8,8 @@ public class ForgetPasswordDto {
     private String email;
 
     private String emailCode;
+
+    private String password;
+
+    private String rePassword;
 }
