@@ -3,6 +3,8 @@ package org.talang.wabackend.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
@@ -11,6 +13,7 @@ import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
 import org.talang.wabackend.service.UserService;
+import org.talang.wabackend.util.MailComponent;
 
 /**
  * @author lihan
@@ -20,6 +23,9 @@ import org.talang.wabackend.service.UserService;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         implements UserService {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public Integer loginByUserName(String userName, String password) {
@@ -65,6 +71,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (this.getOne(wrapper) != null) {
             throw new RuntimeException("邮箱已存在");
         }
+
+        String key = MailComponent.REGISTER_MAIL_PREFIX + registerDto.getEmail();
+        String code = stringRedisTemplate.opsForValue().getAndDelete(key);
+        if (code == null || !code.equals(registerDto.getEmailCode())) {
+            throw new RuntimeException("验证码错误, 请重新获取验证码");
+        }
+
         User user = new User();
         user.setUserName(registerDto.getUserName());
         user.setPassword(registerDto.getPassword());
@@ -78,9 +91,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getEmail, forgetPasswordDto.getEmail());
-        wrapper.eq(User::getUserName, forgetPasswordDto.getUserName());
         User user = this.getOne(wrapper);
-        // TODO: 待完善
+
+        if (user == null) {
+            throw new RuntimeException("邮箱不存在");
+        }
+
+        String key = MailComponent.FORGET_MAIL_PREFIX + forgetPasswordDto.getEmail();
+        String code = stringRedisTemplate.opsForValue().getAndDelete(key);
+        if (code == null || !code.equals(forgetPasswordDto.getEmailCode())) {
+            throw new RuntimeException("验证码错误, 请重新获取验证码");
+        }
+
         return user;
     }
 

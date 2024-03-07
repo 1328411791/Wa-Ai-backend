@@ -5,18 +5,17 @@ import lombok.Data;
 
 @Data
 public class RegisterDto {
-    @TableField(value = "user_name")
+
     private String userName;
 
-    @TableField(value = "nick_name")
     private String nickName;
 
-    @TableField(value = "email")
     private String email;
 
-    @TableField(value = "password")
+    private String emailCode;
+
     private String password;
 
-    @TableField(value = "password")
     private String rePassword;
+
 }
