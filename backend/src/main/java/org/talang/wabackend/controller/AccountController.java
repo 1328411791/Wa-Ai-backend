@@ -122,26 +122,6 @@ public class AccountController {
             return Result.fail("邮箱不能为空");
         }
 
-        if (StrUtil.isEmpty(forgetPasswordDto.getEmailCode())) {
-            return Result.fail("验证码不能为空");
-        }
-
-        if (StrUtil.isEmpty(forgetPasswordDto.getPassword())) {
-            return Result.fail("密码不能为空");
-        }
-
-        if (StrUtil.isEmpty(forgetPasswordDto.getRePassword())) {
-            return Result.fail("确认密码不能为空");
-        }
-
-        if (!forgetPasswordDto.getPassword().equals(forgetPasswordDto.getRePassword())) {
-            return Result.fail("两次密码不一致");
-        }
-
-        if (!forgetPasswordDto.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
-            return Result.fail("邮箱格式错误");
-        }
-
         User user = userService.forgetPassword(forgetPasswordDto);
 
         return Result.success(user.getPassword());
