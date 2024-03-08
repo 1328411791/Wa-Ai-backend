@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * 子回复Vo类
  */
@@ -29,4 +31,5 @@ public class ToCommentVo {
     private String commentUserName;
     //被回复者名称
     private String toCommentUserName;
+    private Date createTime;
 }

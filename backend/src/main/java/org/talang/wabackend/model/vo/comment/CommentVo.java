@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +30,5 @@ public class CommentVo {
     private List<ToCommentVo> reply;
     // 子回复数量
     private Integer numReply;
+    private Date createTime;
 }
