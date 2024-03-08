@@ -10,6 +10,7 @@ import org.talang.wabackend.model.dto.post.PostDto;
 import org.talang.wabackend.service.PostFavoriteSevice;
 import org.talang.wabackend.service.PostLikesService;
 import org.talang.wabackend.service.PostService;
+import org.talang.wabackend.util.PostLikeComponent;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class PostController {
 
     @Autowired
     private PostLikesService postLikesService;
+
+    @Autowired
+    private PostLikeComponent postLikeComponent;
 
     @Operation(summary = "创建帖子", description = "任务相关接口")
     @PostMapping("/create")
@@ -64,6 +68,7 @@ public class PostController {
     @Operation(summary = "点赞帖子", description = "任务相关接口")
     @GetMapping("/Likes/{postId}")
     public Result PostLikes(@PathVariable Integer postId) {
-        return Result.success(postLikesService.PostLikes(postId));
+
+        return Result.success(postLikeComponent.like(postId));
     }
 }

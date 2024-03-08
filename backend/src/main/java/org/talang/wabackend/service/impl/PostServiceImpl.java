@@ -1,6 +1,7 @@
 package org.talang.wabackend.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PostServiceImpl implements PostService {
+public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
     @Autowired
     private PostMapper postMapper;

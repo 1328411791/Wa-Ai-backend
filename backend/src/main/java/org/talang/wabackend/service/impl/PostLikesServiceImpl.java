@@ -3,6 +3,7 @@ package org.talang.wabackend.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 
 @Service
 @Transactional
-public class PostLikesServiceImpl implements PostLikesService {
+public class PostLikesServiceImpl extends ServiceImpl<PostLikesMapper, PostLikes> implements PostLikesService {
 
     @Autowired
     private PostMapper postMapper;
@@ -84,8 +85,8 @@ public class PostLikesServiceImpl implements PostLikesService {
 
         }
 
-
         map.put("newNumLiked", totalLikes);
         return map;
     }
+
 }
