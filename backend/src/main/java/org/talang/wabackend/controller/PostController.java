@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.post.PostDto;
 import org.talang.wabackend.service.PostFavoriteSevice;
-import org.talang.wabackend.service.PostLikesService;
 import org.talang.wabackend.service.PostService;
 import org.talang.wabackend.util.PostLikeComponent;
 
@@ -24,10 +23,7 @@ public class PostController {
 
     @Autowired
     private PostFavoriteSevice postFavoriteSevice;
-
-    @Autowired
-    private PostLikesService postLikesService;
-
+    
     @Autowired
     private PostLikeComponent postLikeComponent;
 
