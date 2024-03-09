@@ -129,33 +129,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.10</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                        </configuration>
-                    </execution>
-                </executions>
-                <!--docker镜像相关的配置信息-->
-                <configuration>
-                    <contextDirectory>${project.basedir}</contextDirectory>
-                    <!--下面使用maven settings.xml文件中的 servers，所以要在servers中添加配置，下面将说明-->
-                    <username>${docker.repository.username}</username>
-                    <password>Yu20030405</password>
-                    <repository>${docker.repository.registry}/${docker.repository.namespace}/wa-backend</repository>
-                    <goal>push</goal>
-                    <tag>latest</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
