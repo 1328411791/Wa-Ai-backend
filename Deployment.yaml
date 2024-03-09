@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wa-backend
+  labels:
+    app: wa-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wa-backend
+  template:
+    metadata:
+      labels:
+        app: wa-backend
+    spec:
+      containers:
+        - name: wa-backend
+          image: registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5050
+      imagePullSecrets:
+        - name: coding-docker
+

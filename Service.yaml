@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wa-backend
+spec:
+  selector:
+      app: wa-backend
+  ports:
+  - protocol: TCP
+    port: 5050
+    targetPort: 5050
+  type: LoadBalancer
+
+
