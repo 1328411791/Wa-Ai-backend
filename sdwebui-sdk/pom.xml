@@ -62,7 +62,6 @@
                     <classifier>exec</classifier>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
