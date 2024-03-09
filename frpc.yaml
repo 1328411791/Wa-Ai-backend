@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frpc
+  template:
+    metadata:
+      labels:
+        app: frpc
+    spec:
+      containers:
+        - name: frpc
+          image: 10.180.193.12:5000/snowdreamtech/frpc
+          imagePullPolicy: IfNotPresent
+          command: ["frpc", "-c", "/etc/frp/frps.ini"]
+          volumeMounts:
+            - name: frpc-config-volume
+              mountPath: /etc/frp
+      volumes:
+        - name: frpc-config-volume
+          configMap:
+            name: frpc-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frpc-config
+data:
+  frps.ini: |
+    [common]
+    server_addr = 47.236.238.40
+    server_port = 7000
+    
+    [wa-backend]
+    type = tcp
+    local_ip = wa-backend
+    local_port = 5050
+    remote_port = 5050
+    
+    [kubernetes-api]
+    type = tcp
+    local_ip = 10.180.193.12
+    local_port = 6443
+    remote_port = 6443

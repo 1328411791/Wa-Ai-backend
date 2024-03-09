@@ -23,7 +23,6 @@
         <skipTests>true</skipTests>
     </properties>
 
-
     <build>
         <plugins>
             <plugin>
@@ -41,6 +40,17 @@
         </plugins>
     </build>
     <repositories>
+        <repository>
+            <id>TencentMirror</id>
+            <name>Tencent Mirror</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
