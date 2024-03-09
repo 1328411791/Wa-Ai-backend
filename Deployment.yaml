@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: wa-backend
-          image: registry.cn-beijing.aliyuncs.com/1328411791/wa-backend:latest
+          image: talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop
           imagePullPolicy: Always
           ports:
             - containerPort: 5050
