@@ -9,6 +9,7 @@ spec:
   - protocol: TCP
     port: 5050
     targetPort: 5050
-  type: LoadBalancer
+    name: wa-backend
+  type: NodePort
 
 
