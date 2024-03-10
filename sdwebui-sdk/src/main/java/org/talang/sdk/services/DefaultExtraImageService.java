@@ -35,7 +35,7 @@ public class DefaultExtraImageService implements ExtraImage {
         ClassicHttpRequest extraImageRequest = buildTxt2ImageRequest(options);
         try {
             return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
