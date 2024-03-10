@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.talang.wabackend.common.LikeResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.util.SdImageLikeComponent;
 
@@ -21,7 +22,11 @@ public class SdImageLikeController {
     public Result like(@RequestParam String sdImageId) {
         Integer userId = StpUtil.getLoginIdAsInt();
         boolean flag = sdImageLikeComponent.like(sdImageId, userId);
-        return flag?Result.success("点赞成功"):Result.success("取消点赞成功");
+        Long likeCount = sdImageLikeComponent.getLikeCount(sdImageId);
+        LikeResult likeResult = new LikeResult();
+        likeResult.setLikeCount(likeCount);
+        likeResult.setIsLike(flag);
+        return Result.success(likeResult);
     }
 
     @Operation(summary = "检测是否点赞")
