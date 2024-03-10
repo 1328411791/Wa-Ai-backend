@@ -1,7 +1,6 @@
 package org.talang.wabackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.talang.wabackend.common.LikeResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.util.SdModelLikeComponent;
 
@@ -25,7 +25,11 @@ public class SdModelLikeController {
     public Result like(@RequestParam Integer sdmodelId) {
         Integer userId = StpUtil.getLoginIdAsInt();
         boolean flag = sdModelLikeComponent.like(sdmodelId, userId);
-        return flag?Result.success("点赞成功"):Result.success("取消点赞成功");
+        Long count = sdModelLikeComponent.getLikeCount(String.valueOf(sdmodelId));
+        LikeResult likeResult = new LikeResult();
+        likeResult.setLikeCount(count);
+        likeResult.setIsLike(flag);
+        return Result.success(likeResult);
     }
 
     @Operation(summary = "检测是否点赞")
