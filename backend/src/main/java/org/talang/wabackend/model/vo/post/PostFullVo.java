@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class PostFullVo {
 
-    private int id;
+    private Integer id;
 
-    private int userId;
+    private Integer userId;
 
     private String userNickName;
 
@@ -18,11 +18,11 @@ public class PostFullVo {
 
     private String body;
 
-    private int numFavours;
+    private Integer numFavours;
 
-    private int numLiked;
+    private Integer numLiked;
 
-    private int numComment;
+    private Integer numComment;
 
     private Date createTime;
 

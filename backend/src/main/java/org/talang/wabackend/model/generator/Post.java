@@ -12,12 +12,12 @@ public class Post {
      *
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
     /**
      *
      */
     @TableField(value = "user_id")
-    private int userId;
+    private Integer userId;
     /**
      *
      */
@@ -32,17 +32,17 @@ public class Post {
      *
      */
     @TableField(value = "numFavours", fill = FieldFill.INSERT)
-    private int numFavours;
+    private Integer numFavours;
     /**
      *
      */
     @TableField(value = "numLiked", fill = FieldFill.INSERT)
-    private int numLiked;
+    private Integer numLiked;
     /**
      *
      */
     @TableField(value = "numComment", fill = FieldFill.INSERT)
-    private int numComment;
+    private Integer numComment;
     /**
      *
      */

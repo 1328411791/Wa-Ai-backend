@@ -7,19 +7,19 @@ import java.util.List;
 @Data
 public class PostLiteVo {
 
-    private int id;
+    private Integer id;
 
-    private int userId;
+    private Integer userId;
 
     private String userNickName;
 
     private String title;
 
-    private int numFavours;
+    private Integer numFavours;
 
-    private int numLiked;
+    private Integer numLiked;
 
-    private int numComment;
+    private Integer numComment;
 
     private List<String> sdimageIdList;
 }
