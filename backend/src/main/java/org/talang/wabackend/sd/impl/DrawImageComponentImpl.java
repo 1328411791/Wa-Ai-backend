@@ -41,7 +41,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     //private SdWebui sdWebui;
 
     @Override
-    public void text2Image(String taskId, Integer userId, String options ,SdWebui sdWebui) throws RuntimeException{
+    public void text2Image(String taskId, Integer userId, String options, SdWebui sdWebui) throws TaskFailException {
         log.info("text2Image taskId:{}", taskId);
         Txt2ImageOptions txt2ImageOptions = JSONUtil.toBean(options, Txt2ImageOptions.class);
         taskService.setStartDrawStatus(taskId);
@@ -64,7 +64,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     }
 
     @Override
-    public void extraImage(String taskId, Integer userId, String options,SdWebui sdWebui) throws RuntimeException{
+    public void extraImage(String taskId, Integer userId, String options, SdWebui sdWebui) throws TaskFailException {
         log.info("extraImage taskId:{}", taskId);
         ExtraImageOptions extraImageOptions = JSONUtil.toBean(options, ExtraImageOptions.class);
         taskService.setStartDrawStatus(taskId);
