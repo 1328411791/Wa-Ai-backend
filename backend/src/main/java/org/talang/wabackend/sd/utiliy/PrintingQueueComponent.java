@@ -6,6 +6,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.talang.wabackend.config.PrintingTaskQueueConfig;
 
 @Slf4j
 @Component
@@ -14,8 +15,6 @@ public class PrintingQueueComponent {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    private static final String TASK_EXCHANGE_NAME = "PrintingTaskExchange";
-
     public void sendTask(TaskMessage message) {
         log.info("Sending message: " + message.toString());
         MessagePostProcessor messagePostProcessor = message1 -> {
@@ -23,7 +22,8 @@ public class PrintingQueueComponent {
             return message1;
         };
 
-        amqpTemplate.convertAndSend(TASK_EXCHANGE_NAME,"" , JSONUtil.toJsonStr(message),messagePostProcessor);
+        amqpTemplate.convertAndSend(PrintingTaskQueueConfig.PRINTING_EXCHANGE_NAME
+                ,"" , JSONUtil.toJsonStr(message),messagePostProcessor);
     }
 
 

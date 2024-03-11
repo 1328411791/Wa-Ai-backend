@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
+import org.talang.wabackend.config.PrintingTaskQueueConfig;
 import org.talang.wabackend.model.generator.Task;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.MultiSdWebUiConnect;
@@ -29,7 +30,8 @@ public class PrintingTaskListener {
     @Resource
     private MultiSdWebUiConnect multiSdWebUiConnect;
 
-    @RabbitListener(queues = "PrintingTaskQueue",autoStartup = "true")
+    @RabbitListener(queues = PrintingTaskQueueConfig.PRINTING_QUEUE_NAME
+            ,autoStartup = "true")
     public void onMessage(String message) {
         SdWebui sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
         TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);

@@ -14,9 +14,13 @@ public class PrintingTaskQueueConfig {
     @Autowired
     private AmqpAdmin amqpAdmin;
 
+    public static final String PRINTING_EXCHANGE_NAME = "PrintingTaskExchange";
+
+    public static final String PRINTING_QUEUE_NAME = "PrintingTaskQueue";
+
     @Bean
     public FanoutExchange createfanoutExchange(){
-        FanoutExchange fanoutExchange = new FanoutExchange("PrintingTaskExchange");
+        FanoutExchange fanoutExchange = new FanoutExchange(PRINTING_EXCHANGE_NAME);
         return fanoutExchange;
     }
 
@@ -25,13 +29,13 @@ public class PrintingTaskQueueConfig {
         Map<String, Object> args = new HashMap<>();
         args.put("x-max-priority", 10);
 
-        return QueueBuilder.durable("PrintingTaskQueue").withArguments(args).build();
+        return QueueBuilder.durable(PRINTING_QUEUE_NAME).withArguments(args).build();
     }
 
     @Bean
     public Binding createBinding(){
-        Binding binding = new Binding("PrintingTaskQueue", Binding.DestinationType.QUEUE
-                , "PrintingTaskExchange", "", null);
+        Binding binding = new Binding(PRINTING_QUEUE_NAME, Binding.DestinationType.QUEUE
+                , PRINTING_EXCHANGE_NAME, "", null);
         return binding;
     }
 }
