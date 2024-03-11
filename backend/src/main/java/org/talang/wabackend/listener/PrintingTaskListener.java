@@ -3,6 +3,7 @@ package org.talang.wabackend.listener;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -31,7 +32,7 @@ public class PrintingTaskListener {
     private MultiSdWebUiConnect multiSdWebUiConnect;
 
     @RabbitListener(queues = PrintingTaskQueueConfig.PRINTING_QUEUE_NAME
-            ,autoStartup = "true")
+            ,autoStartup = "true",ackMode = "AUTO")
     public void onMessage(String message) {
         SdWebui sdWebui = multiSdWebUiConnect.getAvailableSdWebui();
         TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);
@@ -49,10 +50,12 @@ public class PrintingTaskListener {
                     break;
                 default:
                     log.error("Unknown task type: " + taskMessage.getTaskType());
+                    throw new RuntimeException("Unknown task type: " + taskMessage.getTaskType());
             }
-        }catch (Exception e){
+        }catch (RuntimeException e){
             log.error("Error: ", e);
-            taskService.setFailStatus(taskMessage.getTaskId());
+            // taskService.setFailStatus(taskMessage.getTaskId());
+            throw new AmqpRejectAndDontRequeueException(message);
         }finally {
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
@@ -62,7 +65,7 @@ public class PrintingTaskListener {
     @RabbitListener(queues = PrintingTaskQueueConfig.PRINTING_DEAD_QUEUE_NAME
             ,autoStartup = "true")
     public void onDeadMessage(String message) {
-        log.info("PrintingTaskListener: " + message);
+        log.info("PrintingDeadTaskListener: " + message);
         TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);
         taskService.setFailStatus(taskMessage.getTaskId());
     }

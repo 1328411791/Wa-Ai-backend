@@ -41,45 +41,45 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     //@Autowired
     //private SdWebui sdWebui;
 
-    @Async("threadPoolTaskExecutor")
     @Override
-    public void text2Image(String taskId, Integer userId, String options ,SdWebui sdWebui) {
+    public void text2Image(String taskId, Integer userId, String options ,SdWebui sdWebui) throws RuntimeException{
         log.info("text2Image taskId:{}", taskId);
         Txt2ImageOptions txt2ImageOptions = JSONUtil.toBean(options, Txt2ImageOptions.class);
         taskService.setStartDrawStatus(taskId);
-        try {
 
-            Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
+        Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
 
-            byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
-
-            String imageId = imageComponent.saveImage(decode, userId);
-            sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
-
-            taskService.setFinishDrawStatus(taskId, imageId);
-
-            sdDrawFinshHandle.drawFinishHandle(taskId);
-        } catch (Exception e) {
-            log.error("text2Image error", e);
+        if(txt2ImgResult.getImages().isEmpty()){
+            throw new RuntimeException("txt2ImgResult.getImages() == null");
         }
+
+        byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
+
+        String imageId = imageComponent.saveImage(decode, userId);
+        sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
+
+        taskService.setFinishDrawStatus(taskId, imageId);
+
+        sdDrawFinshHandle.drawFinishHandle(taskId);
+
     }
 
-    @Async("threadPoolTaskExecutor")
     @Override
-    public void extraImage(String taskId, Integer userId, String options,SdWebui sdWebui) {
+    public void extraImage(String taskId, Integer userId, String options,SdWebui sdWebui) throws RuntimeException{
         log.info("extraImage taskId:{}", taskId);
         ExtraImageOptions extraImageOptions = JSONUtil.toBean(options, ExtraImageOptions.class);
         taskService.setStartDrawStatus(taskId);
-        try {
-            ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
-            byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
+        ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
-            String imageId = imageComponent.saveImage(decode, userId);
-
-            taskService.setFinishDrawStatus(taskId, imageId);
-        } catch (Exception e) {
-            log.error("extraImage error", e);
+        if (extraImageResult.getImage().isEmpty()) {
+            throw new RuntimeException("extraImageResult.getImage() == null");
         }
+
+        byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
+
+        String imageId = imageComponent.saveImage(decode, userId);
+
+        taskService.setFinishDrawStatus(taskId, imageId);
     }
 }
