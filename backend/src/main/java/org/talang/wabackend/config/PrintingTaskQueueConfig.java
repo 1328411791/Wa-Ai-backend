@@ -18,6 +18,10 @@ public class PrintingTaskQueueConfig {
 
     public static final String PRINTING_QUEUE_NAME = "PrintingTaskQueue";
 
+    public static final String PRINTING_DEAD_QUEUE_NAME = "PrintingDeadTaskQueue";
+
+    public static final String DEAD_KEY = "deal";
+
     @Bean
     public FanoutExchange createfanoutExchange(){
         FanoutExchange fanoutExchange = new FanoutExchange(PRINTING_EXCHANGE_NAME);
@@ -28,7 +32,8 @@ public class PrintingTaskQueueConfig {
     public Queue createTaskQueue(){
         Map<String, Object> args = new HashMap<>();
         args.put("x-max-priority", 10);
-
+        args.put("x-dead-letter-exchange", PRINTING_EXCHANGE_NAME);
+        args.put("x-dead-letter-routing-key", DEAD_KEY);
         return QueueBuilder.durable(PRINTING_QUEUE_NAME).withArguments(args).build();
     }
 
@@ -36,6 +41,19 @@ public class PrintingTaskQueueConfig {
     public Binding createBinding(){
         Binding binding = new Binding(PRINTING_QUEUE_NAME, Binding.DestinationType.QUEUE
                 , PRINTING_EXCHANGE_NAME, "", null);
+        return binding;
+    }
+
+
+    @Bean
+    public Queue createTaskDeadQueue(){
+        return QueueBuilder.durable(PRINTING_DEAD_QUEUE_NAME).build();
+    }
+
+    @Bean
+    public Binding createDeadBinding(){
+        Binding binding = new Binding(PRINTING_DEAD_QUEUE_NAME, Binding.DestinationType.QUEUE
+                , PRINTING_EXCHANGE_NAME, DEAD_KEY, null);
         return binding;
     }
 }
