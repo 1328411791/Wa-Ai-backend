@@ -4,16 +4,15 @@ import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.sdk.models.results.ExtraImageResult;
 import org.talang.sdk.models.results.Txt2ImgResult;
+import org.talang.wabackend.exception.TaskFailException;
 import org.talang.wabackend.sd.DrawImageComponent;
 import org.talang.wabackend.sd.ImageComponent;
-import org.talang.wabackend.sd.MultiSdWebUiConnect;
 import org.talang.wabackend.sd.SdDrawFinshHandle;
 import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.TaskService;
@@ -50,7 +49,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
 
         if(txt2ImgResult.getImages().isEmpty()){
-            throw new RuntimeException("txt2ImgResult.getImages() == null");
+            throw new TaskFailException(taskId, "txt2ImgResult.getImages() == null");
         }
 
         byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
@@ -73,7 +72,7 @@ public class DrawImageComponentImpl implements DrawImageComponent {
         ExtraImageResult extraImageResult = sdWebui.extraImage(extraImageOptions);
 
         if (extraImageResult.getImage().isEmpty()) {
-            throw new RuntimeException("extraImageResult.getImage() == null");
+            throw new TaskFailException(taskId, "extraImageResult.getImage() == null");
         }
 
         byte[] decode = Base64.getDecoder().decode(extraImageResult.getImage());
