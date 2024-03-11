@@ -57,4 +57,13 @@ public class PrintingTaskListener {
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }
     }
+
+
+    @RabbitListener(queues = PrintingTaskQueueConfig.PRINTING_DEAD_QUEUE_NAME
+            ,autoStartup = "true")
+    public void onDeadMessage(String message) {
+        log.info("PrintingTaskListener: " + message);
+        TaskMessage taskMessage = JSONUtil.toBean(message, TaskMessage.class);
+        taskService.setFailStatus(taskMessage.getTaskId());
+    }
 }
