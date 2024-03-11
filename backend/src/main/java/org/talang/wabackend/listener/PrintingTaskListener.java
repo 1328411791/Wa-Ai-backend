@@ -55,7 +55,7 @@ public class PrintingTaskListener {
         }catch (RuntimeException e){
             log.error("Error: ", e);
             // taskService.setFailStatus(taskMessage.getTaskId());
-            throw new AmqpRejectAndDontRequeueException(message);
+            throw new AmqpRejectAndDontRequeueException(e);
         }finally {
             multiSdWebUiConnect.returnSdWebui(sdWebui);
         }

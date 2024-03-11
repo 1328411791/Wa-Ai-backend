@@ -32,11 +32,9 @@ public class PrintingTaskQueueConfig {
 
     @Bean
     public Queue createTaskQueue(){
-        Map<String, Object> args = new HashMap<>();
-        args.put("x-max-priority", 10);
-        args.put("x-dead-letter-exchange", PRINTING_DEAD_QUEUE_NAME);
-        args.put("x-dead-letter-routing-key", TASK_DEAD_KEY);
-        return QueueBuilder.durable(PRINTING_QUEUE_NAME).withArguments(args).build();
+        return QueueBuilder.durable(PRINTING_QUEUE_NAME)
+                .maxPriority(10).deadLetterExchange(PRINTING_DEAD_EXCHANGE)
+                .deadLetterRoutingKey(TASK_DEAD_KEY).build();
     }
 
     @Bean
