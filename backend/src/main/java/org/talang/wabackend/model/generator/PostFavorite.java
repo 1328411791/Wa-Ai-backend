@@ -12,17 +12,17 @@ public class PostFavorite {
      *
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
     /**
      *
      */
     @TableField(value = "user_id")
-    private int userId;
+    private Integer userId;
     /**
      *
      */
     @TableField(value = "post_id")
-    private int postId;
+    private Integer postId;
     /**
      *
      */
