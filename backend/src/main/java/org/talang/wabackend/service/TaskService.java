@@ -31,4 +31,6 @@ public interface TaskService extends IService<Task> {
     Result deleteTask(int userId, String taskId);
 
     void setFailStatus(String taskId);
+
+    int getTaskStatusBySDImageId(String SDImageId);
 }

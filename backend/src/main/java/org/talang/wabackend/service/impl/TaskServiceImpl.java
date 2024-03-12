@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.common.Result;
+import org.talang.wabackend.constant.TaskConstant;
 import org.talang.wabackend.mapper.TaskMapper;
 import org.talang.wabackend.model.generator.Task;
 import org.talang.wabackend.model.vo.task.ShowTaskVo;
@@ -19,6 +20,7 @@ import org.talang.wabackend.service.TaskService;
 import org.talang.wabackend.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,7 +45,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         Task task = new Task();
         String id = UUID.randomUUID().toString();
         task.setId(id);
-        task.setStatus(0);
+        task.setStatus(TaskConstant.TASK_STATUS_CREATED);
         task.setUserId(userId);
         task.setTxt2imageOptions(JSONUtil.toJsonStr(txt2ImageOptions));
         task.setPriority(5);
@@ -58,7 +60,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
         String id = UUID.randomUUID().toString();
         task.setId(id);
         task.setUserId(userId);
-        task.setStatus(0);
+        task.setStatus(TaskConstant.TASK_STATUS_CREATED);
         task.setExtraimageOptions(JSONUtil.toJsonStr(extraImageOptions));
         task.setPriority(5);
         task.setType("extraimage");
@@ -70,14 +72,14 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     @Override
     public void setStartDrawStatus(String taskId) {
         Task task = getById(taskId);
-        task.setStatus(1);
+        task.setStatus(TaskConstant.TASK_STATUS_RUNNING);
         updateById(task);
     }
 
     @Override
     public void setFinishDrawStatus(String taskId, String imageId) {
         Task task = getById(taskId);
-        task.setStatus(2);
+        task.setStatus(TaskConstant.TASK_STATUS_FINISHED);
         task.setImageId(imageId);
         updateById(task);
     }
@@ -126,8 +128,18 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task>
     @Override
     public void setFailStatus(String taskId) {
         Task task = getById(taskId);
-        task.setStatus(3);
+        task.setStatus(TaskConstant.TASK_STATUS_FAILED);
         updateById(task);
+    }
+
+    @Override
+    public int getTaskStatusBySDImageId(String SDImageId) {
+
+        LambdaQueryWrapper<Task> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Task::getImageId, SDImageId);
+        Task task = this.getOne(wrapper);
+        return Objects.isNull(task) ? TaskConstant.TASK_STATUS_NOTFOUND : task.getStatus();
+
     }
 }
 

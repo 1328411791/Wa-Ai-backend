@@ -36,4 +36,5 @@ public class SdImageLikeController {
         boolean flag = sdImageLikeComponent.isLiked(sdImageId, userId);
         return flag?Result.success("已点赞"):Result.success("未点赞");
     }
+
 }
