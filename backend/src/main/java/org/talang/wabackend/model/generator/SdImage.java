@@ -55,6 +55,12 @@ public class SdImage implements Serializable {
     private Integer userId;
 
     /**
+     * 图像类型：请使用Constant内类型
+     */
+    @TableField(value = "type")
+    private String type;
+
+    /**
      * 
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
