@@ -15,10 +15,4 @@ public class RedisTest {
     @Autowired
     private SdImageLikeComponent sdImageLikeComponent;
 
-   // @Test
-    @Ignore
-    void test() {
-        Set<String> allImageLikeCount = sdImageLikeComponent.getAllImageLikeCount();
-        log.info("test");
-    }
 }
