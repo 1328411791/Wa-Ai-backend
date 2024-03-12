@@ -21,7 +21,9 @@ import org.talang.wabackend.model.vo.post.PostFullVo;
 import org.talang.wabackend.model.vo.post.PostLiteVo;
 import org.talang.wabackend.service.PostService;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -88,7 +90,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //查收藏表
-        lambdaQueryWrapper.inSql(Post::getId, "select post_id from sd_post_favorite where is_delete!=1 and user_id = " + UID);
+        lambdaQueryWrapper.in(Post::getId, postMapper.getPostIdFromPostFavous(UID));
         //日期
         Date startTime = postGetByUIDDto.getStartTimestamp();
         Date endTime = postGetByUIDDto.getEndTimestamp();
@@ -106,7 +108,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         Integer MID = postGetByMIDDto.getModelId();
         //在 PostModel 找帖子的id集合
-        lambdaQueryWrapper.inSql(Post::getId, "select post_id from sd_post_model where model_id = " + MID);
+        lambdaQueryWrapper.in(Post::getId, postMapper.getPostIdFromPostModel(MID));
         //日期
         Date startTime = postGetByMIDDto.getStartTimestamp();
         Date endTime = postGetByMIDDto.getEndTimestamp();
