@@ -14,4 +14,6 @@ public interface PostMapper extends BaseMapper<Post> {
     @Select("select sdimage_id from sd_post_images where post_id = #{postId}")
     List<String> getPostImage(Integer postId);
 
+    @Insert("insert into sd_post_model (model_id, post_id) values (#{modelId}, #{postId})")
+    void insertPostModel(Integer modelId, Integer postId);
 }

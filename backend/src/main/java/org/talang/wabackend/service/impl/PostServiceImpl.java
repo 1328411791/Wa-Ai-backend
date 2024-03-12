@@ -9,9 +9,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.talang.wabackend.common.ListResult;
 import org.talang.wabackend.mapper.PostMapper;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.post.PostAddDto;
+import org.talang.wabackend.model.dto.post.PostGetByMIDDto;
 import org.talang.wabackend.model.dto.post.PostGetByUIDDto;
 import org.talang.wabackend.model.generator.Post;
 import org.talang.wabackend.model.generator.User;
@@ -37,8 +39,17 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         Post post = new Post();
         BeanUtils.copyProperties(postAddDto, post);
         post.setUserId(StpUtil.getLoginIdAsInt());
+        post.setNumLiked(0);
+        post.setNumFavours(0);
+        post.setNumComment(0);
         postMapper.insert(post);
         postMapper.insertImage(postAddDto.getSdImages(), post.getId());
+
+        //是否关联模型
+        Integer modelId = postAddDto.getInModel();
+        if (modelId != null && modelId > 0) {
+            postMapper.insertPostModel(modelId, post.getId());
+        }
         return post.getId();
     }
 
@@ -48,18 +59,27 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public Map<String, Object> getPostLiteByCreate(PostGetByUIDDto postGetByUIDDto) {
+    public ListResult getPostLiteByCreate(PostGetByUIDDto postGetByUIDDto) {
         if (postGetByUIDDto.getUserId() == null) {
             postGetByUIDDto.setUserId(StpUtil.getLoginIdAsInt());
         }
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //uid
         lambdaQueryWrapper.eq(Post::getUserId, postGetByUIDDto.getUserId());
-        return this.doList(lambdaQueryWrapper, postGetByUIDDto);
+        //日期
+        Date startTime = postGetByUIDDto.getStartTimestamp();
+        Date endTime = postGetByUIDDto.getEndTimestamp();
+        //标题
+        String title = postGetByUIDDto.getSearchQuery();
+        //分页大小
+        Integer page = postGetByUIDDto.getPage();
+        Integer pageSize = postGetByUIDDto.getPageSize();
+
+        return this.doList(lambdaQueryWrapper, startTime, endTime, title, page, pageSize);
     }
 
     @Override
-    public Map<String, Object> getPostLiteByFavours(PostGetByUIDDto postGetByUIDDto) {
+    public ListResult getPostLiteByFavours(PostGetByUIDDto postGetByUIDDto) {
         Integer UID = postGetByUIDDto.getUserId();
         if (UID == null) {
             postGetByUIDDto.setUserId(StpUtil.getLoginIdAsInt());
@@ -69,8 +89,34 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //查收藏表
         lambdaQueryWrapper.inSql(Post::getId, "select post_id from sd_post_favorite where is_delete!=1 and user_id = " + UID);
+        //日期
+        Date startTime = postGetByUIDDto.getStartTimestamp();
+        Date endTime = postGetByUIDDto.getEndTimestamp();
+        //标题
+        String title = postGetByUIDDto.getSearchQuery();
+        //分页大小
+        Integer page = postGetByUIDDto.getPage();
+        Integer pageSize = postGetByUIDDto.getPageSize();
 
-        return this.doList(lambdaQueryWrapper, postGetByUIDDto);
+        return this.doList(lambdaQueryWrapper, startTime, endTime, title, page, pageSize);
+    }
+
+    @Override
+    public ListResult getPostLiteByModel(PostGetByMIDDto postGetByMIDDto) {
+        LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        Integer MID = postGetByMIDDto.getModelId();
+        //在 PostModel 找帖子的id集合
+        lambdaQueryWrapper.inSql(Post::getId, "select post_id from sd_post_model where model_id = " + MID);
+        //日期
+        Date startTime = postGetByMIDDto.getStartTimestamp();
+        Date endTime = postGetByMIDDto.getEndTimestamp();
+        //标题
+        String title = postGetByMIDDto.getSearchQuery();
+        //分页大小
+        Integer page = postGetByMIDDto.getPage();
+        Integer pageSize = postGetByMIDDto.getPageSize();
+
+        return this.doList(lambdaQueryWrapper, startTime, endTime, title, page, pageSize);
     }
 
     @Override
@@ -85,9 +131,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
 
-    private void wrapperDate(LambdaQueryWrapper<Post> lambdaQueryWrapper, PostGetByUIDDto postGetByUIDDto) {
-        Date startTime = postGetByUIDDto.getStartTimestamp();
-        Date endTime = postGetByUIDDto.getEndTimestamp();
+    private void wrapperDate(LambdaQueryWrapper<Post> lambdaQueryWrapper, Date startTime, Date endTime) {
         if (startTime != null && endTime != null) {
             lambdaQueryWrapper.ge(Post::getCreateTime, startTime)
                     .le(Post::getCreateTime, endTime);
@@ -98,45 +142,42 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
     }
 
-    private void wrapperTitle(LambdaQueryWrapper<Post> lambdaQueryWrapper, PostGetByUIDDto postGetByUIDDto) {
-        String title = postGetByUIDDto.getSearchQuery();
+    private void wrapperTitle(LambdaQueryWrapper<Post> lambdaQueryWrapper, String title) {
         if (title != null && !title.isEmpty()) {
             lambdaQueryWrapper.like(Post::getTitle, title);
         }
     }
 
-    private Page<Post> pageExecution(LambdaQueryWrapper<Post> lambdaQueryWrapper, PostGetByUIDDto postGetByUIDDto) {
-        Integer page = postGetByUIDDto.getPage();
-        Integer pageSize = postGetByUIDDto.getPageSize();
+    private Page<Post> pageExecution(LambdaQueryWrapper<Post> lambdaQueryWrapper, Integer page, Integer pageSize) {
         Page<Post> postPage = new Page<>(page, pageSize);
         return postMapper.selectPage(postPage, lambdaQueryWrapper);
     }
 
-    private List<PostLiteVo> postListHandle(List<Post> postList, PostGetByUIDDto postGetByUIDDto) {
+    private List<PostLiteVo> postListHandle(List<Post> postList) {
         return postList.stream().map(post -> {
             PostLiteVo postLiteVo = BeanUtil.toBean(post, PostLiteVo.class);
             postLiteVo.setSdimageIdList(postMapper.getPostImage(post.getId()));
-            User user = userMapper.selectById(postGetByUIDDto.getUserId());
+            User user = userMapper.selectById(postLiteVo.getUserId());
             postLiteVo.setUserNickName(user.getNickName());
             return postLiteVo;
         }).toList();
     }
 
-    private Map<String, Object> doList(LambdaQueryWrapper<Post> lambdaQueryWrapper, PostGetByUIDDto postGetByUIDDto) {
+    private ListResult doList(LambdaQueryWrapper<Post> lambdaQueryWrapper, Date startTime,
+                              Date endTime, String title, Integer page, Integer pageSize) {
 
         //日期
-        this.wrapperDate(lambdaQueryWrapper, postGetByUIDDto);
+        this.wrapperDate(lambdaQueryWrapper, startTime, endTime);
         //标题
-        this.wrapperTitle(lambdaQueryWrapper, postGetByUIDDto);
-        //分页
-        List<Post> postList = this.pageExecution(lambdaQueryWrapper, postGetByUIDDto).getRecords();
+        this.wrapperTitle(lambdaQueryWrapper, title);
+        //执行分页查询
+        List<Post> postList = this.pageExecution(lambdaQueryWrapper, page, pageSize).getRecords();
+        //帖子作者的昵称，图片id的封装
+        List<PostLiteVo> postLiteVos = this.postListHandle(postList);
 
-        List<PostLiteVo> postLiteVos = this.postListHandle(postList, postGetByUIDDto);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("list", postLiteVos);
-        map.put("total", postMapper.selectCount(lambdaQueryWrapper));
-
-        return map;
+        ListResult listResult = new ListResult();
+        listResult.setList(postLiteVos);
+        listResult.setSelectTotal(postMapper.selectCount(lambdaQueryWrapper));
+        return listResult;
     }
 }

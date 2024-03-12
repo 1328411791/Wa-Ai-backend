@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.post.PostAddDto;
+import org.talang.wabackend.model.dto.post.PostGetByMIDDto;
 import org.talang.wabackend.model.dto.post.PostGetByUIDDto;
 import org.talang.wabackend.service.PostFavoriteSevice;
 import org.talang.wabackend.service.PostService;
@@ -50,6 +51,12 @@ public class PostController {
     @PostMapping("/getPostLite/favours")
     public Result getPostLiteByFavours(@RequestBody PostGetByUIDDto postGetByUIDDto) {
         return Result.success(postService.getPostLiteByFavours(postGetByUIDDto));
+    }
+
+    @Operation(summary = "搜索模型的的帖子")
+    @PostMapping("/getPostLite/model")
+    public Result getPostLiteByMID(@RequestBody PostGetByMIDDto postGetByMIDDto) {
+        return Result.success(postService.getPostLiteByModel(postGetByMIDDto));
     }
 
     @Operation(summary = "通过帖子id搜索帖子")
