@@ -33,7 +33,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
         ClassicHttpRequest txt2ImgRequest = buildTxt2ImageRequest(options);
         try {
             return httpClient.execute(txt2ImgRequest, this::parseTxt2ImageResult);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

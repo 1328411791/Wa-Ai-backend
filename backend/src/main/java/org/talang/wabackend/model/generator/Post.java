@@ -12,12 +12,12 @@ public class Post {
      *
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
     /**
      *
      */
     @TableField(value = "user_id")
-    private int userId;
+    private Integer userId;
     /**
      *
      */
