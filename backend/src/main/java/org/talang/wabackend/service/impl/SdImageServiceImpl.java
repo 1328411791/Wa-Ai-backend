@@ -28,17 +28,17 @@ import org.talang.wabackend.util.SdImageLikeComponent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.talang.wabackend.util.SdImageLikeComponent.SD_IMAGE_LIKE;
 
 /**
-* @author lihan
-* @description 针对表【sd_image】的数据库操作Service实现
-* @createDate 2024-03-01 01:16:15
-*/
+ * @author lihan
+ * @description 针对表【sd_image】的数据库操作Service实现
+ * @createDate 2024-03-01 01:16:15
+ */
 @Service
-public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
-    implements SdImageService{
+public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> implements SdImageService {
 
     @Resource
     private StaticImageService staticImageService;
@@ -79,13 +79,7 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
             // 遍历原对象
             jsonNode.fields().forEachRemaining(entry -> {
                 String key = entry.getKey();
-                if (!(
-                        key.startsWith("all_") ||
-                                key.equals("infotexts") ||
-                                key.equals("styles")    ||
-                                key.equals("is_using_inpainting_conditioning")    ||
-                                key.equals("index_of_first_image")
-                )) {
+                if (!(key.startsWith("all_") || key.equals("infotexts") || key.equals("styles") || key.equals("is_using_inpainting_conditioning") || key.equals("index_of_first_image"))) {
                     filteredNode.set(key, entry.getValue());
                 }
             });
@@ -98,21 +92,22 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
 
         sdImage.setParams(imageParams);
 
-        String modelName = txt2ImgResult.getParameters()
-                .getOverrideSettings().get("sd_model_checkpoint").toString();
-        String vaeModelName = txt2ImgResult.getParameters()
-                .getOverrideSettings().get("sd_vae").toString();
+        String modelName = txt2ImgResult.getParameters().getOverrideSettings().get("sd_model_checkpoint").toString();
+        String vaeModelName = txt2ImgResult.getParameters().getOverrideSettings().get("sd_vae").toString();
 
         sdImage.setStaticImageId(imageId);
 
         sdImage.setCheckpointModelId(modelService.getModelIdByModelName(modelName));
         sdImage.setVaeModelId(modelService.getModelIdByModelName(vaeModelName));
 
+        // 用户生成的SDImage，如有上传调用此API，记得在这改
+        sdImage.setType(SdImageConstant.SDIMAGE_TYPE_GENERATE);
+
         save(sdImage);
     }
 
     @Override
-    public SdImageVo getImageById(Integer userId,String id) {
+    public SdImageVo getImageById(Integer userId, String id) {
         SdImage sdImage = getById(id);
         if (sdImage == null) {
             throw new RuntimeException("不存在Sd图像");
@@ -130,18 +125,18 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
     }
 
     @Override
-    public Result getMyAllList(Date startTimeStamp, Date endTimeStamp,
+    public Result getMyAllList(String startTimeStamp, String endTimeStamp,
                                boolean myGenerate, boolean myUpload,
                                Integer page, Integer pageSize) {
 
         // 构建查找条件
         LambdaQueryWrapper<SdImage> wrapper = new LambdaQueryWrapper<>();
-        // 日期查询
-        wrapper.ge(endTimeStamp.getTime() != 0L && startTimeStamp.getTime() != 0L,
-                        SdImage::getCreateTime, startTimeStamp)
-                .lt(endTimeStamp.getTime() != 0L && startTimeStamp.getTime() != 0L,
-                        SdImage::getCreateTime, endTimeStamp)
 
+        // 日期查询
+        Date startTime = new Date((Long.parseLong(startTimeStamp) * 1000));
+        Date endTime = new Date((Long.parseLong(endTimeStamp) * 1000));
+        wrapper.ge(startTime.getTime() != 0L, SdImage::getCreateTime, startTime)
+                .lt(endTime.getTime() != 0L, SdImage::getCreateTime, endTime)
                 .orderByDesc(SdImage::getCreateTime);
 
         // 图片类型
@@ -162,11 +157,10 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage>
 
         //Vo，填充数据
         List<MySdImageVo> mySdImageVos = BeanUtil.copyToList(images, MySdImageVo.class);
-        mySdImageVos.forEach(sdImage ->
-            sdImage.setUserId(loginId).setUserNickName(username)
-                    .setStatus(taskService.getTaskStatusBySDImageId(sdImage.getId()))
-                    .setIsLiked(sdImageLikeComponent.isLiked(sdImage.getId(), loginId.intValue()))
-                    // TODO 查询收藏
+        mySdImageVos.forEach(sdImage -> sdImage.setUserId(loginId).setUserNickName(username).
+                        setStatus(taskService.getTaskStatusBySDImageId(sdImage.getId())).
+                        setIsLiked(sdImageLikeComponent.isLiked(sdImage.getId(), loginId.intValue()))
+                // TODO 查询收藏
         );
 
         return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));

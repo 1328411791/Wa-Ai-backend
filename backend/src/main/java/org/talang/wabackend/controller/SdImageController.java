@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.vo.sdImage.SdImageVo;
 import org.talang.wabackend.service.SdImageService;
@@ -36,11 +33,12 @@ public class SdImageController {
 
     @Operation(summary = "获取我的所有SD图片列表")
     @GetMapping("/getMyAllList")
-    public Result getMyAllList(@DefaultValue("0") Date startTimeStamp,
-                               @DefaultValue("0") Date endTimeStamp,
-                               @DefaultValue("true") boolean myGenerate,
-                               @DefaultValue("true") boolean myUpload,
+    public Result getMyAllList(@RequestParam(defaultValue = "0") String startTimeStamp,
+                               @RequestParam(defaultValue = "0") String endTimeStamp,
+                               @RequestParam(defaultValue = "true") boolean myGenerate,
+                               @RequestParam(defaultValue = "true") boolean myUpload,
                                Integer page, Integer pageSize) {
+
         return sdImageService.getMyAllList(startTimeStamp, endTimeStamp,
                 myGenerate, myUpload,
                 page, pageSize);

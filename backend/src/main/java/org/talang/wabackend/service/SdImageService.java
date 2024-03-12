@@ -19,7 +19,7 @@ public interface SdImageService extends IService<SdImage> {
 
     SdImageVo getImageById(Integer userId,String id);
 
-    Result getMyAllList(Date startTimeStamp, Date endTimeStamp,
+    Result getMyAllList(String startTimeStamp, String endTimeStamp,
                         boolean myGenerate, boolean myUpload,
                         Integer page, Integer pageSize);
 }
