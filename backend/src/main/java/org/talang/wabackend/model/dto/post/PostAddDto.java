@@ -5,8 +5,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PostDto {
+public class PostAddDto {
     private String title;
     private List<String> sdImages;
     private String body;
+    private Integer inModel;
 }
