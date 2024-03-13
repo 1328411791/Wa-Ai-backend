@@ -53,4 +53,9 @@ public class SdImageController {
     public Result upLoadSdImageByUser(MultipartFile img) {
         return sdImageService.upLoadSdImageByUser(img);
     }
+
+    @DeleteMapping("/{id}")
+    public Result deleteSdImageById(@PathVariable String id) {
+        return sdImageService.deleteSdImageById(id);
+    }
 }
