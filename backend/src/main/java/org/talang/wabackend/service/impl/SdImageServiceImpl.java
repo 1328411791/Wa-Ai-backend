@@ -13,6 +13,7 @@ import jakarta.annotation.Resource;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.common.ListResult;
 import org.talang.wabackend.common.Result;
@@ -20,15 +21,14 @@ import org.talang.wabackend.constant.SdImageConstant;
 import org.talang.wabackend.model.generator.SdImage;
 import org.talang.wabackend.model.vo.sdImage.MySdImageVo;
 import org.talang.wabackend.model.vo.sdImage.SdImageVo;
+import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.service.*;
 import org.talang.wabackend.mapper.SdImageMapper;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.util.SdImageLikeComponent;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 import static org.talang.wabackend.util.SdImageLikeComponent.SD_IMAGE_LIKE;
 
@@ -57,6 +57,9 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
 
     @Resource
     private SdImageLikeComponent sdImageLikeComponent;
+
+    @Resource
+    private ImageComponent imageComponent;
 
     @Override
     public void saveSdImage(String imageId, Txt2ImgResult txt2ImgResult, Integer userId) {
@@ -164,6 +167,36 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         );
 
         return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));
+    }
+
+    @Override
+    public Result upLoadSdImageByUser(MultipartFile img) {
+
+        // 获取登录的账户
+        int loginId = StpUtil.getLoginIdAsInt();
+        String staticId = null;
+        try {
+            staticId = imageComponent.saveImage(img.getBytes(), loginId);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            log.error(e.getMessage(), e);
+            throw new RuntimeException();
+        }
+
+        if (Objects.nonNull(staticId)) {
+            SdImage sdImage = new SdImage();
+            sdImage.setId(staticId);
+            sdImage.setType(SdImageConstant.SDIMAGE_TYPE_UPLOAD);
+            sdImage.setUserId(loginId);
+            sdImage.setStaticImageId(staticId);
+
+            this.save(sdImage);
+            HashMap<String, String> resultMap = new HashMap<>();
+            resultMap.put("SdImageId", sdImage.getId());
+            return Result.success(resultMap);
+        }
+
+        return Result.fail("保存图片失败");
     }
 }
 

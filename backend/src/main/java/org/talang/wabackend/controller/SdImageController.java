@@ -1,11 +1,13 @@
 package org.talang.wabackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.extra.mail.MailUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.vo.sdImage.SdImageVo;
 import org.talang.wabackend.service.SdImageService;
@@ -17,8 +19,11 @@ import java.util.Date;
 @RequestMapping("/sdImage")
 public class SdImageController {
 
-    @Autowired
-    private SdImageService sdImageService;
+    private final SdImageService sdImageService;
+
+    public SdImageController(SdImageService sdImageService) {
+        this.sdImageService = sdImageService;
+    }
 
     @Operation(summary = "获取Sd图片信息")
     @GetMapping("/{id}")
@@ -42,5 +47,10 @@ public class SdImageController {
         return sdImageService.getMyAllList(startTimeStamp, endTimeStamp,
                 myGenerate, myUpload,
                 page, pageSize);
+    }
+
+    @PostMapping("/upload")
+    public Result upLoadSdImageByUser(MultipartFile img) {
+        return sdImageService.upLoadSdImageByUser(img);
     }
 }

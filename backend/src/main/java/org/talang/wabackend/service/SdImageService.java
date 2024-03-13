@@ -1,5 +1,6 @@
 package org.talang.wabackend.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.generator.SdImage;
@@ -22,4 +23,6 @@ public interface SdImageService extends IService<SdImage> {
     Result getMyAllList(String startTimeStamp, String endTimeStamp,
                         boolean myGenerate, boolean myUpload,
                         Integer page, Integer pageSize);
+
+    Result upLoadSdImageByUser(MultipartFile img);
 }
