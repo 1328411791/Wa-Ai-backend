@@ -13,6 +13,7 @@ import jakarta.annotation.Resource;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.common.ListResult;
@@ -197,6 +198,23 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         }
 
         return Result.fail("保存图片失败");
+    }
+
+    @Override
+    public Result deleteSdImageById(String id) {
+        // 先获取静态Image对象
+        SdImage image = this.getById(id);
+        // 验证是否图片的user
+        Integer loginId = StpUtil.getLoginIdAsInt();
+        if (Objects.isNull(image) || !loginId.equals(image.getUserId())) {
+            return Result.fail("删除失败");
+        }
+        // 删除StaticImage对象
+        if (StringUtils.hasText(image.getStaticImageId())) {
+            staticImageService.removeById(image.getStaticImageId());
+        }
+        this.removeById(id);
+        return Result.success();
     }
 }
 

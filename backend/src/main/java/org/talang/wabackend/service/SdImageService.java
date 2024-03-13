@@ -25,4 +25,6 @@ public interface SdImageService extends IService<SdImage> {
                         Integer page, Integer pageSize);
 
     Result upLoadSdImageByUser(MultipartFile img);
+
+    Result deleteSdImageById(String id);
 }
