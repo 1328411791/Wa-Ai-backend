@@ -204,6 +204,11 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
     public Result deleteSdImageById(String id) {
         // 先获取静态Image对象
         SdImage image = this.getById(id);
+        // 验证是否图片的user
+        Integer loginId = StpUtil.getLoginIdAsInt();
+        if (Objects.isNull(image) || !loginId.equals(image.getUserId())) {
+            return Result.fail("删除失败");
+        }
         // 删除StaticImage对象
         if (StringUtils.hasText(image.getStaticImageId())) {
             staticImageService.removeById(image.getStaticImageId());
