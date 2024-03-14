@@ -1,11 +1,15 @@
 package org.talang.wabackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.PutUserInformationDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
+
+import java.io.IOException;
 
 /**
  * @author lihan
@@ -32,4 +36,5 @@ public interface UserService extends IService<User> {
 
     String getUserNickNameById(Integer userId);
 
+    Result updateAvatar(MultipartFile img) throws IOException;
 }

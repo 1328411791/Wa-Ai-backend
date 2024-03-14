@@ -3,6 +3,7 @@ package org.talang.wabackend.util;
 import cn.hutool.json.JSONUtil;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
@@ -86,4 +87,18 @@ public class QiniuStorageUtiliy {
         return putRet;
     }
 
+    public boolean removeFile(String fileKey) {
+        //构造一个带指定 Region 对象的配置类
+        Configuration cfg = new Configuration(Region.region0());
+
+        Auth auth = Auth.create(accessKey, secretKey);
+        BucketManager bucketManager = new BucketManager(auth, cfg);
+        try {
+            bucketManager.delete(bucket, fileKey);
+        } catch (QiniuException ex) {
+            //如果遇到异常，说明删除失败
+            return false;
+        }
+        return true;
+    }
 }

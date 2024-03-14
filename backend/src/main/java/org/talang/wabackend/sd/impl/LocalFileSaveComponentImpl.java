@@ -68,4 +68,10 @@ public class LocalFileSaveComponentImpl implements ImageComponent {
         }
         return image;
     }
+
+    @Override
+    public boolean removeImage(String id) {
+        File file = new File(IMAGE_SAVE_PATH, id);
+        return file.delete();
+    }
 }

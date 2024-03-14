@@ -1,19 +1,26 @@
 package org.talang.wabackend.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.PutUserInformationDto;
 import org.talang.wabackend.model.dto.user.RegisterDto;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.user.UserVo;
+import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.service.UserService;
 import org.talang.wabackend.util.MailComponent;
+
+import java.io.IOException;
 
 /**
  * @author lihan
@@ -26,6 +33,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private ImageComponent imageComponent;
 
     @Override
     public Integer loginByUserName(String userName, String password) {
@@ -132,6 +142,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public String getUserNickNameById(Integer userId) {
         User user = this.getById(userId);
         return user.getNickName();
+    }
+
+    @Override
+    public Result updateAvatar(MultipartFile img) {
+
+        int loginId = StpUtil.getLoginIdAsInt();
+        User user = this.getById(loginId);
+
+        String oldAvatarStaticImageId = user.getAvatar();
+        String newStaticImageId;
+        try {
+            newStaticImageId = imageComponent.saveImage(img.getBytes(), loginId);
+        } catch (Exception e) {
+            throw new RuntimeException("保存图片失败");
+        }
+
+        imageComponent.removeImage(oldAvatarStaticImageId);
+        user.setAvatar(newStaticImageId);
+        this.updateById(user);
+
+        return Result.success();
     }
 }
 
