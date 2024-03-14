@@ -23,15 +23,16 @@ public class Role implements Serializable {
      *
      */
     @TableField(value = "role_name")
-    private Integer roleName;
+    private String roleName;
     /**
      *
      */
     @TableField(value = "description")
-    private Integer description;
+    private String description;
     /**
      *
      */
+    @TableLogic
     @TableField(value = "is_delete")
     private Integer isDelete;
     /**
