@@ -66,13 +66,13 @@ public class PostController {
     }
 
     @Operation(summary = "收藏帖子")
-    @GetMapping("/Favorite/{postId}")
+    @GetMapping("/favorite/{postId}")
     public Result PostFavorite(@PathVariable Integer postId) {
         return Result.success(postFavoriteSevice.PostFavorite(postId));
     }
 
     @Operation(summary = "点赞帖子")
-    @GetMapping("/Likes/{postId}")
+    @GetMapping("/likes/{postId}")
     public Result PostLikes(@PathVariable Integer postId) {
         return Result.success(postLikeComponent.like(postId));
     }
