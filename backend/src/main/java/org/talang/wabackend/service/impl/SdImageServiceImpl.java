@@ -19,7 +19,9 @@ import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.common.ListResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.constant.SdImageConstant;
+import org.talang.wabackend.mapper.SdImageUserFavourMapper;
 import org.talang.wabackend.model.generator.SdImage;
+import org.talang.wabackend.model.generator.SdImageUserFavour;
 import org.talang.wabackend.model.vo.sdImage.MySdImageVo;
 import org.talang.wabackend.model.vo.sdImage.SdImageVo;
 import org.talang.wabackend.sd.ImageComponent;
@@ -30,6 +32,7 @@ import org.talang.wabackend.util.SdImageLikeComponent;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.talang.wabackend.util.SdImageLikeComponent.SD_IMAGE_LIKE;
 
@@ -61,6 +64,9 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
 
     @Resource
     private ImageComponent imageComponent;
+
+    @Resource
+    private SdImageUserFavourService sdImageUserFavourService;
 
     @Override
     public void saveSdImage(String imageId, Txt2ImgResult txt2ImgResult, Integer userId) {
@@ -133,15 +139,7 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
                                boolean myGenerate, boolean myUpload,
                                Integer page, Integer pageSize) {
 
-        // 构建查找条件
-        LambdaQueryWrapper<SdImage> wrapper = new LambdaQueryWrapper<>();
-
-        // 日期查询
-        Date startTime = new Date((Long.parseLong(startTimeStamp) * 1000));
-        Date endTime = new Date((Long.parseLong(endTimeStamp) * 1000));
-        wrapper.ge(startTime.getTime() != 0L, SdImage::getCreateTime, startTime)
-                .lt(endTime.getTime() != 0L, SdImage::getCreateTime, endTime)
-                .orderByDesc(SdImage::getCreateTime);
+        LambdaQueryWrapper<SdImage> wrapper = buildDateWrapper(startTimeStamp, endTimeStamp);
 
         // 图片类型
         List<String> typeList = new ArrayList<>();
@@ -157,15 +155,8 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         Page<SdImage> sdImagePage = new Page<>(page, pageSize);
         this.page(sdImagePage, wrapper);
 
-        List<SdImage> images = sdImagePage.getRecords();
-
-        //Vo，填充数据
-        List<MySdImageVo> mySdImageVos = BeanUtil.copyToList(images, MySdImageVo.class);
-        mySdImageVos.forEach(sdImage -> sdImage.setUserId(loginId).setUserNickName(username).
-                        setStatus(taskService.getTaskStatusBySDImageId(sdImage.getId())).
-                        setIsLiked(sdImageLikeComponent.isLiked(sdImage.getId(), loginId.intValue()))
-                // TODO 查询收藏
-        );
+        List<MySdImageVo> mySdImageVos = this.buildMySdImageVoList(sdImagePage.getRecords(),
+                loginId.intValue(), username);
 
         return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));
     }
@@ -215,6 +206,61 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         }
         this.removeById(id);
         return Result.success();
+    }
+
+    @Override
+    public Result getFavourImage(String startTimeStamp, String endTimeStamp,
+                                 Integer page, Integer pageSize) {
+
+        // 获取登录信息
+        Integer loginId = StpUtil.getLoginIdAsInt();
+        String username = userService.getUsernameById(loginId);
+
+        // 从收藏关联表中获取用户关联的图片ID
+        LambdaQueryWrapper<SdImageUserFavour> sdImageUserFavourWrapper = new LambdaQueryWrapper<>();
+        sdImageUserFavourWrapper.eq(SdImageUserFavour::getUserId, loginId);
+        List<String> userFavourIds = sdImageUserFavourService.list(sdImageUserFavourWrapper)
+                .stream().map(SdImageUserFavour::getSdImageId)
+                .toList();
+
+        LambdaQueryWrapper<SdImage> wrapper = buildDateWrapper(startTimeStamp, endTimeStamp);
+        wrapper.in(SdImage::getId, userFavourIds);
+        Page<SdImage> sdImagePage = new Page<>(page, pageSize);
+        this.page(sdImagePage, wrapper);
+
+        List<MySdImageVo> mySdImageVos = this.buildMySdImageVoList(sdImagePage.getRecords(),
+                                                            loginId, username);
+
+        return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));
+    }
+
+    private LambdaQueryWrapper<SdImage> buildDateWrapper(String startTimeStamp,
+                                                         String endTimeStamp) {
+
+        // 构建查找条件
+        LambdaQueryWrapper<SdImage> wrapper = new LambdaQueryWrapper<>();
+
+        // 日期查询
+        Date startTime = new Date((Long.parseLong(startTimeStamp) * 1000));
+        Date endTime = new Date((Long.parseLong(endTimeStamp) * 1000));
+        wrapper.ge(startTime.getTime() != 0L, SdImage::getCreateTime, startTime)
+                .lt(endTime.getTime() != 0L, SdImage::getCreateTime, endTime)
+                .orderByDesc(SdImage::getCreateTime);
+
+        return wrapper;
+    }
+
+    private List<MySdImageVo> buildMySdImageVoList(List<SdImage> list, Integer loginId, String username) {
+
+        //Vo，填充数据
+        List<MySdImageVo> mySdImageVos = BeanUtil.copyToList(list, MySdImageVo.class);
+        mySdImageVos.forEach(sdImage -> sdImage.setUserId(loginId.longValue()).setUserNickName(username)
+                .setStatus(taskService.getTaskStatusBySDImageId(sdImage.getId()))
+                .setIsLiked(sdImageLikeComponent.isLiked(sdImage.getId(), loginId))
+                .setIsFavours(sdImageUserFavourService.getIsFavour(sdImage.getId(), loginId))
+        );
+
+        return mySdImageVos;
     }
 }
 

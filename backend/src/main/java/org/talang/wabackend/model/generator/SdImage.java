@@ -61,6 +61,12 @@ public class SdImage implements Serializable {
     private String type;
 
     /**
+     * 收藏人数
+     */
+    @TableField(value = "favours")
+    private Integer favours;
+
+    /**
      * 
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)

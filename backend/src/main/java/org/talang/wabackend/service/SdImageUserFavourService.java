@@ -16,4 +16,6 @@ public interface SdImageUserFavourService extends IService<SdImageUserFavour> {
     Result setFavour(String sdImageId);
 
     Result getFavour(String sdImageId);
+
+    boolean getIsFavour(String sdImageId, Integer userId);
 }
