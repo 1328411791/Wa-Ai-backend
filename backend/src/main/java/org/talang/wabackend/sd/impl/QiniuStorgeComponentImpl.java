@@ -75,7 +75,6 @@ public class QiniuStorgeComponentImpl implements ImageComponent {
             staticImageService.removeById(id);
             return true;
         }
-
         return false;
     }
 }
