@@ -93,7 +93,4 @@ public class SdModelController {
     public Result getSdExtraUpscaler() {
         return Result.success(sdModelComponent.getExtraUpscaler());
     }
-
-
-
 }

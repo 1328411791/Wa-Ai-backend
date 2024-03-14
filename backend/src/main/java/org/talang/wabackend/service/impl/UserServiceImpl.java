@@ -37,6 +37,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Resource
     private ImageComponent imageComponent;
 
+    // 初始头像设置
+    private final static String defaultAvatarId = "abe202bb-32fa-4342-848d-216f385e11d0";
+
     @Override
     public Integer loginByUserName(String userName, String password) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -93,6 +96,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
         user.setNickName(registerDto.getNickName());
+        user.setAvatar(defaultAvatarId);
+
         return this.save(user);
     }
 
