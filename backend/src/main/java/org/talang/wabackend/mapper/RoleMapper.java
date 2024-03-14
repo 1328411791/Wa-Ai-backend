@@ -1,6 +1,7 @@
 package org.talang.wabackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.talang.wabackend.model.generator.Role;
 
 /**
@@ -9,6 +10,7 @@ import org.talang.wabackend.model.generator.Role;
  * @createDate 2024-03-14 13:11:53
  * @Entity org.talang.wabackend.model.generator.Role
  */
+@Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
 }
