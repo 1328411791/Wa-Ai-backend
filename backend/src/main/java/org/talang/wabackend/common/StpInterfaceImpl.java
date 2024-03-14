@@ -26,6 +26,7 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
+        // TODO: 待添加缓存
         Integer userId = Integer.parseInt((String) loginId);
         User user = userService.getById(userId);
         List<String> roleList = new ArrayList<>();
