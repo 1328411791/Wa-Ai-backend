@@ -27,4 +27,6 @@ public interface SdImageService extends IService<SdImage> {
     Result upLoadSdImageByUser(MultipartFile img);
 
     Result deleteSdImageById(String id);
+
+    Result getFavourImage(String startTimeStamp, String endTimeStamp, Integer page, Integer pageSize);
 }

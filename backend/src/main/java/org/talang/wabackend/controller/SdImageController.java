@@ -49,13 +49,25 @@ public class SdImageController {
                 page, pageSize);
     }
 
+    @Operation(summary = "用户上传SD图片")
     @PostMapping("/upload")
     public Result upLoadSdImageByUser(MultipartFile img) {
         return sdImageService.upLoadSdImageByUser(img);
     }
 
+    @Operation(summary = "删除SD图片")
     @DeleteMapping("/{id}")
     public Result deleteSdImageById(@PathVariable String id) {
         return sdImageService.deleteSdImageById(id);
+    }
+
+    @Operation(summary = "获取我收藏的图片")
+    @GetMapping("/getFavour")
+    public Result getFavourImage(@RequestParam(defaultValue = "0") String startTimeStamp,
+                                 @RequestParam(defaultValue = "0") String endTimeStamp,
+                                 Integer page, Integer pageSize) {
+
+        return sdImageService.getFavourImage(startTimeStamp, endTimeStamp,
+                                             page, pageSize);
     }
 }
