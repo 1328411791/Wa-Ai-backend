@@ -1,5 +1,6 @@
 package org.talang.wabackend.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -46,17 +47,28 @@ public class SystemController {
         return Result.success(sdModels);
     }
 
+    @Operation(summary = "权限测试")
+    @GetMapping("/authTest")
+    public Result authTest() {
+        List<String> list = StpUtil.getRoleList();
+        return Result.success(list);
+    }
+
+    @Operation(summary = "Websock 发送消息")
     @PostMapping("/sendAll")
     public String sendAllMessage(String message) {
         sdTaskWebSocket.sendAllMessage(message);
         return "success";
     }
 
+    @Operation(summary = "Websock 发送消息")
     @PostMapping("/sendOne")
     public String sendOneMessage(String message, Integer userId) {
         sdTaskWebSocket.sendOneMessage(userId,message);
         return "success";
     }
+
+    @Operation(summary = "Websock 页面")
     @GetMapping("/webSocket")
     public ModelAndView socket() {
         ModelAndView mav=new ModelAndView("/webSocket");

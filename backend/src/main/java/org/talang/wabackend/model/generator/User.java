@@ -51,6 +51,11 @@ public class User implements Serializable {
      */
     @TableField(value = "gender")
     private String gender;
+    /*
+     *
+     */
+    @TableField(value = "role")
+    private Integer role;
     /**
      *
      */
