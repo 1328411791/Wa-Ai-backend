@@ -223,6 +223,11 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
                 .stream().map(SdImageUserFavour::getSdImageId)
                 .toList();
 
+        // 没有就不用查了，会导致MBP SQL语法错误
+        if(userFavourIds.isEmpty()) {
+            return Result.success(new ListResult(userFavourIds, 0L));
+        }
+
         LambdaQueryWrapper<SdImage> wrapper = buildDateWrapper(startTimeStamp, endTimeStamp);
         wrapper.in(SdImage::getId, userFavourIds);
         Page<SdImage> sdImagePage = new Page<>(page, pageSize);
