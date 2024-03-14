@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.talang.wabackend.model.generator.StaticImage;
 import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.service.SdImageService;
 import org.talang.wabackend.service.StaticImageService;
 import org.talang.wabackend.util.QiniuStorageUtiliy;
+
+import java.util.Objects;
 
 @Slf4j
 @Component()
@@ -58,5 +61,20 @@ public class QiniuStorgeComponentImpl implements ImageComponent {
     @Override
     public byte[] getImageById(String id) {
         throw new RuntimeException("不支持的操作");
+    }
+
+    @Override
+    public boolean removeImage(String id) {
+        StaticImage staticImage = staticImageService.getById(id);
+        if (Objects.isNull(staticImage)) {
+            return true;
+        }
+        String[] split = staticImage.getFilePath().split("/");
+        String key = savePath + "/" + split[split.length - 1];
+        if (qiniuStorageUtiliy.removeFile(key)) {
+            staticImageService.removeById(id);
+            return true;
+        }
+        return false;
     }
 }

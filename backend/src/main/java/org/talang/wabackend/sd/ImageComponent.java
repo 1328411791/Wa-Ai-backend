@@ -13,4 +13,6 @@ public interface ImageComponent {
     String saveImage(byte[] image, Integer userId, String fileName);
 
     byte[] getImageById(String id);
+
+    boolean removeImage(String id);
 }

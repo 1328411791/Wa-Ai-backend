@@ -202,7 +202,7 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         }
         // 删除StaticImage对象
         if (StringUtils.hasText(image.getStaticImageId())) {
-            staticImageService.removeById(image.getStaticImageId());
+            imageComponent.removeImage(id);
         }
         this.removeById(id);
         return Result.success();
