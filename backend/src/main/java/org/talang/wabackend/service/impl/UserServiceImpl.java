@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Resource
     private ImageComponent imageComponent;
+
+    // 初始头像设置
+    @Value("${user-config.default-avatar-id}")
+    private String defaultAvatarId;
 
     @Override
     public Integer loginByUserName(String userName, String password) {
@@ -93,6 +98,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
         user.setNickName(registerDto.getNickName());
+        user.setAvatar(defaultAvatarId);
+
         return this.save(user);
     }
 
