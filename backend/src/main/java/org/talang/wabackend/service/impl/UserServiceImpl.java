@@ -21,7 +21,7 @@ import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.service.UserService;
 import org.talang.wabackend.util.MailComponent;
 
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author lihan
@@ -170,6 +170,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         this.updateById(user);
 
         return Result.success();
+    }
+
+    @Override
+    public User getById(Serializable id) {
+        Integer userid = (Integer) id;
+
+        return super.getById(id);
     }
 }
 
