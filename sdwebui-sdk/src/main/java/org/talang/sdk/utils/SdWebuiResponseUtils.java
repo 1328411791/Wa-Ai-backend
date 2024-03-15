@@ -2,6 +2,7 @@ package org.talang.sdk.utils;
 
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.exceptions.SdWebuiBadRequestException;
 import org.talang.sdk.exceptions.SdWebuiServerValidationException;
 
@@ -19,7 +20,7 @@ public class SdWebuiResponseUtils {
 
             throw JsonUtils.fromJson(response.getEntity().getContent(), SdWebuiBadRequestException.class);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
 
     }
@@ -29,7 +30,7 @@ public class SdWebuiResponseUtils {
         try {
             return JsonUtils.fromJson(response.getEntity().getContent(), clazz);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
     }
 

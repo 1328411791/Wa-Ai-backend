@@ -3,8 +3,9 @@ package org.talang.wabackend.util;
 import cn.hutool.core.util.BooleanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
+import org.talang.wabackend.exception.BusinessException;
+import org.talang.wabackend.exception.BusinessErrorCode;
 import org.talang.wabackend.model.generator.Model;
 import org.talang.wabackend.service.ModelService;
 
@@ -23,17 +24,17 @@ public class SdModelLikeComponent {
         String key = SD_MODEL_LIKE + sdmodelId;
         Model model = modelService.getById(sdmodelId);
         if (model == null) {
-            throw new RuntimeException("不存在Sd模型");
+            throw new BusinessException(BusinessErrorCode.MODEL_NOT_FOUND);
         }
         boolean flag = Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, String.valueOf(userId)));
         if (BooleanUtil.isFalse(flag)) {
             boolean update = modelService.update().setSql("liked = liked + 1")
                     .eq("id", sdmodelId).update();
-            if (update){
+            if (update) {
                 stringRedisTemplate.opsForSet().add(key, String.valueOf(userId));
             }
             return true;
-        }else {
+        } else {
             modelService.update().setSql("liked = liked - 1")
                     .eq("id", sdmodelId).update();
             stringRedisTemplate.opsForSet().remove(key, String.valueOf(userId));

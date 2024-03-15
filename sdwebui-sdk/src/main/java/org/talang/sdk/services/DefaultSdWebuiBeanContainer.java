@@ -5,6 +5,7 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.talang.sdk.*;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SdWebuiOptions;
 import org.talang.sdk.models.SystemInfo;
 
@@ -28,7 +29,7 @@ public class DefaultSdWebuiBeanContainer implements SdWebuiBeanContainer {
     public <T> T getBean(Class<T> serviceClass) {
         T instance = (T) this.services.get(serviceClass);
         if (instance == null) {
-            throw new RuntimeException("No service or service factory found for " + serviceClass);
+            throw new SdBusinessException("No service or service factory found for " + serviceClass);
         }
 
         if (instance instanceof SdWebuiBeanFactory) {
