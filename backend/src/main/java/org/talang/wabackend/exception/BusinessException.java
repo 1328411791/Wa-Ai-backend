@@ -2,16 +2,16 @@ package org.talang.wabackend.exception;
 
 public class BusinessException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final ErrorName errorName;
 
-    public BusinessException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public BusinessException(ErrorName errorName) {
+        super(errorName.getMessage());
+        this.errorName = errorName;
     }
 
-    public BusinessException(ErrorCode errorCode, String message) {
-        super(errorCode.getMessage() + message);
-        this.errorCode = errorCode;
+    public BusinessException(ErrorName errorName, String message) {
+        super(errorName.getMessage() + message);
+        this.errorName = errorName;
     }
 
 }
