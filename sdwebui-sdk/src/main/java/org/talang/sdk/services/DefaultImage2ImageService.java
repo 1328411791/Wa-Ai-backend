@@ -33,7 +33,7 @@ public class DefaultImage2ImageService implements Image2Image {
         try {
             return httpClient.execute(buildRequest(options), this::parseResponse);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -50,7 +50,7 @@ public class DefaultImage2ImageService implements Image2Image {
         try {
             return JsonUtils.fromJson(response.getEntity().getContent(), Image2ImageResult.class);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 

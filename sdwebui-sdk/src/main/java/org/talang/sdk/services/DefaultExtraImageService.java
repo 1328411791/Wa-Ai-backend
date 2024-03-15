@@ -37,7 +37,7 @@ public class DefaultExtraImageService implements ExtraImage {
         try {
             return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -56,7 +56,7 @@ public class DefaultExtraImageService implements ExtraImage {
                     .writeValueAsString(options);
             return new StringEntity(payload);
         } catch (JsonProcessingException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -68,7 +68,7 @@ public class DefaultExtraImageService implements ExtraImage {
             return this.beanContainer.getBean(ObjectMapper.class)
                     .readValue(response.getEntity().getContent(), ExtraImageResult.class);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
 
     }

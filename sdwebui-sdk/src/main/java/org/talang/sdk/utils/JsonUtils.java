@@ -15,7 +15,7 @@ public class JsonUtils {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -23,7 +23,7 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -31,7 +31,7 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(inputStream, clazz);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 

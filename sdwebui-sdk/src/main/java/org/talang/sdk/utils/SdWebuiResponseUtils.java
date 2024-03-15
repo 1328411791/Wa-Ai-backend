@@ -20,7 +20,7 @@ public class SdWebuiResponseUtils {
 
             throw JsonUtils.fromJson(response.getEntity().getContent(), SdWebuiBadRequestException.class);
         } catch (Exception e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
 
     }
@@ -30,7 +30,7 @@ public class SdWebuiResponseUtils {
         try {
             return JsonUtils.fromJson(response.getEntity().getContent(), clazz);
         } catch (Exception e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
