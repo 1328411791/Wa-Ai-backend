@@ -7,6 +7,7 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.talang.sdk.SdWebuiBeanContainer;
 import org.talang.sdk.SdWebuiBeanFactory;
 import org.talang.sdk.SystemInfoFetcher;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SystemInfo;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class CacheableSystemInfoFetcher implements SystemInfoFetcher, SdWebuiBea
             return this.serviceContainer.getBean(HttpClient.class)
                     .execute(new HttpGet(endpoint + PATH), this::parseSystemInfo);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
     }
 
@@ -57,7 +58,7 @@ public class CacheableSystemInfoFetcher implements SystemInfoFetcher, SdWebuiBea
         try {
             return this.serviceContainer.getBean(ObjectMapper.class).readValue(response.getEntity().getContent(), SystemInfo.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
     }
 

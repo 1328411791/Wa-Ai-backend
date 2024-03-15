@@ -10,6 +10,7 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.talang.sdk.SdWebuiBeanContainer;
 import org.talang.sdk.Txt2Image;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SdWebuiOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.sdk.models.results.Txt2ImgResult;
@@ -34,7 +35,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
         try {
             return httpClient.execute(txt2ImgRequest, this::parseTxt2ImageResult);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
     }
 
@@ -53,7 +54,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
                     .writeValueAsString(options);
             return new StringEntity(payload);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
     }
 
@@ -65,7 +66,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
             return this.beanContainer.getBean(ObjectMapper.class)
                     .readValue(response.getEntity().getContent(), Txt2ImgResult.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e.toString());
         }
 
     }
