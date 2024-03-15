@@ -54,14 +54,14 @@ public class SystemController {
         return Result.success(list);
     }
 
-    @Operation(summary = "Websock 发送消息")
+    @Operation(summary = "Websock 群发消息")
     @PostMapping("/sendAll")
     public String sendAllMessage(String message) {
         sdTaskWebSocket.sendAllMessage(message);
         return "success";
     }
 
-    @Operation(summary = "Websock 发送消息")
+    @Operation(summary = "Websock 对指定用户发送消息")
     @PostMapping("/sendOne")
     public String sendOneMessage(String message, Integer userId) {
         sdTaskWebSocket.sendOneMessage(userId,message);
