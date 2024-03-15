@@ -7,7 +7,7 @@ import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.talang.wabackend.exception.BusinessException;
-import org.talang.wabackend.exception.ErrorName;
+import org.talang.wabackend.exception.BusinessErrorCode;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,7 +41,7 @@ public class SdTaskWebSocket {
             String loginId = (String) StpUtil.getLoginIdByToken(token);
             if (loginId == null) {
                 session.close();
-                throw new BusinessException(ErrorName.WEBSOKET_FAILED_CONNECT, "无效Token：" + token);
+                throw new BusinessException(BusinessErrorCode.WEBSOKET_FAILED_CONNECT, "无效Token：" + token);
             }
             this.session = session;
             this.userId = Integer.valueOf(loginId);

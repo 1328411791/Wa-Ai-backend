@@ -1,6 +1,6 @@
 package org.talang.wabackend.exception;
 
-public enum ErrorName {
+public enum BusinessErrorCode {
 
     NOT_FOUND("未找到"),
     WEBSOKET_FAILED_CONNECT("websoket连接失败"),
@@ -11,7 +11,7 @@ public enum ErrorName {
 
     private final String message;
 
-    ErrorName(String message) {
+    BusinessErrorCode(String message) {
         this.message = message;
     }
 
