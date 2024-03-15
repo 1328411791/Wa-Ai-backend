@@ -24,7 +24,7 @@ final class CommonGetService {
             return client.execute(new HttpGet(sdWebuiOptions.getEndpoint() + path),
                     response -> SdWebuiResponseUtils.parseResponse(response, clazz));
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 

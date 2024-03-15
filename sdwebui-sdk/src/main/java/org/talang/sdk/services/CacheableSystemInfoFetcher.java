@@ -50,7 +50,7 @@ public class CacheableSystemInfoFetcher implements SystemInfoFetcher, SdWebuiBea
             return this.serviceContainer.getBean(HttpClient.class)
                     .execute(new HttpGet(endpoint + PATH), this::parseSystemInfo);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -58,7 +58,7 @@ public class CacheableSystemInfoFetcher implements SystemInfoFetcher, SdWebuiBea
         try {
             return this.serviceContainer.getBean(ObjectMapper.class).readValue(response.getEntity().getContent(), SystemInfo.class);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 

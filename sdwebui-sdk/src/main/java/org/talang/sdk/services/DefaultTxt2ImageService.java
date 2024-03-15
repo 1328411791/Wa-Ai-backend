@@ -35,7 +35,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
         try {
             return httpClient.execute(txt2ImgRequest, this::parseTxt2ImageResult);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -54,7 +54,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
                     .writeValueAsString(options);
             return new StringEntity(payload);
         } catch (JsonProcessingException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
     }
 
@@ -66,7 +66,7 @@ public class DefaultTxt2ImageService implements Txt2Image {
             return this.beanContainer.getBean(ObjectMapper.class)
                     .readValue(response.getEntity().getContent(), Txt2ImgResult.class);
         } catch (IOException e) {
-            throw new SdBusinessException(e.toString());
+            throw new SdBusinessException(e);
         }
 
     }
