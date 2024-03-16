@@ -2,6 +2,7 @@ package org.talang.sdk.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.talang.sdk.exceptions.SdBusinessException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +15,7 @@ public class JsonUtils {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 
@@ -22,7 +23,7 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 
@@ -30,7 +31,7 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(inputStream, clazz);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 

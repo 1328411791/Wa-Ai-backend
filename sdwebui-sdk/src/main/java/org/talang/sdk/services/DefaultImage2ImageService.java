@@ -8,6 +8,7 @@ import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.talang.sdk.Image2Image;
 import org.talang.sdk.SdWebuiBeanContainer;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SdWebuiOptions;
 import org.talang.sdk.models.options.Image2ImageOptions;
 import org.talang.sdk.models.results.Image2ImageResult;
@@ -32,7 +33,7 @@ public class DefaultImage2ImageService implements Image2Image {
         try {
             return httpClient.execute(buildRequest(options), this::parseResponse);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 
@@ -49,7 +50,7 @@ public class DefaultImage2ImageService implements Image2Image {
         try {
             return JsonUtils.fromJson(response.getEntity().getContent(), Image2ImageResult.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 

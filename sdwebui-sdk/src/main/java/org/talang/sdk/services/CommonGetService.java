@@ -3,6 +3,7 @@ package org.talang.sdk.services;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.talang.sdk.SdWebuiBeanContainer;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SdWebuiOptions;
 import org.talang.sdk.utils.SdWebuiResponseUtils;
 
@@ -23,7 +24,7 @@ final class CommonGetService {
             return client.execute(new HttpGet(sdWebuiOptions.getEndpoint() + path),
                     response -> SdWebuiResponseUtils.parseResponse(response, clazz));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 

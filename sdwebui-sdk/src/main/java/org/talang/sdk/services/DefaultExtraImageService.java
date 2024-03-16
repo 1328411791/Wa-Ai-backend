@@ -11,6 +11,7 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.talang.sdk.ExtraImage;
 import org.talang.sdk.SdWebuiBeanContainer;
+import org.talang.sdk.exceptions.SdBusinessException;
 import org.talang.sdk.models.SdWebuiOptions;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.results.ExtraImageResult;
@@ -36,7 +37,7 @@ public class DefaultExtraImageService implements ExtraImage {
         try {
             return httpClient.execute(extraImageRequest, this::parseExtraImageResult);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 
@@ -55,7 +56,7 @@ public class DefaultExtraImageService implements ExtraImage {
                     .writeValueAsString(options);
             return new StringEntity(payload);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
     }
 
@@ -67,7 +68,7 @@ public class DefaultExtraImageService implements ExtraImage {
             return this.beanContainer.getBean(ObjectMapper.class)
                     .readValue(response.getEntity().getContent(), ExtraImageResult.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SdBusinessException(e);
         }
 
     }
