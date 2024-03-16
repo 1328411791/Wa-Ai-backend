@@ -21,9 +21,12 @@ public class RedisCacheTest {
     private UserService userService;
 
     @Test
-    public void userQueryTest() {
+    public void userQueryTest() throws InterruptedException {
+        User id = userService.getById(5);
+        log.info("id:{}", id);
+
         User user = redisStrategyComponent.queryWithPassThrough("user:",
-                1, User.class, userService::getById, 60L, TimeUnit.MINUTES);
+                5, userService::getById, 60L, TimeUnit.MINUTES);
         log.info("user:{}", user);
     }
 
