@@ -29,7 +29,6 @@ public class RedisStrategyComponent {
      *
      * @param prefix   缓存前缀
      * @param id       主键
-     * @param type     返回类型
      * @param fallback 查询数据库的方法
      * @param <ID>     主键类型
      * @param <R>      返回类型
