@@ -1,8 +1,7 @@
 package org.talang.wabackend.util;
 
-import cn.hutool.core.lang.Pair;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.talang.sdk.SdWebui;
 import org.talang.sdk.models.results.LatentUpscaleModesResult;
@@ -17,7 +16,7 @@ import java.util.List;
 @Component
 public class SdModelComponent {
 
-    @Autowired
+    @Resource
     private MultiSdWebUiConnect multiSdWebUiConnect;
 
 

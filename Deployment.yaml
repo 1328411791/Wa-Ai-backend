@@ -22,4 +22,3 @@ spec:
             - containerPort: 5050
       imagePullSecrets:
         - name: coding-docker
-
