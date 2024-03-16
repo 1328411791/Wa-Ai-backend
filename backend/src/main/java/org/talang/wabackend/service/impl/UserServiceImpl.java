@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.talang.wabackend.common.Result;
+import org.talang.wabackend.constant.UserRedisConstant;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.PutUserInformationDto;
@@ -20,6 +21,10 @@ import org.talang.wabackend.model.vo.user.UserVo;
 import org.talang.wabackend.sd.ImageComponent;
 import org.talang.wabackend.service.UserService;
 import org.talang.wabackend.util.MailComponent;
+import org.talang.wabackend.util.RedisStrategyComponent;
+
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lihan
@@ -35,6 +40,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Resource
     private ImageComponent imageComponent;
+
+    @Resource
+    private RedisStrategyComponent redisStrategyComponent;
 
     // 初始头像设置
     @Value("${user-config.default-avatar-id}")
@@ -168,6 +176,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         this.updateById(user);
 
         return Result.success();
+    }
+
+    @Override
+    public User getById(Serializable id) {
+        try {
+            return redisStrategyComponent.queryWithPassThrough(UserRedisConstant.USER_PREFIX
+                    , id, super::getById, 60L, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
