@@ -24,8 +24,8 @@ public class RedisStrategyComponent {
     @Resource
     private Redisson redisson;
 
-    /**
-     * 查询缓存，如果缓存不存在则查询数据库，并将查询结果放入缓存
+    /**sd_image_likes
+     * 查询缓存，如果缓存不存在则查询数据库，并将查询结果放入缓存，集成一系列策略
      *
      * @param prefix   缓存前缀
      * @param id       主键
