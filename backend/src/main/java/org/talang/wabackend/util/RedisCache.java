@@ -1,16 +1,20 @@
 package org.talang.wabackend.util;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
-
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class RedisCache
 {
@@ -36,7 +40,7 @@ public class RedisCache
      * @param timeout 时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
+    public <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUnit)
     {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
