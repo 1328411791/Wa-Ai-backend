@@ -44,4 +44,6 @@ public class UserController {
     public Result updateAvatar(MultipartFile img) throws IOException {
         return userService.updateAvatar(img);
     }
+
+
 }
