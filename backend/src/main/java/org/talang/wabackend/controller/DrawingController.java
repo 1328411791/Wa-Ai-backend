@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.talang.sdk.models.options.ExtraImageOptions;
 import org.talang.sdk.models.options.Txt2ImageOptions;
 import org.talang.wabackend.common.Result;
-import org.talang.wabackend.model.dto.sd.ExtraImageDto;
 import org.talang.wabackend.sd.StartDrawComponent;
 
-@Tag(name = "Printing", description = "画图API")
+@Tag(name = "画图相关接口", description = "画图API")
 @RestController
 @RequestMapping("/drawImage")
 public class DrawingController {
