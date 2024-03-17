@@ -6,7 +6,9 @@ public enum BusinessErrorCode {
     WEBSOKET_FAILED_CONNECT("websoket连接失败"),
     IMAGE_NOT_FOUND("不存在Sd图片"),
     MODEL_NOT_FOUND("不存在Sd模型"),
-    UnknownErr("系统繁忙");
+    UnknownErr("系统繁忙"),
+    RATE_LIMITER_ERROR("请求过于频繁,超过限流"),
+    ;
 
 
     private final String message;
