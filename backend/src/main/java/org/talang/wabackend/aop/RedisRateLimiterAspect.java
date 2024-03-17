@@ -1,7 +1,6 @@
 package org.talang.wabackend.aop;
 
 
-import cn.hutool.http.server.HttpServerRequest;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,8 +11,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.Redisson;
 import org.redisson.api.RRateLimiter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.talang.wabackend.aop.annotation.RateLimiter;
 import org.talang.wabackend.exception.BusinessErrorCode;
 import org.talang.wabackend.exception.BusinessException;
@@ -36,10 +35,11 @@ public class RedisRateLimiterAspect {
 
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
-        String ip = ((HttpServerRequest) requestAttributes).getClientIP();
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
+        String ip = requestAttributes.getRequest().getRemoteAddr();
+        log.info("进入限流切面,ip:{}", ip);
         // 获取方法上的注解
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 

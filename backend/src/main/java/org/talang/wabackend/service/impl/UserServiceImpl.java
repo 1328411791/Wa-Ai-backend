@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.talang.wabackend.aop.annotation.RateLimiter;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.constant.UserRedisConstant;
 import org.talang.wabackend.mapper.UserMapper;
@@ -178,6 +179,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return Result.success();
     }
 
+    @RateLimiter(key = "getUserById")
     @Override
     public User getById(Serializable id) {
         try {
