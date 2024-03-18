@@ -39,6 +39,10 @@ spring:
         username: admin
         password: admin
         virtual-host: /
+    servlet:
+        multipart:
+            max-file-size: 4096MB
+            max-request-size: 8192MB
 
 springdoc:
     swagger-ui:
