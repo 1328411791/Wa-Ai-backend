@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.talang.wabackend.aop.annotation.RateLimiter;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.constant.UserRedisConstant;
+import org.talang.wabackend.exception.BusinessErrorCode;
+import org.talang.wabackend.exception.BusinessException;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.user.ForgetPasswordDto;
 import org.talang.wabackend.model.dto.user.PutUserInformationDto;
@@ -178,13 +181,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return Result.success();
     }
 
+    @RateLimiter(key = "getUserById")
     @Override
     public User getById(Serializable id) {
         try {
             return redisStrategyComponent.queryWithPassThrough(UserRedisConstant.USER_PREFIX
                     , id, super::getById, 60L, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new BusinessException(BusinessErrorCode.UnknownErr, "获取用户信息失败");
         }
     }
 }

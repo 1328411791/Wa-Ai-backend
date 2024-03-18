@@ -26,6 +26,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+
                 .allowCredentials(true)
                 .maxAge(3600);
     }

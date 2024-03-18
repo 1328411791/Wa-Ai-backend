@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @Operation(description = "获取用户信息")
-    @PutMapping("/{id}")
+    @GetMapping("/{id}")
     public Result getUserInformation(@PathVariable Integer id) {
         User user = userService.getById(id);
         UserVo userVo = BeanUtil.toBean(user, UserVo.class);

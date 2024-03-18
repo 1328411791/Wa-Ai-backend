@@ -15,9 +15,6 @@ import org.talang.wabackend.service.TaskService;
 public class StartDrawComponent {
 
     @Resource
-    private DrawImageComponent drawImageComponent;
-
-    @Resource
     private TaskService taskService;
 
     @Resource

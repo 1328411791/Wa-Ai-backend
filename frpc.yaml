@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frpc
-          image: 10.180.193.12:5000/snowdreamtech/frpc
+          image: snowdreamtech/frpc
           imagePullPolicy: IfNotPresent
           command: ["frpc", "-c", "/etc/frp/frps.ini"]
           volumeMounts:
