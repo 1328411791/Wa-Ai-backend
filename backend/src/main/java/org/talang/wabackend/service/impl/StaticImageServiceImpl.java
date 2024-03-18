@@ -2,6 +2,7 @@ package org.talang.wabackend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.mapper.StaticImageMapper;
 import org.talang.wabackend.model.generator.StaticImage;
 import org.talang.wabackend.service.StaticImageService;
@@ -48,13 +49,14 @@ public class StaticImageServiceImpl extends ServiceImpl<StaticImageMapper, Stati
     }
 
     @Override
-    public String getSaticImagePathById(String imageId) {
+    public String getStaticImagePathById(String imageId) {
         StaticImage staticImage = getById(imageId);
         if (staticImage == null) {
             return null;
         }
         return staticImage.getFilePath();
     }
+
 }
 
 

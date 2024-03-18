@@ -2,7 +2,6 @@ package org.talang.wabackend.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,8 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.Resource;
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +16,6 @@ import org.talang.sdk.models.results.Txt2ImgResult;
 import org.talang.wabackend.common.ListResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.constant.SdImageConstant;
-import org.talang.wabackend.mapper.SdImageUserFavourMapper;
 import org.talang.wabackend.model.generator.SdImage;
 import org.talang.wabackend.model.generator.SdImageUserFavour;
 import org.talang.wabackend.model.vo.sdImage.MySdImageVo;
@@ -30,9 +26,7 @@ import org.talang.wabackend.mapper.SdImageMapper;
 import org.springframework.stereotype.Service;
 import org.talang.wabackend.util.SdImageLikeComponent;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.talang.wabackend.util.SdImageLikeComponent.SD_IMAGE_LIKE;
 
@@ -124,7 +118,7 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         }
         SdImageVo vo = BeanUtil.toBean(sdImage, SdImageVo.class);
 
-        vo.setImageUrl(staticImageService.getSaticImagePathById(id));
+        vo.setImageUrl(staticImageService.getStaticImagePathById(id));
         vo.setUser(userService.getUserVo(sdImage.getUserId()));
         String key = SD_IMAGE_LIKE + sdImage.getId();
         Boolean isMember = stringRedisTemplate.opsForSet().isMember(key, String.valueOf(userId));
@@ -155,10 +149,11 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         Page<SdImage> sdImagePage = new Page<>(page, pageSize);
         this.page(sdImagePage, wrapper);
 
+        long total = sdImagePage.getTotal();
         List<MySdImageVo> mySdImageVos = this.buildMySdImageVoList(sdImagePage.getRecords(),
                 loginId.intValue(), username);
 
-        return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));
+        return Result.success(new ListResult(mySdImageVos, total));
     }
 
     @Override
@@ -233,10 +228,11 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
         Page<SdImage> sdImagePage = new Page<>(page, pageSize);
         this.page(sdImagePage, wrapper);
 
+        long total = sdImagePage.getTotal();
         List<MySdImageVo> mySdImageVos = this.buildMySdImageVoList(sdImagePage.getRecords(),
                                                             loginId, username);
 
-        return Result.success(new ListResult(mySdImageVos, (long) mySdImageVos.size()));
+        return Result.success(new ListResult(mySdImageVos, total));
     }
 
     private LambdaQueryWrapper<SdImage> buildDateWrapper(String startTimeStamp,
@@ -259,7 +255,9 @@ public class SdImageServiceImpl extends ServiceImpl<SdImageMapper, SdImage> impl
 
         //Vo，填充数据
         List<MySdImageVo> mySdImageVos = BeanUtil.copyToList(list, MySdImageVo.class);
-        mySdImageVos.forEach(sdImage -> sdImage.setUserId(loginId.longValue()).setUserNickName(username)
+        mySdImageVos.forEach(sdImage ->
+                sdImage.setUserNickName(loginId.equals(sdImage.getUserId()) ?
+                                username : userService.getUserNickNameById(sdImage.getUserId().intValue()))
                 .setStatus(taskService.getTaskStatusBySDImageId(sdImage.getId()))
                 .setIsLiked(sdImageLikeComponent.isLiked(sdImage.getId(), loginId))
                 .setIsFavours(sdImageUserFavourService.getIsFavour(sdImage.getId(), loginId))

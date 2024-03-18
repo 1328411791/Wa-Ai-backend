@@ -89,6 +89,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .eq(Comment::getArticleId, id);
         page(page, wrapper);
 
+        long total = page.getTotal();
         // 优化成Vo
         List<CommentVo> commentVos = BeanUtil.copyToList(page.getRecords(), CommentVo.class);
 
@@ -100,7 +101,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 // TODO 获取点赞数
         );
 
-        return Result.success(new ListResult(commentVos, Integer.valueOf(commentVos.size()).longValue()));
+        return Result.success(new ListResult(commentVos, total));
     }
 
     private List<ToCommentVo> buildTreeOfComments(CommentVo commentVo) {
