@@ -1,6 +1,7 @@
 package org.talang.wabackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.generator.StaticImage;
 
 /**
@@ -16,5 +17,6 @@ public interface StaticImageService extends IService<StaticImage> {
 
     String saveImage(String fileName, String readPath, String hash, Integer userId);
 
-    String getSaticImagePathById(String imageId);
+    String getStaticImagePathById(String imageId);
+
 }

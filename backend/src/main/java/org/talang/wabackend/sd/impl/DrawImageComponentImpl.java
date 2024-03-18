@@ -43,22 +43,30 @@ public class DrawImageComponentImpl implements DrawImageComponent {
     @Override
     public void text2Image(String taskId, Integer userId, String options, SdWebui sdWebui) throws TaskFailException {
         log.info("text2Image taskId:{}", taskId);
+        // 生成任务
         Txt2ImageOptions txt2ImageOptions = JSONUtil.toBean(options, Txt2ImageOptions.class);
         taskService.setStartDrawStatus(taskId);
 
+        // 等待任务跑完
         Txt2ImgResult txt2ImgResult = sdWebui.txt2Img(txt2ImageOptions);
 
+        // 判断任务是都生成成功
         if(txt2ImgResult.getImages().isEmpty()){
             throw new TaskFailException(taskId, "txt2ImgResult.getImages() == null");
         }
 
+        // 生成成功
         byte[] decode = Base64.getDecoder().decode(txt2ImgResult.getImages().get(0));
 
+        // 上传图片到OSS
         String imageId = imageComponent.saveImage(decode, userId);
+        // 保存到库
         sdImageService.saveSdImage(imageId,txt2ImgResult,userId);
 
+        // 设置状态
         taskService.setFinishDrawStatus(taskId, imageId);
 
+        // 完成后处理
         sdDrawFinshHandle.drawFinishHandle(taskId);
 
     }
