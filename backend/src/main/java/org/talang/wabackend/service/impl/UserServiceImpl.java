@@ -133,6 +133,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return BeanUtil.toBean(user, UserVo.class);
     }
 
+    @Deprecated
     @Override
     public String getUsernameById(Integer userId) {
         User user = this.getById(userId);
@@ -182,6 +183,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         } catch (InterruptedException e) {
             throw new BusinessException(BusinessErrorCode.UnknownErr, "获取用户信息失败");
         }
+    }
+
+    @Override
+    public boolean updateById(User entity) {
+        // 删除缓存
+        String key = UserRedisConstant.USER_PREFIX + entity.getId();
+        stringRedisTemplate.delete(key);
+        return super.updateById(entity);
+    }
+
+    @Override
+    public boolean removeById(User entity) {
+        // 删除缓存
+        String key = UserRedisConstant.USER_PREFIX + entity.getId();
+        stringRedisTemplate.delete(key);
+
+        return super.removeById(entity);
     }
 }
 
