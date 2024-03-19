@@ -1,6 +1,6 @@
 # WA AI生成平台 后端
 
-目的是想打造一个类似吐司的AI生成平台，提供多种AI绘画生成服务，包括但不限于：
+最初的目的是想蹭学校的显卡，打造一个类似吐司的stable-diffusion AI生成平台，提供多种AI绘画生成服务，包括但不限于：
 
 - 图像生成
 - 模型社区讨论
@@ -9,6 +9,10 @@
 - 模型在线运行调参
 
 以上需求有部分已经实现，有部分还在开发中。
+
+## 目前线上访问
+
+https://wa.glcn.top/
 
 ## 已经实现
 
@@ -21,9 +25,14 @@
 在此界面加入交流群讨论
 https://wa.glcn.top/portal/about
 
-# 目前线上访问
+## 开源协议相关
 
-https://wa.glcn.top/
+遵守SdWebUI组件AGPL开源协议，采用AGPL协议
+
+**感谢**
+
+- https://github.com/AUTOMATIC1111/stable-diffusion-webui stable-diffusion-webui
+- https://github.com/Robothy/sdwebui-java-sdk 提供部分SDK部分（虽然很多还是我写的）
 
 # 使用说明
 
