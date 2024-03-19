@@ -7,15 +7,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.talang.wabackend.common.ListResult;
+import org.talang.wabackend.mapper.PostFavoriteMapper;
 import org.talang.wabackend.mapper.PostMapper;
 import org.talang.wabackend.mapper.UserMapper;
 import org.talang.wabackend.model.dto.post.PostAddDto;
 import org.talang.wabackend.model.dto.post.PostGetByMIDDto;
 import org.talang.wabackend.model.dto.post.PostGetByUIDDto;
 import org.talang.wabackend.model.generator.Post;
+import org.talang.wabackend.model.generator.PostFavorite;
 import org.talang.wabackend.model.generator.User;
 import org.talang.wabackend.model.vo.post.PostFullVo;
 import org.talang.wabackend.model.vo.post.PostLiteVo;
@@ -34,6 +37,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private PostFavoriteMapper postFavoriteMapper;
 
 
     @Override
@@ -90,7 +97,13 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //查收藏表
-        lambdaQueryWrapper.in(Post::getId, postMapper.getPostIdFromPostFavous(UID));
+        List<Integer> postIdFromPostFavous = postMapper.getPostIdFromPostFavous(UID);
+        if (postIdFromPostFavous.size() != 0) {
+            lambdaQueryWrapper.in(Post::getId, postIdFromPostFavous);
+        } else {
+            return null;
+        }
+
         //日期
         Date startTime = postGetByUIDDto.getStartTimestamp();
         Date endTime = postGetByUIDDto.getEndTimestamp();
@@ -108,7 +121,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         LambdaQueryWrapper<Post> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         Integer MID = postGetByMIDDto.getModelId();
         //在 PostModel 找帖子的id集合
-        lambdaQueryWrapper.in(Post::getId, postMapper.getPostIdFromPostModel(MID));
+        List<Integer> postIdFromPostModel = postMapper.getPostIdFromPostModel(MID);
+        if (postIdFromPostModel.size() != 0) {
+            lambdaQueryWrapper.in(Post::getId, postIdFromPostModel);
+        } else {
+            return null;
+        }
         //日期
         Date startTime = postGetByMIDDto.getStartTimestamp();
         Date endTime = postGetByMIDDto.getEndTimestamp();
@@ -158,16 +176,30 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     private List<PostLiteVo> postListHandle(List<Post> postList) {
         return postList.stream().map(post -> {
             PostLiteVo postLiteVo = BeanUtil.toBean(post, PostLiteVo.class);
-            postLiteVo.setSdimageIdList(postMapper.getPostImage(post.getId()));
+            Integer postId = post.getId();
+            postLiteVo.setSdimageIdList(postMapper.getPostImage(postId));
             User user = userMapper.selectById(postLiteVo.getUserId());
+            Integer userId = user.getId();
             postLiteVo.setUserNickName(user.getNickName());
+            //isLike
+            String SD_POST_LIKE = "sdPost:like:";
+            String key = SD_POST_LIKE + postId;
+            boolean flag = Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, String.valueOf(userId)));
+            postLiteVo.setLiked(flag);
+            //isFavours
+            LambdaQueryWrapper<PostFavorite> judgeWrapper = new LambdaQueryWrapper<>();
+            judgeWrapper.eq(PostFavorite::getPostId, postId)
+                    .eq(PostFavorite::getUserId, userId);
+            PostFavorite postFavorite = postFavoriteMapper.selectOne(judgeWrapper);
+            if (postFavorite != null) {
+                postLiteVo.setFavours(true);
+            }
             return postLiteVo;
         }).toList();
     }
 
     private ListResult doList(LambdaQueryWrapper<Post> lambdaQueryWrapper, Date startTime,
                               Date endTime, String title, Integer page, Integer pageSize) {
-
         //日期
         this.wrapperDate(lambdaQueryWrapper, startTime, endTime);
         //标题

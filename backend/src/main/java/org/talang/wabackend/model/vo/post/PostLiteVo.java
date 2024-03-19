@@ -22,4 +22,9 @@ public class PostLiteVo {
     private Integer numComment;
 
     private List<String> sdimageIdList;
+
+    private boolean isFavours;
+
+    private boolean isLiked;
+
 }
