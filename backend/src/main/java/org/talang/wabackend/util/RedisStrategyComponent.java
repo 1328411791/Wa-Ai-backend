@@ -60,15 +60,21 @@ public class RedisStrategyComponent {
             return queryWithPassThrough(prefix, id, fallback, time, timeUnit);
         }
 
-        // 查询数据库
-        result = fallback.apply(id);
+        // 这里开始是拿到锁了，所以必须finally释放锁
+        try {
+            // 查询数据库
+            result = fallback.apply(id);
 
-        if (result != null) {
-            // 将查询结果放入缓存,防止缓存雪崩
-            long randomTime = RandomUtil.randomLong(60, 300);
-            long relayTime = TimeUnit.SECONDS.convert(time, timeUnit) + randomTime;
-            redisCache.setCacheObject(redisKey, result, relayTime, TimeUnit.SECONDS);
-            bloomFilter.add(redisKey);
+            if (result != null) {
+                // 将查询结果放入缓存,防止缓存雪崩
+                long randomTime = RandomUtil.randomLong(60, 300);
+                long relayTime = TimeUnit.SECONDS.convert(time, timeUnit) + randomTime;
+                redisCache.setCacheObject(redisKey, result, relayTime, TimeUnit.SECONDS);
+                bloomFilter.add(redisKey);
+            }
+        } finally {
+            // 释放分布式锁
+            lock.unlock();
         }
 
         return result;
