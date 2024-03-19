@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.talang.wabackend.common.ListResult;
 import org.talang.wabackend.common.Result;
 import org.talang.wabackend.model.dto.post.PostAddDto;
 import org.talang.wabackend.model.dto.post.PostGetByMIDDto;
@@ -50,13 +51,21 @@ public class PostController {
     @Operation(summary = "搜索收藏的的帖子", description = "userId参数为空时查找登录用户的帖子")
     @PostMapping("/getPostLite/favours")
     public Result getPostLiteByFavours(@RequestBody PostGetByUIDDto postGetByUIDDto) {
-        return Result.success(postService.getPostLiteByFavours(postGetByUIDDto));
+        ListResult postLiteByFavours = postService.getPostLiteByFavours(postGetByUIDDto);
+        if (postLiteByFavours == null) {
+            return Result.success("啥也没有");
+        }
+        return Result.success(postLiteByFavours);
     }
 
     @Operation(summary = "搜索模型的的帖子")
     @PostMapping("/getPostLite/model")
     public Result getPostLiteByMID(@RequestBody PostGetByMIDDto postGetByMIDDto) {
-        return Result.success(postService.getPostLiteByModel(postGetByMIDDto));
+        ListResult postLiteByModel = postService.getPostLiteByModel(postGetByMIDDto);
+        if (postLiteByModel == null) {
+            return Result.success("啥也没有");
+        }
+        return Result.success(postLiteByModel);
     }
 
     @Operation(summary = "通过帖子id搜索帖子")
