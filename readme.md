@@ -44,6 +44,6 @@ https://wa.glcn.top/
 - Deployment.yaml es.yaml是K8s相关的部署文件，可根据自己的情况修改
 - 中间件的部署需要自行安装配置
 
-如果真的有人用这玩意，可以会提供打包的docker-compose文档和详细的部署文档（逃
+如果真的有人用这玩意，可能会提供打包的docker-compose文档（或k8s）和详细的部署文档（逃
 
 如果有问题，欢迎提issue（借楼，有没有大佬能解决SDWebUi在K8s中的内存泄漏问题）
