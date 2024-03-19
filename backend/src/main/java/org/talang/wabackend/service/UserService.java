@@ -22,8 +22,6 @@ public interface UserService extends IService<User> {
 
     Integer loginByEmail(String email, String password);
 
-    User getByUserName(String userName);
-
     boolean register(RegisterDto registerDto);
 
     User forgetPassword(ForgetPasswordDto forgetPasswordDto);

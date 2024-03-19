@@ -74,14 +74,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         return user.getId();
     }
-
-    @Override
-    public User getByUserName(String userName) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUserName, userName);
-        return this.getOne(wrapper);
-    }
-
     @Override
     public boolean register(RegisterDto registerDto) {
 
