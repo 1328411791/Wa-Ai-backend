@@ -46,10 +46,10 @@ public class RedisStrategyComponent {
         }
 
         // 缓存未命中
-        if (bloomFilter.contains(redisKey)) {
-            // 布隆过滤器未命中
-            return null;
-        }
+//        if (bloomFilter.contains(redisKey)) {
+//            // 布隆过滤器未命中
+//            return null;
+//        }
 
         // 设置分布式锁
         RLock lock = redisson.getLock("lock:" + redisKey);
