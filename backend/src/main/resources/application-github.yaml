@@ -64,9 +64,9 @@ knife4j:
   setting:
     language: zh_cn
 
-# sdwebui 地址配置
+# sdwebui 地址配置,可用逗号分格多个地址
 sdwebui:
-  url: http://10.180.193.13:31145,http://10.180.193.15:31145
+  url:
   image:
     # 存储方式 qiniu 七牛云oss或者local 本地存储
     save-way:

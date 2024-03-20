@@ -14,9 +14,10 @@ spec:
       labels:
         app: wa-backend
     spec:
+      # 填写镜像
       containers:
         - name: wa-backend
-          image: talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop
+          image:
           imagePullPolicy: Always
           ports:
             - containerPort: 5050
